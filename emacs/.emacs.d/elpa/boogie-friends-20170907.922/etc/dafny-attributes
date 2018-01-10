@@ -1,0 +1,10 @@
+autotriggers ${true|false}
+
+split ${true|false}
+
+induction ${$variables|false}
+
+verify ${true|false}
+
+trigger ${$expressions}
+
