@@ -1,8 +1,8 @@
-# Temporary .zshrc file. Need to migrate settings from old machine
+# Need to migrate some settings from old machine
 export ZSH=/home/jay/.oh-my-zsh
 ZSH_THEME="robbyrussell"
 plugins=(git command-not-found)
-source $ZSH/oh-my-zsh.sh
+source $ZSH/oh-my-zsh.sh || git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 
 # Custom aliases
 alias ag='ag --pager less'
