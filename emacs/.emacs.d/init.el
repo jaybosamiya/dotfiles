@@ -179,10 +179,17 @@
 (require 'ocp-indent)
 (defun ocp-indent-buffer ()
   (interactive)
-  (save-excursion
-    (mark-whole-buffer)
-    (ocp-indent-region (region-beginning)
-                       (region-end))))
+  (if ocp-indent-buffer-must-run
+      (save-excursion
+	(mark-whole-buffer)
+	(ocp-indent-region (region-beginning)
+			   (region-end))) ()))
+(defun toggle-ocp-indent-buffer ()
+  (interactive)
+  (setq ocp-indent-buffer-must-run
+	(not ocp-indent-buffer-must-run))
+  (message (if ocp-indent-buffer-must-run "Now on" "Now off")))
+(setq ocp-indent-buffer-must-run t)
 (add-hook 'fstar-mode-hook
 	  (lambda ()
 	    ; (auto-fill-mode)
