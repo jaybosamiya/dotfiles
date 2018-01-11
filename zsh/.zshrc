@@ -4,6 +4,8 @@ ZSH_THEME="robbyrussell"
 plugins=(git command-not-found)
 source $ZSH/oh-my-zsh.sh || git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 
+source $HOME/.profile
+
 # Custom aliases
 alias ag='ag --pager less'
 alias gdb='gdb -q'
