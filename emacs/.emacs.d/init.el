@@ -215,3 +215,8 @@
 ;; Be able to unfill paragraphs
 (require 'unfill)
 (global-set-key (kbd "M-Q") 'unfill-paragraph)
+
+;; Enable abbrev-mode globally
+(setq-default abbrev-mode t)
+;;; Useful shortcut: C-x a i g
+;;; Replaces previous word and sets up an abbrev
