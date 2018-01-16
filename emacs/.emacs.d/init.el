@@ -172,12 +172,17 @@
 
 ;; Set up F* integration
 (require 'fstar-mode)
-(setq fstar-prefix-path "/opt/fstar/")
-(setq fstar-executable (concat fstar-prefix-path "fstar"))
+(setq fstar-prefix-path "/home/jay/everest/FStar/")
+(setq fstar-executable (concat fstar-prefix-path "bin/fstar.exe"))
 (setq fstar-smt-executable (concat fstar-prefix-path "bin/z3"))
 (setq fstar-subp-prover-args (lambda () `(
 					  "--use_hints" "--record_hints"
 					  )))
+(defun fstar-set-to-release-paths ()
+  (interactive)
+  (setq fstar-prefix-path "/opt/fstar-release/")
+  (setq fstar-executable (concat fstar-prefix-path "bin/fstar.exe"))
+  (setq fstar-smt-executable (concat fstar-prefix-path "bin/z3")))
 (require 'fstar-indent)
 (require 'ocp-indent)
 (defun ocp-indent-buffer ()
