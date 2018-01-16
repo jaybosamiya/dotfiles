@@ -40,6 +40,9 @@
  '(default ((t (:family "Source Code Pro" :foundry "adobe" :slant normal :weight normal :height 113 :width normal))))
  '(minimap-active-region-background ((t (:inverse-video t)))))
 
+;; Start off emacs server, so that `emacsclient` can be used
+(server-mode)
+
 ;;;; Have a good dev environment for OCaml
 ;;; Disabled for now
 ;; (setenv "PATH" (concat (getenv "PATH") ":/home/jay/.opam/4.02.3/bin"))

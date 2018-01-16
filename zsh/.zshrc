@@ -18,6 +18,9 @@ alias manually-installed-to-auto='sudo apt-mark auto'
 alias record-term='asciinema rec --yes --max-wait 1 --title'
 
 alias temax='emacs -nw'
+alias cemax='emacsclient'
+export ALTERNATE_EDITOR='emacs' # Opens emacs if no emacs server is
+				# already started
 
 alias ncdu='ncdu -rx' # Make ncdu safe (no delete) and fast (don't
 		      # cross FS boundary)
