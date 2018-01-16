@@ -199,7 +199,7 @@
   (setq ocp-indent-buffer-must-run
 	(not ocp-indent-buffer-must-run))
   (message (if ocp-indent-buffer-must-run "Now on" "Now off")))
-(setq ocp-indent-buffer-must-run t)
+(setq ocp-indent-buffer-must-run nil)
 (add-hook 'fstar-mode-hook
 	  (lambda ()
 	    ; (auto-fill-mode)
