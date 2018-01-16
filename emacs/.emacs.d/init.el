@@ -22,6 +22,7 @@
  '(ido-enable-flex-matching t)
  '(ido-ubiquitous-mode t)
  '(inhibit-startup-screen t)
+ '(magit-diff-refine-hunk t)
  '(menu-bar-mode nil)
  '(minimap-dedicated-window nil)
  '(minimap-hide-fringes t)
