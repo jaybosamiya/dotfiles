@@ -43,3 +43,6 @@ mobile-when-finished () {
 
 # opam configuration
 test -r /home/jay/.opam/opam-init/init.zsh && . /home/jay/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+
+# connect up local gem repository
+export PATH="/home/jay/.gem/ruby/2.3.0/bin:$PATH"
