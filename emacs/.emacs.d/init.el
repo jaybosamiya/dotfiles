@@ -252,3 +252,15 @@
 
 ;; Allow "C-x n n" to be done without that irritating warning
 (put 'narrow-to-region 'disabled nil)
+
+;; Set M-, to pop-tag-mark to work nicely with the M-. of ctags
+;; This clobbers tags-loop-continue however
+(global-set-key (kbd "M-,") 'pop-tag-mark)
+
+;; Allow creation of ctags info from inside emacs itself :)
+(setq path-to-ctags "/usr/bin/ctags")
+(defun create-tags (dir-name)
+  "Create tags file."
+  (interactive "DDirectory: ")
+  (shell-command
+   (format "%s -f TAGS -e -R '%s'" path-to-ctags (file-truename (directory-file-name dir-name)))))
