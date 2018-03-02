@@ -177,7 +177,7 @@
 (setq fstar-executable (concat fstar-prefix-path "bin/fstar.exe"))
 (setq fstar-smt-executable (concat fstar-prefix-path "bin/z3"))
 (setq fstar-subp-prover-args (lambda () `(
-					  "--use_hints" "--record_hints"
+					  ;; "--use_hints" "--record_hints"
 					  "--include" "/home/jay/everest/kremlin/kremlib"
 					  "--__no_positivity" ;; For QUIC (due to pointers and stuff)
 					  )))
