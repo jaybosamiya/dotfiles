@@ -249,3 +249,6 @@
 (setq-default abbrev-mode t)
 ;;; Useful shortcut: C-x a i g
 ;;; Replaces previous word and sets up an abbrev
+
+;; Allow "C-x n n" to be done without that irritating warning
+(put 'narrow-to-region 'disabled nil)
