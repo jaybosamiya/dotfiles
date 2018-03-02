@@ -211,8 +211,8 @@
 	  (lambda ()
 	    ; (auto-fill-mode)
 	    (ocp-setup-indent)
-	    (add-hook 'fstar-newline-hook
-		      (lambda (ignored-arg) (ocp-indent-line)) nil t)
+	    ;; (add-hook 'fstar-newline-hook
+	    ;; 	      (lambda (ignored-arg) (ocp-indent-line)) nil t)
 	    (add-hook 'before-save-hook 'ocp-indent-buffer nil t)
 	    (local-set-key (kbd "M-,") 'pop-global-mark) ; works nicely with M-.
 	    (local-set-key (kbd "C-c <tab>") 'fstar-indent-subp)))
