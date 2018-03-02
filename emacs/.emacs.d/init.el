@@ -42,7 +42,10 @@
  '(minimap-active-region-background ((t (:inverse-video t)))))
 
 ;; Start off emacs server, so that `emacsclient` can be used
-(server-mode)
+(load "server")
+(if (server-running-p)
+    (message "%s" "Server already started by someone else")
+  (server-start))
 
 ;;;; Have a good dev environment for OCaml
 ;;; Disabled for now
