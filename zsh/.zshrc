@@ -25,6 +25,12 @@ export ALTERNATE_EDITOR='emacs' # Opens emacs if no emacs server is
 alias ncdu='ncdu -rx' # Make ncdu safe (no delete) and fast (don't
 		      # cross FS boundary)
 
+alias clip='xclip -selection clipboard'
+
+alias fetch-recursive-website='wget --recursive --no-parent -e robots=off'
+
+alias screensaver='cmatrix -abs'
+
 # Allow .local binaries
 export PATH=~/.local/bin:$PATH
 
