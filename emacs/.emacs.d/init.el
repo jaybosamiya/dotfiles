@@ -204,6 +204,9 @@
 	(not ocp-indent-buffer-must-run))
   (message (if ocp-indent-buffer-must-run "Now on" "Now off")))
 (setq ocp-indent-buffer-must-run nil)
+(defun killall-z3 ()
+  (interactive)
+  (call-process "killall" nil nil nil "z3"))
 (add-hook 'fstar-mode-hook
 	  (lambda ()
 	    ; (auto-fill-mode)
