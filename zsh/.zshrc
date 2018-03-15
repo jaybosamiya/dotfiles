@@ -1,5 +1,5 @@
 # Need to migrate some settings from old machine
-export ZSH=/home/jay/.oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="robbyrussell"
 plugins=(git command-not-found vagrant)
 source $ZSH/oh-my-zsh.sh || git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
@@ -57,14 +57,14 @@ xbox-bluetooth () {
 }
 
 # opam configuration
-test -r /home/jay/.opam/opam-init/init.zsh && . /home/jay/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+test -r $HOME/.opam/opam-init/init.zsh && . $HOME/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
 # connect up local gem repository
-export PATH="/home/jay/.gem/ruby/2.3.0/bin:$PATH"
+export PATH="$HOME/.gem/ruby/2.3.0/bin:$PATH"
 
 llvm () {
-    export LLVM_ROOT="/home/jay/llvm-5.0.1.install/"
-    export PATH="/home/jay/llvm-5.0.1.install/bin:$PATH"
+    export LLVM_ROOT="$HOME/llvm-5.0.1.install/"
+    export PATH="$HOME/llvm-5.0.1.install/bin:$PATH"
     llvm () { } # Prevent the command from being an issue by running
 		# too many times
 }
