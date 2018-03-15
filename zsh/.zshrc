@@ -61,3 +61,10 @@ test -r /home/jay/.opam/opam-init/init.zsh && . /home/jay/.opam/opam-init/init.z
 
 # connect up local gem repository
 export PATH="/home/jay/.gem/ruby/2.3.0/bin:$PATH"
+
+llvm () {
+    export LLVM_ROOT="/home/jay/llvm-5.0.1.install/"
+    export PATH="/home/jay/llvm-5.0.1.install/bin:$PATH"
+    llvm () { } # Prevent the command from being an issue by running
+		# too many times
+}
