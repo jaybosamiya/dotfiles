@@ -7,7 +7,9 @@ source $ZSH/oh-my-zsh.sh || git clone git://github.com/robbyrussell/oh-my-zsh.gi
 source $HOME/.profile
 
 # Custom aliases
+alias n='nautilus . &!' # Opens nautilus and disowns it from current shell
 alias ag='ag --pager less'
+
 alias gdb='gdb -q'
 alias peda='gdb -q -ex peda'
 alias pwngdb='gdb -q -ex pwngdb'
