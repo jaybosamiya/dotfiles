@@ -1,0 +1,26 @@
+diff --git a/angelheap/command_wrapper.py b/angelheap/command_wrapper.py
+index d52b51b..120dda2 100644
+--- a/angelheap/command_wrapper.py
++++ b/angelheap/command_wrapper.py
+@@ -90,7 +90,7 @@ class AngelHeapCmdWrapper(gdb.Command):
+             else :
+                 print("Unknown command")
+         else :
+-            print("Unknow command")
++            print ("Available commands: %s" % repr(list(a for a in angelheap_cmd.commands if a[0:2] != '__')))
+ 
+         return 
+ 
+diff --git a/pwngdb.py b/pwngdb.py
+index 9f4af4e..45224f4 100644
+--- a/pwngdb.py
++++ b/pwngdb.py
+@@ -307,7 +307,7 @@ class PwngdbCmd(gdb.Command):
+             else :
+                 print("Unknown command")
+         else :
+-            print("Unknown command")
++            print("Unknown command. Available: %s" % repr(list(a for a in pwncmd.commands if a[:2] != '__')))
+ 
+         return 
+ 

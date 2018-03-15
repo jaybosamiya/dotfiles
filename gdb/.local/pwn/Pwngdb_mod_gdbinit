@@ -1,0 +1,9 @@
+source ~/.local/pwn/Pwngdb/pwngdb.py
+source ~/.local/pwn/Pwngdb/angelheap/gdbinit.py
+
+define hook-run
+python
+import angelheap
+angelheap.init_angelheap()
+end
+end
