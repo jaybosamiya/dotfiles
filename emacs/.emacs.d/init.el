@@ -277,3 +277,26 @@
       scroll-down-aggressively 0.01)
 (setq-default scroll-up-aggressively 0.01
 	      scroll-down-aggressively 0.01)
+
+;; Let emacs learn and set style from a C file
+(defun infer-indentation-style ()
+  (interactive)
+  ;; if our source file uses tabs, we use tabs, if spaces spaces, and
+  ;; if neither, we use the current indent-tabs-mode
+  (let ((space-count (how-many "^  " (point-min) (point-max)))
+        (tab-count (how-many "^\t" (point-min) (point-max))))
+    (if (> space-count tab-count) (setq indent-tabs-mode nil))
+    (if (> tab-count space-count) (setq indent-tabs-mode t)))
+  (message "Inferred indentation"))
+(defun c-guess-and-set-style ()
+  (interactive)
+  (let
+    ((stylename (concat "guessed-style-" (file-name-base))))
+  (c-guess-buffer-no-install)
+  (c-guess-install stylename)
+  (c-set-style stylename)
+  (message (concat "Installed and set " stylename))))
+(add-hook 'c-mode-common-hook
+	  (lambda ()
+	    (infer-indentation-style)
+	    (c-guess-and-set-style)))
