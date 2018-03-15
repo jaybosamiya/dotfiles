@@ -52,6 +52,10 @@ mobile-when-finished () {
     mobile-send "$k";
 }
 
+xbox-bluetooth () {
+    echo 1 | sudo tee /sys/module/bluetooth/parameters/disable_ertm
+}
+
 # opam configuration
 test -r /home/jay/.opam/opam-init/init.zsh && . /home/jay/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
