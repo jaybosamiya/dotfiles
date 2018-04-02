@@ -23,7 +23,7 @@
       (let*
 	  ((indented-str
 	    (with-output-to-string
-	      (call-process "fstar" nil (list standard-output errfile) nil
+	      (call-process fstar-executable nil (list standard-output errfile) nil
 			    "--indent" strfile))))
 	(when (file-exists-p errfile)
 	  (let* ((err-msg (fstar-indent-file-to-string errfile)))
@@ -84,5 +84,10 @@
 	(progn
 	  (message "Already indented correctly")
 	  (goto-char saved-point))))))
+
+(add-hook 'fstar-mode-hook
+	  (lambda ()
+	    ;; (add-hook 'before-save-hook 'fstar-indent-buffer nil t)
+	    (local-set-key (kbd "C-c <tab>") 'fstar-indent-subp)))
 
 (provide 'fstar-indent)
