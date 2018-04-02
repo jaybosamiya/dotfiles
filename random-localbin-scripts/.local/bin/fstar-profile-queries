@@ -86,6 +86,17 @@ for a in without_hints/queries-${FILE}*.prof; do
 	x="$(basename $a .prof)"
 	y="$(basename $b .prof)"
 	echo "[+] Differencing $x and $y"
-	qprofdiff -si "$a" "$b" | tee "diff-${x}-${y}.log" | head -10
+	qprofdiff -si "$a" "$b" > "diff-${x}-${y}.log"
     done
 done
+
+echo "[+] Cleaning up possibly irrelevant queries"
+mkdir possibly_irrelevant/ 2>/dev/null
+for f in *.log; do
+    C="$(head -2 $f | tail -1 | cut -c 1)"
+    if [ "$C" != "+" ]; then
+	mv $f possibly_irrelevant/
+    fi
+done
+
+echo "[+] Done"
