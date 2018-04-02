@@ -183,6 +183,7 @@
 					  ;; "--use_hints" "--record_hints"
 					  "--include" "/home/jay/everest/kremlin/kremlib"
 					  "--__no_positivity" ;; For QUIC (due to pointers and stuff)
+					  "--cache_checked_modules"
 					  )))
 (defun fstar-set-to-release-paths ()
   (interactive)
