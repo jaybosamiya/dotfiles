@@ -38,6 +38,11 @@ alias screensaver='cmatrix -abs'
 # Allow .local binaries
 export PATH=~/.local/bin:$PATH
 
+# Speed up compile times using ccache if available
+if [ -d /usr/lib/ccache ]; then
+    export PATH="/usr/lib/ccache:$PATH"
+fi
+
 # ntfy integration
 eval "$(ntfy shell-integration)"
 mobile-send () {
