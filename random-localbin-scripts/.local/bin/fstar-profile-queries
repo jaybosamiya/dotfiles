@@ -4,7 +4,7 @@ set -o pipefail
 
 function usage() {
     echo "Usage:" 1>&2
-    echo "  $0 {filename.fst} {queryname}" 1>&2
+    echo "  $0 {filename.fst} [queryname]" 1>&2
     echo "" 1>&2
     echo "Useful Environment Variables:" 1>&2
     echo "  FSTAR_EXTRA_ARGS"
@@ -12,7 +12,7 @@ function usage() {
 }
 
 # Ensure 2 arguments
-if [ $# -ne 2 ]; then
+if [ $# -lt 1 ]; then
     usage
 fi
 
@@ -45,7 +45,7 @@ fstar \
     --query_stats \
     --record_hints \
     $FSTAR_EXTRA_ARGS \
-    --admit_except "$QUERY" \
+    ${QUERY:+--admit_except "$QUERY"} \
     "$FST"
 
 echo "[+] Storing results into without_hints/"
@@ -59,7 +59,7 @@ fstar \
     --query_stats \
     --use_hints \
     $FSTAR_EXTRA_ARGS \
-    --admit_except "$QUERY" \
+    ${QUERY:+--admit_except "$QUERY"} \
     "$FST"
 
 echo "[+] Storing results into with_hints/"
