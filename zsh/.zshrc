@@ -10,6 +10,8 @@ source $HOME/.profile
 alias n='nautilus . &!' # Opens nautilus and disowns it from current shell
 alias ag='ag --pager less'
 
+alias ls='ls -h --color=tty' # Human readable file sizes, and color :)
+
 alias gdb='gdb -q'
 alias peda='gdb -q -ex peda'
 alias pwngdb='gdb -q -ex pwngdb'
