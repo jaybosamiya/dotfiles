@@ -227,7 +227,7 @@
 				      ;  "cheating" keywords.
 	    (local-set-key (kbd "C-c C-k") 'killall-z3)
 	    (local-set-key (kbd "M-,") 'pop-global-mark) ; works nicely with M-.
-	    (local-set-key (kbd "C-c <tab>") 'fstar-indent-subp)))
+	    ))
 
 ;; Set up markdown editing
 (require 'markdown-mode)
