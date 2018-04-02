@@ -1,0 +1,91 @@
+#! /bin/bash
+
+set -o pipefail
+
+function usage() {
+    echo "Usage:" 1>&2
+    echo "  $0 {filename.fst} {queryname}" 1>&2
+    echo "" 1>&2
+    echo "Useful Environment Variables:" 1>&2
+    echo "  FSTAR_EXTRA_ARGS"
+    exit 1
+}
+
+# Ensure 2 arguments
+if [ $# -ne 2 ]; then
+    usage
+fi
+
+FST=$1
+FILE=${1%.fst}
+QUERY=$2
+
+# Ensure validity of first argument
+if [ "$FST" = "$FILE" ]; then
+    usage
+fi
+
+# Ensure that all required programs exist and can be used
+function ensure_exists() {
+    if [ ! -x "$(which $1)" ]; then
+	echo "Unable to find $1. Check \$PATH" 1>&2
+	exit 1
+    fi
+}
+ensure_exists fstar.exe
+ensure_exists qprofdiff
+ensure_exists z3
+
+# Now actually do the dirty work :D
+
+echo "[+] Running without hints"
+fstar \
+    --z3refresh \
+    --log_queries \
+    --query_stats \
+    --record_hints \
+    $FSTAR_EXTRA_ARGS \
+    --admit_except "$QUERY" \
+    "$FST"
+
+echo "[+] Storing results into without_hints/"
+mkdir without_hints/ 2>/dev/null
+mv queries-${FILE}*.smt2 without_hints/
+
+echo "[+] Running with hints"
+fstar \
+    --z3refresh \
+    --log_queries \
+    --query_stats \
+    --use_hints \
+    $FSTAR_EXTRA_ARGS \
+    --admit_except "$QUERY" \
+    "$FST"
+
+echo "[+] Storing results into with_hints/"
+mkdir with_hints/ 2>/dev/null
+mv queries-${FILE}*.smt2 with_hints/
+
+function profile() {
+    echo "[+] Profiling $1"
+    z3 \
+	smt.qi.profile=true \
+	"$1" \
+	> "${1%.smt2}.prof" 2>&1
+}
+
+for f in without_hints/queries-${FILE}*.smt2; do
+    profile "$f"
+done
+for f in with_hints/queries-${FILE}*.smt2; do
+    profile "$f"
+done
+
+for a in without_hints/queries-${FILE}*.prof; do
+    for b in with_hints/queries-${FILE}*.prof; do
+	x="$(basename $a .prof)"
+	y="$(basename $b .prof)"
+	echo "[+] Differencing $x and $y"
+	qprofdiff -si "$a" "$b" | tee "diff-${x}-${y}.log" | head -10
+    done
+done
