@@ -16,6 +16,7 @@ alias gdb='gdb -q'
 alias peda='gdb -q -ex peda'
 alias pwngdb='gdb -q -ex pwngdb'
 alias pwndbg='gdb -q -ex pwndbg'
+alias gef='gdb -q -ex gef'
 
 alias manually-installed-to-auto='sudo apt-mark auto'
 

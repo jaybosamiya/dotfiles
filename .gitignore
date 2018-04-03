@@ -5,4 +5,5 @@ emacs/.emacs.d/elpa
 gdb/.local/pwn/peda
 gdb/.local/pwn/pwndbg
 gdb/.local/pwn/Pwngdb
+gdb/.local/pwn/gef
 zsh/.oh-my-zsh

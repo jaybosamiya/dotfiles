@@ -10,3 +10,7 @@ define pwngdb
   peda
   source ~/.local/pwn/Pwngdb/mod_gdbinit
 end
+
+define gef
+  source ~/.local/pwn/gef/gef.py
+end
