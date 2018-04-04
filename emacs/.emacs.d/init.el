@@ -118,6 +118,7 @@
 (require 'which-key)
 (which-key-mode)
 
+;; Prevent C-z from accidentally sending the window to background
 (global-unset-key (kbd "C-z"))
 (global-unset-key (kbd "<prior>"))
 (global-unset-key (kbd "<next>"))
