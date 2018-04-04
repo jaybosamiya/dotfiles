@@ -120,8 +120,12 @@
 
 ;; Prevent C-z from accidentally sending the window to background
 (global-unset-key (kbd "C-z"))
-(global-unset-key (kbd "<prior>"))
-(global-unset-key (kbd "<next>"))
+
+;; Handle "Page Up" and "Page Down" better
+(global-set-key (kbd "<next>") 'scroll-up-line)
+(global-set-key (kbd "<prior>") 'scroll-down-line)
+(global-unset-key (kbd "C-<prior>"))
+(global-unset-key (kbd "C-<next>"))
 
 (require 'latex-preview-pane)
 (add-hook 'TeX-mode-hook
