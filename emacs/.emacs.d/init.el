@@ -122,13 +122,6 @@
 (global-unset-key (kbd "<prior>"))
 (global-unset-key (kbd "<next>"))
 
-;; (add-hook 'python-mode-hook 'jedi:setup)
-;; (eval-after-load "python"
-;;   '(define-key python-mode-map "\C-cx" 'jedi-direx:pop-to-buffer))
-;; (eval-after-load "python"
-;;   '(define-key python-mode-map "\C-c\C-x" 'jedi-direx:switch-to-buffer))
-;; (add-hook 'jedi-mode-hook 'jedi-direx:setup)
-
 (require 'latex-preview-pane)
 (add-hook 'TeX-mode-hook
 	  '(lambda ()
