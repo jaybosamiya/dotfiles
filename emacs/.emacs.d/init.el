@@ -266,7 +266,7 @@
    (format "%s -f TAGS -e -R '%s'" path-to-ctags (file-truename (directory-file-name dir-name)))))
 
 ;; Elpy for Python. Requires to have run "pip install jedi flake8
-;; autopep8" on system in advance.
+;; autopep8 yapf" on system in advance.
 (package-initialize)
 (elpy-enable)
 
