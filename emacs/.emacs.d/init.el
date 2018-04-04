@@ -103,8 +103,14 @@
 	      (org-indent-mode)
 	      ;; Allow shift selection
 	      (setq org-support-shift-select t)
+	      ;; Hide emphasis markers (/, _, etc)
+	      (setq org-hide-emphasis-markers t)
 	      ;; Disable table-of-contents generation
 	      (setq org-export-with-toc nil)
+	      ;; Allow quotes inside of emphasis sections : Based off
+	      ;; of https://stackoverflow.com/a/24173780/3696619
+	      (setcar (nthcdr 2 org-emphasis-regexp-components) " \t\r\n")
+	      (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
 	      ;; Enable extra backends
 	      (setq org-export-backends
 		    (quote (ascii html icalendar latex md deck)))))
