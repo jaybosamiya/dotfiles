@@ -18,6 +18,12 @@ alias pwngdb='gdb -q -ex pwngdb'
 alias pwndbg='gdb -q -ex pwndbg'
 alias gef='gdb -q -ex gef'
 
+alias fstar='fstar --query_stats --__no_positivity --include /home/jay/everest/kremlin/kremlib/'
+alias fstaru='fstar --use_hints --detail_hint_replay'
+alias fstarr='fstar --record_hints'
+alias fstarru='fstaru --record_hints'
+alias fstarur='fstarru'
+
 alias manually-installed-to-auto='sudo apt-mark auto'
 
 alias record-term='asciinema rec --yes --max-wait 1 --title'
