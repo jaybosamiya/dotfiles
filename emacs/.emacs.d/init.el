@@ -311,3 +311,7 @@
 ;; Runs approximately once every 7 days
 (require 'auto-package-update)
 (setq auto-package-update-prompt-before-update t)
+
+;; Do whitespace cleanup iff the file was opened with clean whitespace
+(require 'whitespace-cleanup-mode)
+(global-whitespace-cleanup-mode t)
