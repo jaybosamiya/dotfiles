@@ -315,3 +315,12 @@
 ;; Do whitespace cleanup iff the file was opened with clean whitespace
 (require 'whitespace-cleanup-mode)
 (global-whitespace-cleanup-mode t)
+
+;; Display a nicer startup message :D
+(defun display-startup-echo-area-message ()
+  (message "Let the hacking begin!"))
+
+;; Make scratch buffer be a fundamental-mode buffer
+;; and give a better message (empty :D)
+(setq initial-major-mode 'fundamental-mode)
+(setq initial-scratch-message "")
