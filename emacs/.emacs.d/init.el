@@ -306,3 +306,8 @@
 	  (lambda ()
 	    (infer-indentation-style)
 	    (c-guess-and-set-style)))
+
+;; Make sure packages stay updated; but prompt before each update
+;; Runs approximately once every 7 days
+(require 'auto-package-update)
+(setq auto-package-update-prompt-before-update t)
