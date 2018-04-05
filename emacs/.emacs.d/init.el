@@ -338,3 +338,6 @@ a pulse"
     (pulse-momentary-highlight-one-line (point))))
 (global-set-key (kbd "M-g M-g") 'goto-line-and-pulse)
 (global-set-key (kbd "M-g g") 'goto-line-and-pulse)
+
+;; Turn on line numbers for all buffers
+(global-linum-mode)
