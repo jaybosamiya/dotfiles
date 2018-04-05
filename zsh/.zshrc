@@ -42,6 +42,10 @@ alias fetch-recursive-website='wget --recursive --no-parent -e robots=off'
 
 alias screensaver='cmatrix -abs'
 
+function gitignore() {
+    wget -O .gitignore https://www.gitignore.io/api/c++,vim,ocaml,latex,emacs,python,sublimetext,visualstudio,visualstudiocode,linux,mac,windows
+}
+
 # Allow .local binaries
 export PATH=~/.local/bin:$PATH
 
