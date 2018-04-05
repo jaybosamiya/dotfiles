@@ -26,7 +26,7 @@ alias fstarur='fstarru'
 
 alias manually-installed-to-auto='sudo apt-mark auto'
 
-alias record-term='asciinema rec --yes --max-wait 1 --title'
+alias record-term='asciinema rec --yes -i 1 --title'
 
 alias temax='emacs -nw'
 alias cemax='emacsclient'
