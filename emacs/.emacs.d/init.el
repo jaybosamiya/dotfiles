@@ -324,3 +324,17 @@
 ;; and give a better message (empty :D)
 (setq initial-major-mode 'fundamental-mode)
 (setq initial-scratch-message "")
+
+;; Do a pulse whenever jumping to a line
+(require 'pulse)
+(defun goto-line-and-pulse ()
+  "Equivalent to goto-line interactively except that it also does
+a pulse"
+  (interactive)
+  (let* ((line
+	  (read-number (format "Goto line: ")
+		       (list (line-number-at-pos)))))
+    (goto-line line)
+    (pulse-momentary-highlight-one-line (point))))
+(global-set-key (kbd "M-g M-g") 'goto-line-and-pulse)
+(global-set-key (kbd "M-g g") 'goto-line-and-pulse)
