@@ -110,6 +110,10 @@
 	      ;; Allow quotes inside of emphasis sections : Based off
 	      ;; of https://stackoverflow.com/a/24173780/3696619
 	      (setcar (nthcdr 2 org-emphasis-regexp-components) " \t\r\n")
+	      ;; Allow emphasised regions to also end with a "s"
+	      (setcar (nthcdr 1 org-emphasis-regexp-components)
+		      (concat (nth 1 org-emphasis-regexp-components) "s"))
+	      ;; Actually update the emphasis regexp
 	      (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
 	      ;; Enable extra backends
 	      (setq org-export-backends
