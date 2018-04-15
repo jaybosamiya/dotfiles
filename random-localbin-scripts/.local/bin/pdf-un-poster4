@@ -1,0 +1,49 @@
+#!/bin/bash
+
+function usage() {
+    echo "Usage:"
+    echo "  pdf-un-poster4 {in.pdf} [out.pdf]"
+}
+
+if [ -z "$1" ]; then
+   usage
+   exit 1
+fi
+
+INPUT=$1
+OUTPUT=$2
+
+if [ -z "$2" ]; then
+    OUTPUT=out.pdf
+fi
+
+TMP=$(mktemp)
+rm $TMP
+
+echo "[+] Splitting into pieces"
+mutool poster -x 2 -y 2 "${INPUT}" "${TMP}.pdf"
+
+echo "[+] Separating out pieces"
+pdftk A="${TMP}.pdf" cat A1-endeven output "${TMP}-A.pdf"
+pdftk A="${TMP}.pdf" cat A1-endodd output "${TMP}-B.pdf"
+rm "${TMP}.pdf"
+
+pdftk A="${TMP}-A.pdf" cat A1-endeven output "${TMP}-a1.pdf"
+pdftk A="${TMP}-A.pdf" cat A1-endodd output "${TMP}-a2.pdf"
+pdftk A="${TMP}-B.pdf" cat A1-endeven output "${TMP}-b1.pdf"
+pdftk A="${TMP}-B.pdf" cat A1-endodd output "${TMP}-b2.pdf"
+rm "${TMP}-A.pdf" "${TMP}-B.pdf"
+
+echo "[+] Reorganizing and merging"
+pdftk A="${TMP}-a1.pdf" \
+      B="${TMP}-a2.pdf" \
+      C="${TMP}-b1.pdf" \
+      D="${TMP}-b2.pdf" \
+      shuffle B A D C output "${TMP}.pdf"
+rm "${TMP}-a1.pdf" "${TMP}-a2.pdf" "${TMP}-b1.pdf" "${TMP}-b2.pdf"
+
+echo "[+] Magic cropping"
+pdfcrop "${TMP}.pdf" "${OUTPUT}" >/dev/null 2>/dev/null
+rm "${TMP}.pdf"
+
+echo "[+] Done"
