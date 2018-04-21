@@ -93,3 +93,8 @@ llvm6 () {
     llvm5 () { } # Prevent the command from being an issue by running
 		 # too many times
 }
+
+# Enable nice syntax highlighting if available
+# Install via [sudo apt install zsh-syntax-highlighting]
+# NOTE: This MUST be at the end of .zshrc
+test -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh && source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
