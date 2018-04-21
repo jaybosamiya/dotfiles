@@ -16,7 +16,7 @@
  '(custom-enabled-themes (quote (misterioso)))
  '(delete-selection-mode nil)
  '(display-time-mode t)
- '(flyspell-default-dictionary "british")
+ '(flyspell-default-dictionary "english")
  '(font-use-system-font t)
  '(global-auto-revert-mode t)
  '(ido-enable-flex-matching t)
