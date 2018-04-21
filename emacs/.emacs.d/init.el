@@ -391,3 +391,7 @@ a pulse"
      end-marker)))
 (add-hook 'comint-output-filter-functions
           'filter-non-sgr-control-sequences-in-output)
+
+;; Use undo-tree everywhere (Use C-x u to visualize the undo-tree)
+(require 'undo-tree)
+(global-undo-tree-mode)
