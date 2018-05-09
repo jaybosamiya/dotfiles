@@ -42,6 +42,8 @@ alias fetch-recursive-website='wget --recursive --no-parent -e robots=off'
 
 alias screensaver='cmatrix -abs'
 
+alias t='task'
+
 function gitignore() {
     wget -O .gitignore https://www.gitignore.io/api/c++,vim,ocaml,latex,emacs,python,sublimetext,visualstudio,visualstudiocode,linux,mac,windows
 }
@@ -98,3 +100,16 @@ llvm6 () {
 # Install via [sudo apt install zsh-syntax-highlighting]
 # NOTE: This MUST be at the end of .zshrc
 test -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh && source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# Show the next set up of tasks upon zsh load, if they exist; but
+# don't display of recording
+if [ -z "$ASCIINEMA_REC" ]; then
+    task ready 2>/dev/null | \
+	sed '/^\s*$/d' |  \
+	sed '/^ID\s*Age.*Description\s*Urg$/d' | \
+	sed '/^\(-*\s*\)*$/d' | \
+	sed '/\d* tasks*$/d' | \
+	awk '{k=$1; $1=""; $2=""; print "TODO[" k "]" $0}' | \
+	rev | awk '{$1=""; print $0}' | rev
+    true # Prevent failure if no task exists
+fi
