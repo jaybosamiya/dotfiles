@@ -398,3 +398,12 @@ a pulse"
 (add-hook 'undo-tree-visualizer-mode-hook
 	  (lambda ()
 	    (setq show-trailing-whitespace nil)))
+
+;; Help writing correct text. TODO: Figure out how to make it trigger
+;; only in "pure text" buffers
+(require 'writegood-mode)
+(add-hook 'text-mode-hook
+	  (lambda ()
+	    (flyspell-mode t)
+	    (flyspell-buffer)
+	    (writegood-mode t)))
