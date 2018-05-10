@@ -424,7 +424,7 @@ a pulse"
 		(lambda ()
 		  (interactive)
 		  (if (derived-mode-p 'prog-mode)
-		      (flyspell-prog-mode t)
+		      (flyspell-prog-mode)
 		    (flyspell-mode t))
 		  (flyspell-buffer)))
 (global-set-key (kbd "C-<f9>")
