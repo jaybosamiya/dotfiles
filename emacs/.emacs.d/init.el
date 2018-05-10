@@ -417,11 +417,13 @@ a pulse"
 	    #'flyspell-buffer-after-pdict-save)
 
 ;; Set C-' to correct word using flyspell, and F9 to flyspell the
-;; entire buffer
+;; entire buffer. C-F9 to disable flyspell.
 (global-set-key (kbd "C-'")
 		'flyspell-correct-word-before-point)
 (global-set-key (kbd "<f9>")
 	        'flyspell-buffer)
+(global-set-key (kbd "C-<f9>")
+		'(lambda () (interactive) (flyspell-mode -1)))
 
 ;; Make sure programs have their comments checked
 (add-hook 'prog-mode-hook
