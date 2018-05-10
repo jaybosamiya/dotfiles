@@ -422,3 +422,8 @@ a pulse"
 		'flyspell-correct-word-before-point)
 (global-set-key (kbd "<f9>")
 	        'flyspell-buffer)
+
+;; Make sure programs have their comments checked
+(add-hook 'prog-mode-hook
+	  (lambda ()
+	    (flyspell-prog-mode)))
