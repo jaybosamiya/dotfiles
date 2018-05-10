@@ -427,3 +427,7 @@ a pulse"
 (add-hook 'prog-mode-hook
 	  (lambda ()
 	    (flyspell-prog-mode)))
+
+;; Speed up flyspell by using no messages
+(setq-default flyspell-issue-message-flag nil
+	      flyspell-issue-welcome-flag nil)
