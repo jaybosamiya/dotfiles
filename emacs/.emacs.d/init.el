@@ -415,3 +415,7 @@ a pulse"
   (flyspell-buffer))
 (advice-add 'ispell-pdict-save :after
 	    #'flyspell-buffer-after-pdict-save)
+
+;; Set C-' to correct word using flyspell
+(global-set-key (kbd "C-'")
+		'flyspell-correct-word-before-point)
