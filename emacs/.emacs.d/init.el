@@ -407,3 +407,11 @@ a pulse"
 	    (flyspell-mode t)
 	    (flyspell-buffer)
 	    (writegood-mode t)))
+
+;; Adding a word to the flycheck dictionary causes it to stop showing
+;; the rest of the underlined words. The following adds "advice" to
+;; run (flycheck-buffer) after saving a word to the dictionary.
+(defun flyspell-buffer-after-pdict-save (&rest _)
+  (flyspell-buffer))
+(advice-add 'ispell-pdict-save :after
+	    #'flyspell-buffer-after-pdict-save)
