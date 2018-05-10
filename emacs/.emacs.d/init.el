@@ -421,7 +421,12 @@ a pulse"
 (global-set-key (kbd "C-'")
 		'flyspell-correct-word-before-point)
 (global-set-key (kbd "<f9>")
-	        'flyspell-buffer)
+		(lambda ()
+		  (interactive)
+		  (if (derived-mode-p 'prog-mode)
+		      (flyspell-prog-mode t)
+		    (flyspell-mode t))
+		  (flyspell-buffer)))
 (global-set-key (kbd "C-<f9>")
 		'(lambda () (interactive) (flyspell-mode -1)))
 
