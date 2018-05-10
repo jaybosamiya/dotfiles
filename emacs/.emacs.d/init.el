@@ -39,7 +39,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Source Code Pro" :foundry "adobe" :slant normal :weight normal :height 113 :width normal))))
- '(minimap-active-region-background ((t (:inverse-video t)))))
+ '(minimap-active-region-background ((t (:inverse-video t))))
+ '(writegood-duplicates-face ((t (:underline (:color "DodgerBlue1" :style wave)))))
+ '(writegood-passive-voice-face ((t (:underline "PaleTurquoise4"))))
+ '(writegood-weasels-face ((t (:underline (:color "yellow4" :style wave))))))
 
 ;; Start off emacs server, so that `emacsclient` can be used
 (load "server")
