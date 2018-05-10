@@ -430,11 +430,6 @@ a pulse"
 (global-set-key (kbd "C-<f9>")
 		'(lambda () (interactive) (flyspell-mode -1)))
 
-;; Make sure programs have their comments checked
-(add-hook 'prog-mode-hook
-	  (lambda ()
-	    (flyspell-prog-mode)))
-
 ;; Speed up flyspell by using no messages
 (setq-default flyspell-issue-message-flag nil
 	      flyspell-issue-welcome-flag nil)
