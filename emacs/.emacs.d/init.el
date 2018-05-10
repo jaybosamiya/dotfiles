@@ -431,5 +431,4 @@ a pulse"
 		'(lambda () (interactive) (flyspell-mode -1)))
 
 ;; Speed up flyspell by using no messages
-(setq-default flyspell-issue-message-flag nil
-	      flyspell-issue-welcome-flag nil)
+(setq-default flyspell-issue-message-flag nil)
