@@ -44,6 +44,8 @@ alias fetch-recursive-website='wget --recursive --no-parent -e robots=off'
 
 alias screensaver='cmatrix -abs'
 
+alias axel='axel -a -n 10'
+
 alias t='task'
 
 function gitignore() {
