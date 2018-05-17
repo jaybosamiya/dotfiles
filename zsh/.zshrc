@@ -47,6 +47,26 @@ alias screensaver='cmatrix -abs'
 alias axel='axel -a -n 10'
 
 alias t='task'
+alias ta='task add'
+alias tm='task modify'
+alias tn='task next'
+alias ts='task start'
+function _tt() {
+    task ready 2>/dev/null | \
+	sed '/^\s*$/d' |  \
+	sed '/^ID.*Age.*Description.*Urg$/d' | \
+	sed '/^\(-*\s*\)*$/d' | \
+	sed '/\d* tasks*$/d' | \
+	awk '{$1="TODO[" $1 "]"; $2=""; print $0}' | \
+	rev | awk '{$1=""; print $0}' | rev
+    # TODO: Use the JSON export and write a nicer output
+}
+function tt() {
+    _tt || echo "No tasks"
+}
+function td() {
+    task done "$@" && tt
+}
 
 function gitignore() {
     wget -O .gitignore https://www.gitignore.io/api/c++,vim,ocaml,latex,emacs,python,sublimetext,visualstudio,visualstudiocode,linux,mac,windows
@@ -108,12 +128,6 @@ test -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh && source
 # Show the next set up of tasks upon zsh load, if they exist; but
 # don't display of recording
 if [ -z "$ASCIINEMA_REC" ]; then
-    task ready 2>/dev/null | \
-	sed '/^\s*$/d' |  \
-	sed '/^ID\s*Age.*Description\s*Urg$/d' | \
-	sed '/^\(-*\s*\)*$/d' | \
-	sed '/\d* tasks*$/d' | \
-	awk '{k=$1; $1=""; $2=""; print "TODO[" k "]" $0}' | \
-	rev | awk '{$1=""; print $0}' | rev
+    _tt
     true # Prevent failure if no task exists
 fi
