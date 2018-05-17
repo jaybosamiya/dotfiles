@@ -38,6 +38,8 @@ alias ncdu='ncdu -rx' # Make ncdu safe (no delete) and fast (don't
 
 alias clip='xclip -selection clipboard'
 
+alias top='htop'
+
 alias fetch-recursive-website='wget --recursive --no-parent -e robots=off'
 
 alias screensaver='cmatrix -abs'
