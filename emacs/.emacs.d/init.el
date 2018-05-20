@@ -13,6 +13,7 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
+ '(coq-double-hit-enable t)
  '(custom-enabled-themes (quote (misterioso)))
  '(delete-selection-mode nil)
  '(display-time-mode t)
@@ -31,6 +32,7 @@
  '(minimap-update-delay 0.0)
  '(minimap-width-fraction 0.1)
  '(minimap-window-location (quote right))
+ '(proof-electric-terminator-enable nil)
  '(send-mail-function (quote mailclient-send-it))
  '(tool-bar-mode nil))
 (custom-set-faces
@@ -43,6 +45,10 @@
  '(writegood-duplicates-face ((t (:underline (:color "DodgerBlue1" :style wave)))))
  '(writegood-passive-voice-face ((t (:underline "PaleTurquoise4"))))
  '(writegood-weasels-face ((t (:underline (:color "yellow4" :style wave))))))
+
+;; Exec Path from Shell
+(require 'exec-path-from-shell)
+(exec-path-from-shell-initialize)
 
 ;; Start off emacs server, so that `emacsclient` can be used
 (load "server")
@@ -435,3 +441,15 @@ a pulse"
 
 ;; Speed up flyspell by using no messages
 (setq-default flyspell-issue-message-flag nil)
+
+;; Opam
+;; Add opam emacs directory to the load-path
+(setq opam-share "/home/jay/.opam/4.05.0/share")
+(add-to-list 'load-path (concat opam-share "/emacs/site-lisp"))
+
+;; Coq
+;; Proof General
+(load-file "/usr/share/emacs/site-lisp/proofgeneral/generic/proof-site.el")
+;; Load company-coq when opening Coq files
+(require 'company-coq)
+(add-hook 'coq-mode-hook #'company-coq-mode)
