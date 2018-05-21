@@ -265,7 +265,7 @@
 (global-set-key (kbd "M-Q") 'unfill-paragraph)
 
 ;; Enable abbrev-mode globally
-(setq-default abbrev-mode t)
+;; (setq-default abbrev-mode t) ; Disabled
 ;;; Useful shortcut: C-x a i g
 ;;; Replaces previous word and sets up an abbrev
 
