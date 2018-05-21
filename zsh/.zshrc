@@ -72,6 +72,16 @@ function gitignore() {
     wget -O .gitignore https://www.gitignore.io/api/c++,vim,ocaml,latex,emacs,python,sublimetext,visualstudio,visualstudiocode,linux,mac,windows
 }
 
+# Create a temporary directory, with current time until minutes, and
+# link /tmp/tempdir to it
+function tempdir() {
+    DIR="/tmp/temp.$(date -Iminutes)"
+    mkdir -p "$DIR"
+    rm -f /tmp/tempdir
+    ln -s "$DIR" /tmp/tempdir
+    cd /tmp/tempdir
+}
+
 # Allow .local binaries
 export PATH=~/.local/bin:$PATH
 
