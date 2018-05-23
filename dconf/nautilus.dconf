@@ -1,0 +1,15 @@
+[org/gnome/nautilus/preferences]
+search-view='icon-view'
+default-folder-viewer='icon-view'
+search-filter-time-type='last_modified'
+enable-interactive-search=true
+
+[org/gnome/nautilus/compression]
+default-compression-format='zip'
+
+[org/gnome/nautilus/icon-view]
+default-zoom-level='large'
+
+[org/gnome/nautilus/list-view]
+default-visible-columns=['name', 'size', 'date_modified']
+default-column-order=['name', 'size', 'type', 'owner', 'group', 'permissions', 'mime_type', 'where', 'date_modified', 'date_modified_with_time', 'date_accessed']

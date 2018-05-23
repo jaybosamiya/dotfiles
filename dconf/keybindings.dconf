@@ -1,0 +1,27 @@
+[org/gnome/settings-daemon/plugins/media-keys]
+previous='<Primary><Shift><Alt>F8'
+custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/', '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3/']
+stop='<Primary><Shift><Alt>F9'
+next='<Primary><Shift><Alt>F10'
+home='<Super>e'
+www='<Super>f'
+
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2]
+binding='<Primary>MonBrightnessUp'
+command='/home/jay/.cargo/bin/dux inc 5'
+name='Dux Increase Brightness'
+
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1]
+binding='<Super>n'
+command='nixnote2'
+name='NixNote'
+
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0]
+binding='<Primary><Alt>t'
+command='gnome-terminal'
+name='Terminal'
+
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom3]
+binding='<Primary>MonBrightnessDown'
+command='/home/jay/.cargo/bin/dux dec 5'
+name='Dux Decrease Brightness'

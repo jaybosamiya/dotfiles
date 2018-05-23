@@ -1,0 +1,21 @@
+[net/launchpad/plank/docks/dock1]
+icon-size=50
+show-dock-item=false
+position='bottom'
+dock-items=['firefox-quantum.dockitem', 'org.gnome.Terminal.dockitem', 'org.gnome.Nautilus.dockitem', 'emacs24.dockitem']
+unhide-delay=0
+items-alignment='center'
+theme='Transparent4Real'
+hide-mode='window-dodge'
+pinned-only=false
+auto-pinning=true
+alignment='center'
+zoom-percent=120
+hide-delay=0
+zoom-enabled=true
+monitor=''
+lock-items=false
+tooltips-enabled=true
+pressure-reveal=true
+offset=0
+current-workspace-only=false

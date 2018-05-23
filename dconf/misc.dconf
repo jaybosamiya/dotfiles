@@ -1,0 +1,8 @@
+[org/gnome/settings-daemon/peripherals/mouse]
+locate-pointer=false
+
+[org/gnome/GWeather]
+temperature-unit='centigrade'
+
+[org/gnome/Weather/Application]
+locations=[<(uint32 2, <('Pittsburgh', 'KAGC', true, [(0.7043227676269912, -1.394896232832499)], [(0.70582205781433183, -1.3961915987500364)])>)>]
