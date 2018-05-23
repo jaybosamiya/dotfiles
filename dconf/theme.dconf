@@ -1,0 +1,48 @@
+[org/gnome/desktop/interface]
+text-scaling-factor=1.0
+gtk-key-theme='Default'
+clock-format='12h'
+font-name='Cantarell 11'
+document-font-name='Sans 11'
+toolkit-accessibility=false
+gtk-im-module='gtk-im-context-simple'
+clock-show-seconds=false
+icon-theme='Paper'
+monospace-font-name='Monospace 11'
+enable-animations=true
+gtk-theme='Arc-Dark'
+clock-show-date=true
+
+[org/gnome/desktop/wm/preferences]
+workspace-names=['Persistant', 'Work', 'Play', 'Temp']
+auto-raise=false
+button-layout='appmenu:close'
+focus-mode='click'
+num-workspaces=4
+action-middle-click-titlebar='none'
+titlebar-font='Cantarell Bold 11'
+
+[org/gnome/desktop/calendar]
+show-weekdate=false
+
+[org/gnome/shell/extensions/user-theme]
+name='Arc-Dark'
+
+[org/gnome/shell/extensions/workspace-grid]
+max-screen-fraction=0.20000000000000001
+max-screen-fraction-before-collapse=0.10000000000000001
+num-rows=2
+num-columns=2
+show-workspace-labels=false
+
+[org/gnome/shell]
+enabled-extensions=['user-theme@gnome-shell-extensions.gcampax.github.com', 'launch-new-instance@gnome-shell-extensions.gcampax.github.com', 'workspace-grid@mathematical.coffee.gmail.com', 'nohotcorner@azuri.free.fr', 'drive-menu@gnome-shell-extensions.gcampax.github.com', 'screenshot-window-sizer@gnome-shell-extensions.gcampax.github.com', 'windowsNavigator@gnome-shell-extensions.gcampax.github.com', 'desaturate_all@nicolas.brack.mail.be']
+
+[org/gnome/shell/app-switcher]
+current-workspace-only=true
+
+[org/gnome/shell/overrides]
+dynamic-workspaces=false
+
+[org/gnome/shell/window-switcher]
+app-icon-mode='both'

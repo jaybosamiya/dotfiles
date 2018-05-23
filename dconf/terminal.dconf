@@ -1,0 +1,40 @@
+[org/gnome/terminal/legacy/keybindings]
+reset-and-clear='<Primary><Shift>l'
+
+[org/gnome/terminal/legacy/profiles:/:9e4e4c15-dd08-4bef-a909-abd40184c618]
+background-color='rgb(255,255,255)'
+use-theme-colors=true
+visible-name='Backup of Default'
+foreground-color='rgb(0,0,0)'
+use-system-font=true
+font='Fira Mono Medium 12'
+
+[org/gnome/terminal/legacy/profiles:]
+list=['c5c7a859-55a3-4210-8ea1-32fc0faad8d9', '6493c395-f647-400f-a51d-5c670fdc56be', '304f1d37-5610-4e79-9860-51ce85aa7d34', '9e4e4c15-dd08-4bef-a909-abd40184c618']
+default='304f1d37-5610-4e79-9860-51ce85aa7d34'
+
+[org/gnome/terminal/legacy/profiles:/:c5c7a859-55a3-4210-8ea1-32fc0faad8d9]
+background-color='rgb(255,255,255)'
+use-theme-colors=false
+foreground-color='rgb(0,0,0)'
+visible-name='Black on White'
+
+[org/gnome/terminal/legacy/profiles:/:304f1d37-5610-4e79-9860-51ce85aa7d34]
+background-color='rgb(255,255,255)'
+use-theme-colors=true
+visible-name='Default'
+foreground-color='rgb(0,0,0)'
+use-system-font=true
+audible-bell=false
+font='Fira Mono Medium 12'
+
+[org/gnome/terminal/legacy/profiles:/:6493c395-f647-400f-a51d-5c670fdc56be]
+background-color='rgb(255,255,255)'
+use-theme-colors=true
+visible-name='Fira Mono'
+foreground-color='rgb(0,0,0)'
+use-system-font=false
+font='Fira Mono Medium 12'
+
+[org/gnome/terminal/legacy]
+schema-version=uint32 3

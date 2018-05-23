@@ -25,3 +25,11 @@ name='Terminal'
 binding='<Primary>MonBrightnessDown'
 command='/home/jay/.cargo/bin/dux dec 5'
 name='Dux Decrease Brightness'
+
+[org/gnome/desktop/wm/keybindings]
+show-desktop=['<Super>d']
+switch-to-workspace-down=['<Primary><Alt>Down', '<Control><Alt>Down']
+switch-to-workspace-up=['<Primary><Alt>Up', '<Control><Alt>Up']
+
+[org/gnome/shell/keybindings]
+focus-active-notification=['']
