@@ -75,11 +75,15 @@ function gitignore() {
 # Create a temporary directory, with current time until minutes, and
 # link /tmp/tempdir to it
 function tempdir() {
-    DIR="/tmp/temp.$(date -Iminutes)"
+    DIR="/tmp/tmp.$(date +%F/%H-%M-%S)"
     mkdir -p "$DIR"
-    rm -f /tmp/tempdir
+    if [ -d /tmp/tempdir ]; then
+	rm -f /tmp/tempdir.old
+	mv /tmp/tempdir /tmp/tempdir.old
+    fi
     ln -s "$DIR" /tmp/tempdir
     cd /tmp/tempdir
+    echo "$DIR"
 }
 
 # Allow .local binaries
