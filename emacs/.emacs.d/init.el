@@ -460,7 +460,7 @@ a pulse"
 
 ;; Theme flipper
 (setq
- theme-flipper-list (list 'misterioso 'adwaita)
+ theme-flipper-list '(misterioso solarized-light solarized-dark adwaita)
  theme-flipper-index 0)
 (defun theme-flip ()
   (interactive)
