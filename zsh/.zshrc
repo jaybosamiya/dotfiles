@@ -120,6 +120,9 @@ test -r $HOME/.opam/opam-init/init.zsh && . $HOME/.opam/opam-init/init.zsh > /de
 # connect up local gem repository
 export PATH="$HOME/.gem/ruby/2.3.0/bin:$PATH"
 
+# connect up local cabal repository
+export PATH="$HOME/.cabal/bin/:$PATH"
+
 # Set stuff up to be able to switch to other versions of llvm
 llvm5 () {
     export LLVM_ROOT="$HOME/llvm/llvm-5.0.1.install/"
