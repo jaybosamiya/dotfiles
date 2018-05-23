@@ -457,3 +457,15 @@ a pulse"
 ;; Agda mode
 (load-file (let ((coding-system-for-read 'utf-8))
                 (shell-command-to-string "agda-mode locate")))
+
+;; Theme flipper
+(setq
+ theme-flipper-list (list 'misterioso 'adwaita)
+ theme-flipper-index 0)
+(defun theme-flip ()
+  (interactive)
+  (setq theme-flipper-index (+ 1 theme-flipper-index))
+  (when (>= theme-flipper-index (length theme-flipper-list))
+    (setq theme-flipper-index 0))
+  (load-theme (nth-value theme-flipper-index theme-flipper-list)))
+(global-set-key (kbd "C-<f12>") 'theme-flip)
