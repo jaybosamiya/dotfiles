@@ -50,8 +50,11 @@
  '(writegood-weasels-face ((t (:underline (:color "yellow4" :style wave))))))
 
 ;; Exec Path from Shell
-(require 'exec-path-from-shell)
-(exec-path-from-shell-initialize)
+(use-package exec-path-from-shell
+  :ensure t
+  :demand t
+  :config
+  (exec-path-from-shell-initialize))
 
 ;; Start off emacs server, so that `emacsclient` can be used
 (load "server")
