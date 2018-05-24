@@ -113,8 +113,10 @@
   :config
   (pdf-tools-install))
 
-(require 'magit)
-(global-set-key (kbd "C-x g") 'magit-status)
+(use-package magit
+  :ensure t
+  :demand t
+  :bind (("C-x g" . magit-status)))
 
 (add-hook 'org-mode-hook
 	  #'(lambda ()
