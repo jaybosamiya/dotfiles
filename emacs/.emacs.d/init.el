@@ -108,8 +108,10 @@
 
 (display-time-mode 1)
 
-(require 'pdf-tools)
-(pdf-tools-install)
+(use-package pdf-tools
+  :magic ("%PDF" . pdf-view-mode)
+  :config
+  (pdf-tools-install))
 
 (require 'magit)
 (global-set-key (kbd "C-x g") 'magit-status)
