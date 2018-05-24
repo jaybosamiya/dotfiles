@@ -89,11 +89,14 @@
 (setq olivetti-hide-mode-line t)
 
 ;; smex
-(require 'smex)
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
-;; This is the old M-x.
-(global-set-key (kbd "C-c M-x") 'execute-extended-command)
+(use-package smex
+  :ensure t
+  :demand t
+  :bind (; Replace with smex
+	 ("M-x" . smex)
+	 ("M-X" . smex-major-mode-commands)
+	 ; and maintain old M-x via C-c M-x
+	 ("C-c M-x" . execute-extended-command)))
 
 ;; imenu-anywhere lets you jump between relevant parts of code easily
 (require 'imenu-anywhere)
