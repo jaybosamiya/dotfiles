@@ -102,8 +102,9 @@
 	 ("C-c M-x" . execute-extended-command)))
 
 ;; imenu-anywhere lets you jump between relevant parts of code easily
-(require 'imenu-anywhere)
-(global-set-key (kbd "C-.") #'imenu-anywhere)
+(use-package imenu-anywhere
+  :ensure t
+  :bind (("C-." . imenu-anywhere)))
 
 (display-time-mode 1)
 
