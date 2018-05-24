@@ -120,11 +120,11 @@
 
 (use-package org
   :ensure t
+  :custom
+  (org-support-shift-select t "Allow selecting with shift")
+  (org-hide-emphasis-markers t "Hide emphasis markers (/, _, etc.)")
+  (org-export-with-toc nil "Disable table-of-contents generation")
   :config
-  (setq
-   org-support-shift-select t	; Allow selecting with shift
-   org-hide-emphasis-markers t	; Hide emphasis markers (/, _, etc.)
-   org-export-with-toc nil)	; Disable table-of-contents generation
   (progn
     ;; Allow quotes inside of emphasis sections : Based off
     ;; of https://stackoverflow.com/a/24173780/3696619
