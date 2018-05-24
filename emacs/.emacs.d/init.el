@@ -143,8 +143,10 @@
 			       ;; Get better looking org-mode buffer
 			       (org-indent-mode 1))))
 
-(require 'which-key)
-(which-key-mode)
+(use-package which-key
+  :ensure t
+  :demand t
+  :config (which-key-mode))
 
 ;; Prevent C-z from accidentally sending the window to background
 (global-unset-key (kbd "C-z"))
