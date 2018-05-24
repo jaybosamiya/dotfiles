@@ -118,29 +118,30 @@
   :demand t
   :bind (("C-x g" . magit-status)))
 
-(add-hook 'org-mode-hook
-	  #'(lambda ()
-	      ;; make the lines in the buffer wrap
-	      ;; around the edges of the screen.
-	      (visual-line-mode)
-	      (org-indent-mode)
-	      ;; Allow shift selection
-	      (setq org-support-shift-select t)
-	      ;; Hide emphasis markers (/, _, etc)
-	      (setq org-hide-emphasis-markers t)
-	      ;; Disable table-of-contents generation
-	      (setq org-export-with-toc nil)
-	      ;; Allow quotes inside of emphasis sections : Based off
-	      ;; of https://stackoverflow.com/a/24173780/3696619
-	      (setcar (nthcdr 2 org-emphasis-regexp-components) " \t\r\n")
-	      ;; Allow emphasised regions to also end with a "s"
-	      (setcar (nthcdr 1 org-emphasis-regexp-components)
-		      (concat (nth 1 org-emphasis-regexp-components) "s"))
-	      ;; Actually update the emphasis regexp
-	      (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
-	      ;; Enable extra backends
-	      (setq org-export-backends
-		    (quote (ascii html icalendar latex md deck)))))
+(use-package org
+  :ensure t
+  :config
+  (setq
+   org-support-shift-select t	; Allow selecting with shift
+   org-hide-emphasis-markers t	; Hide emphasis markers (/, _, etc.)
+   org-export-with-toc nil)	; Disable table-of-contents generation
+  (progn
+    ;; Allow quotes inside of emphasis sections : Based off
+    ;; of https://stackoverflow.com/a/24173780/3696619
+    (setcar (nthcdr 2 org-emphasis-regexp-components) " \t\r\n")
+    ;; Allow emphasised regions to also end with a "s"
+    (setcar (nthcdr 1 org-emphasis-regexp-components)
+  	    (concat (nth 1 org-emphasis-regexp-components) "s"))
+    ;; Actually update the emphasis regexp
+    (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components))
+  ;; Enable extra backends
+  (setq org-export-backends
+	(quote (ascii html icalendar latex md deck)))
+  (add-hook 'org-mode-hook #'(lambda ()
+			       ;; Wrap lines
+			       (visual-line-mode 1)
+			       ;; Get better looking org-mode buffer
+			       (org-indent-mode 1))))
 
 (require 'which-key)
 (which-key-mode)
