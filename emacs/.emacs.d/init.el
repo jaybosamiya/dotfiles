@@ -530,7 +530,7 @@ a pulse"
   (cscope-setup))
 
 ;; Persistent undo history across saves. TODO: Decide if this is a
-;; good idea or not. Also, where are the undo history files stored?
+;; good idea or not.
 (use-package undohist
   :ensure t
   :config
