@@ -494,3 +494,8 @@ a pulse"
 
 ;; Microsoft IVy
 (use-package ivy-mode)
+
+;; Use a hippie-expand, instead of dabbrev-expand, which has
+;; dabbrev-expand as one of its tactics, so leads to a guaranteed
+;; superset of expansions
+(global-set-key (kbd "M-/") 'hippie-expand)
