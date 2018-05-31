@@ -499,3 +499,11 @@ a pulse"
 ;; dabbrev-expand as one of its tactics, so leads to a guaranteed
 ;; superset of expansions
 (global-set-key (kbd "M-/") 'hippie-expand)
+
+;; Ensure that copying from another program and then running a kill
+;; command in emacs doesn't cause things to disappear from the
+;; clipboard
+(setq save-interprogram-paste-before-kill t)
+
+;; Make sure the mouse yanking pastes at point instead of at click
+(setq mouse-yank-at-point t)
