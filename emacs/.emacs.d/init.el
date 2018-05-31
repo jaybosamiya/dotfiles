@@ -521,3 +521,10 @@ a pulse"
   :bind (("C-o" . 'ido-occur)
 	 :map isearch-mode-map
 	 ("C-o" . 'ido-occur-from-isearch)))
+
+;; Be able to move around C/C++ projects easily using cscope.
+;; Try C-c s SOMETHING in a C/C++ buffer.
+(use-package xcscope
+  :ensure t
+  :config
+  (cscope-setup))
