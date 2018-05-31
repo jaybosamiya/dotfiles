@@ -511,3 +511,6 @@ a pulse"
 ;; Prevent stale elisp bytecode from shadowing more up-to-date source
 ;; files
 (setq load-prefer-newer t)
+
+;; Use ibuffer instead of list-buffer for C-x C-b
+(global-set-key (kbd "C-x C-b") 'ibuffer)
