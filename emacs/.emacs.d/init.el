@@ -527,6 +527,7 @@ a pulse"
 (use-package xcscope
   :ensure t
   :config
+  (require 'cc-mode)
   (cscope-setup)
   :bind (:map c-mode-map
 	 ("C-c C-s" . 'cscope-display-buffer)))
