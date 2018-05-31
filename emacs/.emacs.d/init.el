@@ -491,3 +491,6 @@ a pulse"
 	(disable-theme theme)))
     (enable-theme this-theme)))
 (global-set-key (kbd "C-<f12>") 'theme-flip)
+
+;; Microsoft IVy
+(use-package ivy-mode)
