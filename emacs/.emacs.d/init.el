@@ -507,3 +507,7 @@ a pulse"
 
 ;; Make sure the mouse yanking pastes at point instead of at click
 (setq mouse-yank-at-point t)
+
+;; Prevent stale elisp bytecode from shadowing more up-to-date source
+;; files
+(setq load-prefer-newer t)
