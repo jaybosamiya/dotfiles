@@ -527,7 +527,9 @@ a pulse"
 (use-package xcscope
   :ensure t
   :config
-  (cscope-setup))
+  (cscope-setup)
+  :bind (:map c-mode-map
+	 ("C-c C-s" . 'cscope-display-buffer)))
 
 ;; Persistent undo history across saves. TODO: Decide if this is a
 ;; good idea or not.
