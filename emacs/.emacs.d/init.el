@@ -530,6 +530,7 @@ a pulse"
   :config
   (require 'cc-mode)
   (cscope-setup)
+  :hook (c-mode . cscope-minor-mode)
   :bind (:map c-mode-map
 	 ("C-c C-s" . 'cscope-display-buffer)))
 
