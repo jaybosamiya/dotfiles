@@ -200,12 +200,14 @@
 ;; ; work
 
 ;; Set up Dafny integration
-(require 'boogie-friends)
-(setq dafny-prefix-path "/opt/dafny/")
-(setq flycheck-dafny-executable (concat dafny-prefix-path "dafny"))
-(setq flycheck-z3-executable (concat dafny-prefix-path "z3/bin/z3"))
-(setq flycheck-inferior-dafny-executable (concat
-					  dafny-prefix-path "dafny-server"))
+(use-package boogie-friends
+  :mode ("\\.dfy\\'" . dafny-mode)
+  :config
+  (setq dafny-prefix-path "/opt/dafny/")
+  (setq flycheck-dafny-executable (concat dafny-prefix-path "dafny"))
+  (setq flycheck-z3-executable (concat dafny-prefix-path "z3/bin/z3"))
+  (setq flycheck-inferior-dafny-executable (concat
+					    dafny-prefix-path "dafny-server")))
 
 
 ;; Set up F* integration
