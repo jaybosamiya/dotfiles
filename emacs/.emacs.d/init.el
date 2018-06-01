@@ -6,6 +6,11 @@
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
 (package-initialize)
 
+;; Remove annoying UI elements
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+
 (eval-when-compile
   (require 'use-package))
 
@@ -68,11 +73,6 @@
 ;; (setq exec-path (append exec-path '("/home/jay/.opam/4.02.3/bin")))
 ;; (add-to-list 'load-path "~/.emacs.d/ocaml/")
 ;; (require 'ocaml)
-
-;; Remove annoying UI elements
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
 
 ;; Allow loading customizations from the f0xtr0t directory
 (add-to-list 'load-path
