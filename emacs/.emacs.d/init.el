@@ -267,8 +267,10 @@
 	    ))
 
 ;; Set up markdown editing
-(require 'markdown-mode)
-(setq markdown-command "pandoc")
+(use-package markdown-mode
+  :mode ("\\.md\\'" . markdown-mode)
+  :config
+  (setq markdown-command "pandoc"))
 
 ;; Disable audible bell
 (setq ring-bell-function 'ignore)
