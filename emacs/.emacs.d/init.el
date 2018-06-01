@@ -119,6 +119,7 @@
 
 (use-package org
   :ensure t
+  :mode ("\\.org\\'" . org-mode)
   :custom
   (org-support-shift-select t "Allow selecting with shift")
   (org-hide-emphasis-markers t "Hide emphasis markers (/, _, etc.)")
