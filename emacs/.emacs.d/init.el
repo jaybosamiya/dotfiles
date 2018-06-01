@@ -546,3 +546,7 @@ a pulse"
   :ensure t
   :config
   (undohist-initialize))
+
+;; Be able to move between buffers more easily, using M-up, M-down,
+;; M-left, M-right.
+(windmove-default-keybindings 'meta)
