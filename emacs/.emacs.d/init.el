@@ -540,13 +540,6 @@ a pulse"
   :bind (:map c-mode-map
 	 ("C-c C-s" . 'cscope-display-buffer)))
 
-;; Persistent undo history across saves. TODO: Decide if this is a
-;; good idea or not.
-(use-package undohist
-  :ensure t
-  :config
-  (undohist-initialize))
-
 ;; Be able to move between buffers more easily, using M-up, M-down,
 ;; M-left, M-right.
 (windmove-default-keybindings 'meta)
