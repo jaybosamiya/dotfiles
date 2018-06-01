@@ -308,7 +308,7 @@
 ;; Elpy for Python. Requires to have run "pip install jedi flake8
 ;; autopep8 yapf" on system in advance.
 (use-package elpy
-  :mode ("\\.py\\'" . elpy-mode)
+  :hook (python-mode . elpy-mode)
   :config
   (elpy-enable))
 
