@@ -305,8 +305,10 @@
 
 ;; Elpy for Python. Requires to have run "pip install jedi flake8
 ;; autopep8 yapf" on system in advance.
-(package-initialize)
-(elpy-enable)
+(use-package elpy
+  :mode ("\\.py\\'" . elpy-mode)
+  :config
+  (elpy-enable))
 
 ;; Smoothen scrolling
 (setq scroll-margin 1
