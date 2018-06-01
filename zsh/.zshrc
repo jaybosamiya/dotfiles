@@ -67,6 +67,12 @@ function tt() {
 function td() {
     task done "$@" && tt
 }
+function tph() {
+    task modify "$1" scheduled:"$(date -Iseconds --date='next hour')"
+}
+function tpd() {
+    task modify "$1" scheduled:tomorrow
+}
 
 function gitignore() {
     wget -O .gitignore https://www.gitignore.io/api/c++,vim,ocaml,latex,emacs,python,sublimetext,visualstudio,visualstudiocode,linux,mac,windows
