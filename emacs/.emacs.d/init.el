@@ -472,8 +472,8 @@ a pulse"
 ;; Proof General
 (load-file "/usr/share/emacs/site-lisp/proofgeneral/generic/proof-site.el")
 ;; Load company-coq when opening Coq files
-(require 'company-coq)
-(add-hook 'coq-mode-hook #'company-coq-mode)
+(use-package company-coq
+  :hook (coq-mode . company-coq-mode))
 
 ;; Agda mode
 (load-file (let ((coding-system-for-read 'utf-8))
