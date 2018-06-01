@@ -543,3 +543,7 @@ a pulse"
 ;; Be able to move between buffers more easily, using M-up, M-down,
 ;; M-left, M-right.
 (windmove-default-keybindings 'meta)
+
+;; Be able to use ag from emacs
+(use-package ag
+  :ensure t)
