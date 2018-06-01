@@ -526,6 +526,7 @@ a pulse"
 ;; Try C-c s SOMETHING in a C/C++ buffer.
 (use-package xcscope
   :ensure t
+  :defer t
   :config
   (require 'cc-mode)
   (cscope-setup)
