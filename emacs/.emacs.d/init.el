@@ -378,6 +378,10 @@ a pulse"
 ;; Turn on line numbers for all buffers
 (global-linum-mode)
 
+;; Disable linum-mode for incompatible cases
+(dolist (hook '(pdf-view-mode-hook))
+  (add-hook hook '(lambda () (linum-mode 0))))
+
 ;; Handle escape sequence colorization properly for compilation-mode
 ;; See : https://emacs.stackexchange.com/a/38531
 (require 'ansi-color)
