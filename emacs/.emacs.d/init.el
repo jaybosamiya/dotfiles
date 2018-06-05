@@ -551,3 +551,8 @@ a pulse"
 ;; Be able to use ag from emacs
 (use-package ag
   :ensure t)
+
+;; Use IDO for yes-or-no-p and y-or-n-p
+(use-package ido-yes-or-no
+  :ensure t
+  :config (ido-yes-or-no-mode))
