@@ -129,20 +129,6 @@ export PATH="$HOME/.gem/ruby/2.3.0/bin:$PATH"
 # connect up local cabal repository
 export PATH="$HOME/.cabal/bin/:$PATH"
 
-# Set stuff up to be able to switch to other versions of llvm
-llvm5 () {
-    export LLVM_ROOT="$HOME/llvm/llvm-5.0.1.install/"
-    export PATH="${LLVM_ROOT}/bin:$PATH"
-    llvm5 () { } # Prevent the command from being an issue by running
-		 # too many times
-}
-llvm6 () {
-    export LLVM_ROOT="$HOME/llvm/llvm-6.0.0.install/"
-    export PATH="${LLVM_ROOT}/bin:$PATH"
-    llvm6 () { } # Prevent the command from being an issue by running
-		 # too many times
-}
-
 # Show the next set up of tasks upon zsh load, if they exist; but
 # don't display of recording
 if [ -z "$ASCIINEMA_REC" ]; then
