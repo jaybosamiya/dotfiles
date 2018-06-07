@@ -154,3 +154,21 @@ if [ -z "$ASCIINEMA_REC" ]; then
     _tt
     true # Prevent failure if no task exists
 fi
+
+# Colorized wdiff
+function cwdiff() {
+    wdiff -n -w $'\033[1;31m' -x $'\033[0m' -y $'\033[1;32m' -z $'\033[0m' -s "$1" "$2"
+}
+
+# Compare two texts, and nicely word-diff them
+function 2compare() {
+    A="$(mktemp /tmp/text1.XXXXXX)"
+    B="$(mktemp /tmp/text2.XXXXXX)"
+    echo "Enter text1 (press Enter,Ctrl+D when done):"
+    cat > "$A"
+    echo "Enter text2 (press Enter,Ctrl+D when done):"
+    cat > "$B"
+    echo "Comparing..."
+    cwdiff "$A" "$B"
+    rm -f "$A" "$B"
+}
