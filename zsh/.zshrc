@@ -168,6 +168,21 @@ function 2compare() {
     rm -f "$A" "$B"
 }
 
+function duplicate-repo() {
+    USAGE="Usage: duplicate-repo {from} {to}"
+    [ -z "$1" ] && echo $USAGE && return 1
+    [ -z "$2" ] && echo $USAGE && return 1
+    FROM="$1"
+    TO="$2"
+    DIR="$(mktemp -d /tmp/tmp-duplicate-XXXXXX)"
+    git clone --bare "$FROM" "$DIR" || return 2
+    pushd "$DIR"
+    git push --mirror "$TO" || (popd; return 3)
+    popd
+    rm -rf "$DIR"
+    echo "Done duplicating repository"
+}
+
 # Enable nice syntax highlighting if available
 # Install via [sudo apt install zsh-syntax-highlighting]
 # NOTE: This MUST be at the end of .zshrc
