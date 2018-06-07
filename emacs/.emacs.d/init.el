@@ -384,12 +384,14 @@ a pulse"
 
 ;; Handle escape sequence colorization properly for compilation-mode
 ;; See : https://emacs.stackexchange.com/a/38531
-(require 'ansi-color)
-(defun colorize-compilation-buffer ()
-  (toggle-read-only)
-  (ansi-color-apply-on-region (point-min) (point-max))
-  (toggle-read-only))
-(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+;; Disabled right now because it seems to cause bad interactions with
+;; the thing below, especially in the ag buffer
+;; (require 'ansi-color)
+;; (defun colorize-compilation-buffer ()
+;;   (toggle-read-only)
+;;   (ansi-color-apply-on-region (point-min) (point-max))
+;;   (toggle-read-only))
+;; (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 ;; Fix escape sequence issues in shell, compilation-mode etc.
 ;; See : https://emacs.stackexchange.com/a/38531
