@@ -143,11 +143,6 @@ llvm6 () {
 		 # too many times
 }
 
-# Enable nice syntax highlighting if available
-# Install via [sudo apt install zsh-syntax-highlighting]
-# NOTE: This MUST be at the end of .zshrc
-test -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh && source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
 # Show the next set up of tasks upon zsh load, if they exist; but
 # don't display of recording
 if [ -z "$ASCIINEMA_REC" ]; then
@@ -172,3 +167,8 @@ function 2compare() {
     cwdiff "$A" "$B"
     rm -f "$A" "$B"
 }
+
+# Enable nice syntax highlighting if available
+# Install via [sudo apt install zsh-syntax-highlighting]
+# NOTE: This MUST be at the end of .zshrc
+test -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh && source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
