@@ -139,7 +139,7 @@ llvm5 () {
 llvm6 () {
     export LLVM_ROOT="$HOME/llvm/llvm-6.0.0.install/"
     export PATH="${LLVM_ROOT}/bin:$PATH"
-    llvm5 () { } # Prevent the command from being an issue by running
+    llvm6 () { } # Prevent the command from being an issue by running
 		 # too many times
 }
 
