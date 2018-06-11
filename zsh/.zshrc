@@ -70,6 +70,9 @@ function td() {
 function tph() {
     task modify "$1" scheduled:"$(date -Iseconds --date='next hour')"
 }
+function tpt() {
+    task modify "$2" scheduled:"$(date -Iseconds --date=$1)"
+}
 function tpd() {
     task modify "$1" scheduled:tomorrow
 }
