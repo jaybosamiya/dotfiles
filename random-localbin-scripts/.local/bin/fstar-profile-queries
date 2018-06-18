@@ -81,8 +81,8 @@ for f in with_hints/queries-${FILE}*.smt2; do
     profile "$f"
 done
 
-for a in without_hints/queries-${FILE}*.prof; do
-    for b in with_hints/queries-${FILE}*.prof; do
+for a in with_hints/queries-${FILE}*.prof; do
+    for b in without_hints/queries-${FILE}*.prof; do
 	x="$(basename $a .prof)"
 	y="$(basename $b .prof)"
 	echo "[+] Differencing $x and $y"
