@@ -94,7 +94,7 @@ echo "[+] Cleaning up possibly irrelevant queries"
 mkdir possibly_irrelevant/ 2>/dev/null
 for f in *.log; do
     C="$(head -2 $f | tail -1 | cut -c 1)"
-    if [ "$C" != "+" ]; then
+    if [ "$C" != "+" -a "$C" != ">" ]; then
 	mv $f possibly_irrelevant/
     fi
 done
