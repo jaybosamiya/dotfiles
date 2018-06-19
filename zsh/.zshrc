@@ -48,6 +48,9 @@ alias screensaver='cmatrix -abs'
 
 alias axel='axel -a -n 10'
 
+function dlist() { pushd ~/this-sem/Research/misc-testing/dlist/ind }
+function caps() { pushd ~/this-sem/Research/CAPS-project/ }
+
 alias t='task'
 alias ta='task add'
 alias tm='task modify'
