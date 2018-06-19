@@ -1,7 +1,6 @@
 #! /bin/bash
 
 set -o pipefail
-set -e
 
 function usage() {
     echo "Usage:" 1>&2
