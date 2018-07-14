@@ -67,13 +67,6 @@
     (message "%s" "Server already started by someone else")
   (server-start))
 
-;;;; Have a good dev environment for OCaml
-;;; Disabled for now
-;; (setenv "PATH" (concat (getenv "PATH") ":/home/jay/.opam/4.02.3/bin"))
-;; (setq exec-path (append exec-path '("/home/jay/.opam/4.02.3/bin")))
-;; (add-to-list 'load-path "~/.emacs.d/ocaml/")
-;; (require 'ocaml)
-
 ;; Allow loading customizations from the f0xtr0t directory
 (add-to-list 'load-path
 	     (concat user-emacs-directory
@@ -471,10 +464,8 @@ a pulse"
 ;; Speed up flyspell by using no messages
 (setq-default flyspell-issue-message-flag nil)
 
-;; Opam
-;; Add opam emacs directory to the load-path
-(setq opam-share "/home/jay/.opam/4.05.0/share")
-(add-to-list 'load-path (concat opam-share "/emacs/site-lisp"))
+;; Opam, OCaml
+(require 'ocaml)
 
 ;; Coq
 ;; Proof General
