@@ -10,6 +10,8 @@ source $HOME/.profile
 alias n='nautilus . &!' # Opens nautilus and disowns it from current shell
 alias ag='ag --pager less'
 
+alias music-dl='youtube-dl --audio-format=mp3 --extract-audio --metadata-from-title "%(artist)s - %(title)s"'
+
 alias ls='ls -h --color=tty' # Human readable file sizes, and color :)
 
 alias gdb='gdb -q'
