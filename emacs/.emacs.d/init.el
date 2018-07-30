@@ -245,16 +245,6 @@
 	    ;; (add-hook 'fstar-newline-hook
 	    ;; 	      (lambda (ignored-arg) (ocp-indent-line)) nil t)
 	    (add-hook 'before-save-hook 'ocp-indent-buffer nil t)
-	    (font-lock-add-keywords nil
-				    `((,(regexp-opt
-					 '("assume"
-					   "admit"
-					   "admitP"
-					   "magic"
-					   "unsafe_coerce") 'symbols) . font-lock-warning-face))
-				    ) ; Temporary (might get merged
-				      ; into fstar-mode). To display
-				      ;  "cheating" keywords.
 	    (local-set-key (kbd "C-c C-k") 'killall-z3)
 	    (local-set-key (kbd "M-,") 'pop-global-mark) ; works nicely with M-.
 	    ))
