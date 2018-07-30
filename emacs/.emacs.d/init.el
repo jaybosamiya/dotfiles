@@ -313,7 +313,10 @@
     (if (> space-count tab-count) (setq indent-tabs-mode nil))
     (if (> tab-count space-count) (setq indent-tabs-mode t)))
   (message "Inferred indentation"))
-(defun c-guess-and-set-style ()
+(defun c-guess-and-set-style ()		; TODO: Check file size and
+					; ask for permission if too
+					; large, to speed things up
+					; for large files.
   (interactive)
   (let
     ((stylename (concat "guessed-style-" (file-name-base))))
@@ -324,7 +327,10 @@
 (add-hook 'c-mode-common-hook
 	  (lambda ()
 	    (infer-indentation-style)
-	    (c-guess-and-set-style)))
+	    ;; (c-guess-and-set-style)
+	    ;; ;; Disabled guessing by default, to speed up file
+	    ;; ;; opens for large files.
+	    ))
 
 ;; Make sure packages stay updated; but prompt before each update
 ;; Runs approximately once every 7 days
