@@ -82,9 +82,7 @@ function tph() {
 function tpt() {
     task modify "$2" scheduled:"$(date -Iseconds --date=$1)"
 }
-function tpd() {
-    task modify "$1" scheduled:tomorrow
-}
+alias tpd='task modify scheduled:tomorrow'
 
 function gitignore() {
     wget -O .gitignore https://www.gitignore.io/api/c++,vim,ocaml,latex,emacs,python,sublimetext,visualstudio,visualstudiocode,linux,mac,windows
