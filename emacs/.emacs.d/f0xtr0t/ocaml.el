@@ -30,13 +30,6 @@
 (defun change-symbol (x y)
   (setcdr (assq x tuareg-font-lock-symbols-alist) y))
 
-(defun ocp-indent-buffer ()
-  (interactive)
-  (save-excursion
-    (mark-whole-buffer)
-    (ocp-indent-region (region-beginning)
-		       (region-end))))
-
 (add-hook 'tuareg-mode-hook
 	  (lambda ()
 	    (merlin-mode)
@@ -44,6 +37,8 @@
 	    (local-set-key (kbd "C-c C-c") 'recompile)
 	    (auto-fill-mode)
 	    (tuareg-make-indentation-regexps)
+	    (setq ocp-indent-buffer-must-run t) ; This enables use of the
+						; ocp-indent-buffer from init.el
 	    (add-hook 'before-save-hook 'ocp-indent-buffer nil t)))
 
 (defun opam-env ()
