@@ -76,9 +76,7 @@ function tt() {
 function td() {
     task done "$@" && tt
 }
-function tph() {
-    task modify "$1" scheduled:"$(date -Iseconds --date='next hour')"
-}
+alias tph='task modify scheduled:"$(date -Iseconds --date='"'"'next hour'"'"')"'
 function tpt() {
     task modify "$2" scheduled:"$(date -Iseconds --date=$1)"
 }
