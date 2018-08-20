@@ -25,3 +25,8 @@ end
 #     Do NOT break on `malloc` but on the `malloc` call to
 #     be able to step through better
 dir /usr/src/glibc/glibc-2.24/malloc
+
+# Add in the "exploitable" package. Given a crash, running
+# "exploitable" gives an analysis of whether the crash _might_ be
+# exploitable.
+source /usr/local/lib/python2.7/dist-packages/exploitable-1.32-py2.7.egg/exploitable/exploitable.py
