@@ -81,6 +81,9 @@ function tpt() {
     task modify "$2" scheduled:"$(date -Iseconds --date=$1)"
 }
 alias tpd='task modify scheduled:tomorrow'
+function tpw() {
+    task modify "$1" scheduled:"$(date -Iseconds --date='next week')"
+}
 
 function gitignore() {
     wget -O .gitignore https://www.gitignore.io/api/c++,vim,ocaml,latex,emacs,python,sublimetext,visualstudio,visualstudiocode,linux,mac,windows
