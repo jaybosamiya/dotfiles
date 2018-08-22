@@ -104,7 +104,11 @@ function tempdirnew() {
 }
 # Jump to tempdir
 function tempdir() {
-    cd /tmp/tempdir
+    if [ -d /tmp/tempdir ]; then
+	cd /tmp/tempdir
+    else
+	tempdirnew
+    fi
 }
 
 # Allow .local binaries
