@@ -453,9 +453,13 @@ a pulse"
 		  (if (derived-mode-p 'prog-mode)
 		      (flyspell-prog-mode)
 		    (flyspell-mode t))
-		  (flyspell-buffer)))
+		  (flyspell-buffer)
+		  (message "Turned on flyspell-mode")))
 (global-set-key (kbd "C-<f9>")
-		'(lambda () (interactive) (flyspell-mode -1)))
+		'(lambda ()
+		   (interactive)
+		   (flyspell-mode -1)
+		   (message "Turned off flyspell-mode")))
 
 ;; Speed up flyspell by using no messages
 (setq-default flyspell-issue-message-flag nil)
