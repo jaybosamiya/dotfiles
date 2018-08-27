@@ -1,5 +1,6 @@
 define peda
   source ~/.local/pwn/peda/peda.py
+  set follow-fork-mode parent
 end
 
 define pwndbg
