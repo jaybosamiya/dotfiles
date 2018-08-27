@@ -86,7 +86,7 @@ function tpw() {
 }
 
 function gitignore() {
-    wget -O .gitignore https://www.gitignore.io/api/c++,vim,ocaml,latex,emacs,python,sublimetext,visualstudio,visualstudiocode,linux,mac,windows
+    curl -L -s --output .gitignore https://www.gitignore.io/api/c++,vim,ocaml,latex,emacs,python,sublimetext,visualstudio,visualstudiocode,linux,mac,windows
 }
 
 # Create a temporary directory, with current time until minutes, and
