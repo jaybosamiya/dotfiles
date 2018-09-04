@@ -16,6 +16,12 @@ define gef
   source ~/.local/pwn/gef/gef.py
 end
 
+# Enable gdb history, and make it persist only until restart; but
+# store an unlimited number of commands
+set history save on
+set history size -1
+set history filename /tmp/.gdb_history
+
 # Add glibc sources for malloc
 #
 #   Requires:
