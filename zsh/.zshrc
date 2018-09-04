@@ -50,6 +50,35 @@ alias screensaver='cmatrix -abs'
 
 alias axel='axel -a -n 10'
 
+function pdfsmaller() {
+    case $1 in
+	vlow)
+	    SET=screen
+	    ;;
+	low)
+	    SET=ebook
+	    ;;
+	high)
+	    SET=printer
+	    ;;
+	supercolor)
+	    SET=prepress
+	    ;;
+	*)
+	    echo "Usage: "
+	    echo "  $0 [vlow|low|high|supercolor] input.pdf output.pdf"
+	    echo ""
+	    echo "Types:"
+	    echo "  vlow       : 72 dpi images : screen-view-only quality"
+	    echo "  low        : 150 dpi images"
+	    echo "  high       : 300 dpi images"
+	    echo "  supercolor : 300 dpi images : color preserving"
+	    return
+	    ;;
+    esac
+    gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/${SET} -dNOPAUSE -dQUIET -dBATCH -sOutputFile=${3} ${2}
+}
+
 function dlist() { pushd ~/this-sem/Research/misc-testing/dlist/ind }
 function caps() { pushd ~/this-sem/Research/CAPS-project/ }
 
