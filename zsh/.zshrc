@@ -32,6 +32,9 @@ alias manually-installed-to-auto='sudo apt-mark auto'
 
 alias record-term='asciinema rec --yes -i 1 --title'
 
+alias haven='ssh haven'
+alias proxyhaven='echo "Port 10000. Ctrl+C to stop proxy" && ssh -D 10000 -C -q -N haven'
+
 alias temax='emacs -nw'
 alias cemax='emacsclient'
 export ALTERNATE_EDITOR='emacs' # Opens emacs if no emacs server is
