@@ -543,7 +543,9 @@ a pulse"
 
 ;; Be able to use ag from emacs
 (use-package ag
-  :ensure t)
+  :ensure t
+  :bind (("M-s M-s" . 'ag)
+	 ("M-s s"   . 'ag)))
 
 ;; Use IDO for yes-or-no-p and y-or-n-p
 (use-package ido-yes-or-no
