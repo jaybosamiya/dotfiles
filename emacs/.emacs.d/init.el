@@ -42,6 +42,9 @@
  '(minimap-update-delay 0.0)
  '(minimap-width-fraction 0.1)
  '(minimap-window-location (quote right))
+ '(package-selected-packages
+   (quote
+    (cl-lib zpresent org-present ox-reveal xcscope writegood-mode whitespace-cleanup-mode which-key wc-mode vagrant-tramp use-package unfill undohist undo-tree spray solarized-theme smex restart-emacs powerline popup php-mode pdf-tools paredit olivetti ocp-indent minimap markdown-mode magit lice latex-preview-pane imenu-anywhere ido-yes-or-no ido-occur guru-mode fstar-mode flx-ido exec-path-from-shell epresent elpy dockerfile-mode deferred company-coq caml boogie-friends auto-package-update ag adoc-mode)))
  '(proof-electric-terminator-enable nil)
  '(send-mail-function (quote mailclient-send-it))
  '(tool-bar-mode nil))
