@@ -549,6 +549,11 @@ a pulse"
   :bind (:map c-mode-map
 	 ("C-c C-s" . 'cscope-display-buffer)))
 
+(use-package semantic
+  :ensure t
+  :defer t
+  :hook (c-mode . semantic-mode))
+
 ;; Be able to move between buffers more easily, using M-up, M-down,
 ;; M-left, M-right.
 (windmove-default-keybindings 'meta)
