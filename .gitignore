@@ -1,4 +1,6 @@
 *~
+emacs/.emacs.d/semanticdb/
+emacs/.emacs.d/srecode-map.el
 emacs/.emacs.d/undohist/
 emacs/.emacs.d/eshell/history
 emacs/.emacs.d/tramp
