@@ -36,6 +36,8 @@ alias record-term='asciinema rec --yes -i 1 --title'
 
 alias haven='ssh haven'
 alias proxyhaven='echo "Port 10000. Ctrl+C to stop proxy" && ssh -D 10000 -C -q -N haven'
+alias diavola='ssh jayb@diavola.andrew.cmu.edu'
+alias vsekardesk='ssh jayb@vsekardesk.ece.cmu.edu'
 
 alias temax='emacs -nw'
 alias cemax='emacsclient'
