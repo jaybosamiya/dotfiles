@@ -134,12 +134,19 @@
     (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components))
   ;; Enable extra backends
   (setq org-export-backends
-	(quote (ascii html icalendar latex md deck)))
+	(quote (ascii html icalendar latex md deck reveal)))
   (add-hook 'org-mode-hook #'(lambda ()
 			       ;; Wrap lines
 			       (visual-line-mode 1)
 			       ;; Get better looking org-mode buffer
 			       (org-indent-mode 1))))
+
+(use-package ox-reveal
+  :ensure t
+  :config
+  (progn
+    (setq org-reveal-root "https://cdn.jsdelivr.net/reveal.js/3.0.0/")
+    (setq org-reveal-title-slide "<h1 class=\"title\">%t</h1><h5 class=\"author\">%a</h5><h5 class=\"date\">%d</h5>")))
 
 (use-package which-key
   :ensure t
