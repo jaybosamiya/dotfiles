@@ -143,6 +143,7 @@
 
 (use-package ox-reveal
   :ensure t
+  :defer t
   :config
   (progn
     (setq org-reveal-root "https://cdn.jsdelivr.net/reveal.js/3.0.0/")
