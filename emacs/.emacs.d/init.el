@@ -554,6 +554,12 @@ a pulse"
   :defer t
   :hook (c-mode . semantic-mode))
 
+(use-package srefactor
+  :ensure t
+  :defer t
+  :config (semantic-mode 1)
+  :bind ("M-RET" . 'srefactor-refactor-at-point))
+
 ;; Be able to move between buffers more easily, using M-up, M-down,
 ;; M-left, M-right.
 (windmove-default-keybindings 'meta)
