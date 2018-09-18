@@ -22,6 +22,8 @@ alias gef='gdb -q -ex gef'
 
 alias uniquify='awk '"'"'!_[$0]++'"'" # Equivalent to uniq, but preserves order
 
+alias dockerubuntu='docker run --rm -it -v "$(pwd):/connect" ubuntu' # Runs a docker container in current spot, and connects it to /connect
+
 alias fstar='fstar --query_stats --__no_positivity --include /home/jay/everest/kremlin/kremlib/'
 alias fstaru='fstar --use_hints --detail_hint_replay'
 alias fstarr='fstar --record_hints'
