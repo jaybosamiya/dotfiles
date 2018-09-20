@@ -436,11 +436,11 @@ a pulse"
           'filter-non-sgr-control-sequences-in-output)
 
 ;; Use undo-tree everywhere (Use C-x u to visualize the undo-tree)
-(require 'undo-tree)
-(global-undo-tree-mode)
-(add-hook 'undo-tree-visualizer-mode-hook
-	  (lambda ()
-	    (setq show-trailing-whitespace nil)))
+;; (require 'undo-tree)
+;; (global-undo-tree-mode)
+;; (add-hook 'undo-tree-visualizer-mode-hook
+;; 	  (lambda ()
+;; 	    (setq show-trailing-whitespace nil)))
 
 ;; Help writing correct text. TODO: Figure out how to make it trigger
 ;; only in "pure text" buffers
