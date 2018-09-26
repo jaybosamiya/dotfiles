@@ -1,16 +1,16 @@
 (require 'subr-x)
 (require 'fstar-mode)
 
-(defun fstar-indent-file-to-string (file)
+(defun fstar-rewrite-file-to-string (file)
   (string-trim
    (with-temp-buffer (insert-file-contents file)
 		     (buffer-string))))
 
-(defun fstar-indent-string (str)
+(defun fstar-rewrite-string (str)
   (let*
-      ((strfile (concat (expand-file-name (make-temp-name "fstar-indent")
+      ((strfile (concat (expand-file-name (make-temp-name "fstar-rewrite")
 					  temporary-file-directory) ".fst"))
-       (errfile (expand-file-name (make-temp-name "fstar-indent-error")
+       (errfile (expand-file-name (make-temp-name "fstar-rewrite-error")
 				  temporary-file-directory))
        (has-module-name (string-match-p "^module [A-Za-z0-9]+$" str))
        (added-module-line "module TempModuleName")
@@ -26,7 +26,7 @@
 	      (call-process fstar-executable nil (list standard-output errfile) nil
 			    "--indent" strfile))))
 	(when (file-exists-p errfile)
-	  (let* ((err-msg (fstar-indent-file-to-string errfile)))
+	  (let* ((err-msg (fstar-rewrite-file-to-string errfile)))
 	    (delete-file errfile)
 	    (when (string-match-p "error was reported (see above)" err-msg)
 	      (delete-file strfile)
@@ -38,7 +38,7 @@
 	     indented-str
 	   (replace-regexp-in-string added-module-line "" indented-str)))))))
 
-(defun fstar-indent-region (start end)
+(defun fstar-rewrite-region (start end)
   (interactive "r")
   (save-excursion
     (let*
@@ -47,7 +47,7 @@
 	 (end-point (progn (goto-char end) (line-end-position)))
 	 (str (buffer-substring-no-properties start-point end-point))
 	 (indented-str (condition-case v
-			   (fstar-indent-string str)
+			   (fstar-rewrite-string str)
 			 (error (error "%s" (cadr v))))))
       (if (not (string= str indented-str))
 	  (progn
@@ -59,15 +59,15 @@
 	  (message "Already indented correctly")
 	  nil)))))
 
-(defun fstar-indent-buffer ()
+(defun fstar-rewrite-buffer ()
   (interactive)
   (let* ((saved-line-number (line-number-at-pos)))
-    (if (fstar-indent-region (point-min) (point-max))
+    (if (fstar-rewrite-region (point-min) (point-max))
 	(progn
 	  (goto-char 1)
 	  (forward-line (1- saved-line-number))))))
 
-(defun fstar-indent-subp ()
+(defun fstar-rewrite-subp ()
   (interactive)
   (let* ((saved-point (point)))
     (if (and (bolp) (not (eolp)))
@@ -77,7 +77,7 @@
 	   (start. (skip-chars-forward " \n\t"))
 	   (end (fstar-subp-next-block-end))
 	   (end. (skip-chars-backward " \n\t")))
-      (if (fstar-indent-region (+ start start.) (+ end end.))
+      (if (fstar-rewrite-region (+ start start.) (+ end end.))
 	  (progn
 	    (goto-char 1)
 	    (forward-line (1- saved-line-number)))
@@ -87,7 +87,7 @@
 
 (add-hook 'fstar-mode-hook
 	  (lambda ()
-	    ;; (add-hook 'before-save-hook 'fstar-indent-buffer nil t)
-	    (local-set-key (kbd "C-c <tab>") 'fstar-indent-subp)))
+	    ;; (add-hook 'before-save-hook 'fstar-rewrite-buffer nil t)
+	    (local-set-key (kbd "C-c <tab>") 'fstar-rewrite-subp)))
 
-(provide 'fstar-indent)
+(provide 'fstar-rewrite)
