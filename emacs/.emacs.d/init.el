@@ -236,7 +236,22 @@
   (setq fstar-prefix-path "/opt/fstar-release/")
   (setq fstar-executable (concat fstar-prefix-path "bin/fstar.exe"))
   (setq fstar-smt-executable (concat fstar-prefix-path "bin/z3")))
+(require 'fstar-rewrite)
+(add-to-list 'load-path "/home/jay/.local/share/emacs/site-lisp")
 (require 'fstar-indent)
+(defun fstar-indent-buffer ()
+  (interactive)
+  (if fstar-indent-buffer-must-run
+      (save-excursion
+	(mark-whole-buffer)
+	(fstar-indent-region (region-beginning)
+			   (region-end))) ()))
+(defun toggle-fstar-indent-buffer ()
+  (interactive)
+  (setq fstar-indent-buffer-must-run
+	(not fstar-indent-buffer-must-run))
+  (message (if fstar-indent-buffer-must-run "Now on" "Now off")))
+(setq fstar-indent-buffer-must-run nil)
 (require 'ocp-indent)
 (defun ocp-indent-buffer ()
   (interactive)
@@ -257,10 +272,10 @@
 (add-hook 'fstar-mode-hook
 	  (lambda ()
 	    ; (auto-fill-mode)
-	    (ocp-setup-indent)
-	    ;; (add-hook 'fstar-newline-hook
-	    ;; 	      (lambda (ignored-arg) (ocp-indent-line)) nil t)
-	    (add-hook 'before-save-hook 'ocp-indent-buffer nil t)
+	    (fstar-setup-indent)
+	    (add-hook 'fstar-newline-hook
+	    	      (lambda (ignored-arg) (fstar-indent-line)) nil t)
+	    (add-hook 'before-save-hook 'fstar-indent-buffer nil t)
 	    (local-set-key (kbd "C-c C-k") 'killall-z3)
 	    (local-set-key (kbd "M-,") 'xref-pop-marker-stack) ; works nicely with M-.
 	    ))
