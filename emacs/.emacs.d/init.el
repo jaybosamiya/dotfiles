@@ -272,10 +272,10 @@
 (add-hook 'fstar-mode-hook
 	  (lambda ()
 	    ; (auto-fill-mode)
-	    (fstar-setup-indent)
-	    (add-hook 'fstar-newline-hook
-	    	      (lambda (ignored-arg) (fstar-indent-line)) nil t)
-	    (add-hook 'before-save-hook 'fstar-indent-buffer nil t)
+	    (ocp-setup-indent)
+	    ;; (add-hook 'fstar-newline-hook
+	    ;; 	      (lambda (ignored-arg) (fstar-indent-line)) nil t)
+	    (add-hook 'before-save-hook 'ocp-indent-buffer nil t)
 	    (local-set-key (kbd "C-c C-k") 'killall-z3)
 	    (local-set-key (kbd "M-,") 'xref-pop-marker-stack) ; works nicely with M-.
 	    ))
