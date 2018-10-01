@@ -44,7 +44,7 @@
  '(minimap-window-location (quote right))
  '(package-selected-packages
    (quote
-    (semantic-mode srefactor go-mode htmlize cl-lib zpresent org-present ox-reveal xcscope writegood-mode whitespace-cleanup-mode which-key wc-mode vagrant-tramp use-package unfill undohist undo-tree spray solarized-theme smex restart-emacs powerline popup php-mode pdf-tools paredit olivetti ocp-indent minimap markdown-mode magit lice latex-preview-pane imenu-anywhere ido-yes-or-no ido-occur guru-mode fstar-mode flx-ido exec-path-from-shell epresent elpy dockerfile-mode deferred company-coq caml boogie-friends auto-package-update ag adoc-mode)))
+    (vlf semantic-mode srefactor go-mode htmlize cl-lib zpresent org-present ox-reveal xcscope writegood-mode whitespace-cleanup-mode which-key wc-mode vagrant-tramp use-package unfill undohist undo-tree spray solarized-theme smex restart-emacs powerline popup php-mode pdf-tools paredit olivetti ocp-indent minimap markdown-mode magit lice latex-preview-pane imenu-anywhere ido-yes-or-no ido-occur guru-mode fstar-mode flx-ido exec-path-from-shell epresent elpy dockerfile-mode deferred company-coq caml boogie-friends auto-package-update ag adoc-mode)))
  '(proof-electric-terminator-enable nil)
  '(send-mail-function (quote mailclient-send-it))
  '(tool-bar-mode nil))
@@ -598,3 +598,14 @@ a pulse"
 ;; magit. Either have to fix it and remove this, or maybe move to
 ;; emacs 25?
 (defconst lisp-mode-symbol-regexp "\\(?:\\sw\\|\\s_\\|\\\\.\\)+")
+
+;; Make large files less painful to use
+(use-package vlf
+  :ensure t
+  :config
+  (progn
+    (require 'vlf-setup)
+    (add-hook 'vlf-mode-hook
+	      #'(lambda ()
+		  (require 'vlf-follow)
+		  (vlf-start-follow 1)))))
