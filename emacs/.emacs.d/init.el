@@ -608,4 +608,4 @@ a pulse"
     (add-hook 'vlf-mode-hook
 	      #'(lambda ()
 		  (require 'vlf-follow)
-		  (vlf-start-follow 1)))))
+		  (vlf-start-follow 0.01)))))
