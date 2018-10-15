@@ -228,7 +228,7 @@
 (setq fstar-subp-prover-args (lambda () `(
 					  "--use_hints" ;; "--record_hints"
 					  "--detail_hint_replay"
-					  "--include" "/home/jay/everest/kremlin/kremlib"
+					  ;; "--include" "/home/jay/everest/kremlin/kremlib"
 					  "--__no_positivity" ;; For QUIC (due to pointers and stuff)
 					  "--cache_checked_modules"
 					  )))
