@@ -107,9 +107,10 @@
 (display-time-mode 1)
 
 (use-package pdf-tools
-  :magic ("%PDF" . pdf-view-mode)
-  :config
-  (pdf-tools-install))
+  :ensure t
+  :defer t
+  :magic ("%PDF" . pdf-view-mode))
+(pdf-tools-install)
 
 (use-package magit
   :ensure t
