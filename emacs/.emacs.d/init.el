@@ -610,3 +610,6 @@ a pulse"
 	      #'(lambda ()
 		  (require 'vlf-follow)
 		  (vlf-start-follow 0.01)))))
+
+;; Make tramp uses the entire path it gets from the remote
+(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
