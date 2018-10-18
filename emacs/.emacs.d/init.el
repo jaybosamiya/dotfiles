@@ -222,7 +222,6 @@
 
 ;; Set up F* integration
 (require 'fstar-mode)
-(setq fstar-prefix-path "/home/jay/everest/FStar/")
 (setq fstar-executable "fstar.exe")
 (setq fstar-smt-executable "z3")
 (setq fstar-subp-prover-args (lambda () `(
