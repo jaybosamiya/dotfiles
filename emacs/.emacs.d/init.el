@@ -631,7 +631,6 @@ a pulse"
 	 (serv-history-list (my-read history-path))
 	 (serv-name (ido-completing-read "Server: " serv-history-list)))
     (progn
-      (unless (member serv-name serv-history-list)
-	(my-write history-path (cons serv-name serv-history-list)))
+      (my-write history-path (cons serv-name (remove serv-name serv-history-list)))
       (dired (concat "/sshx:" serv-name ":~")))))
 (global-set-key (kbd "<f6>") 'open-home-on-server)
