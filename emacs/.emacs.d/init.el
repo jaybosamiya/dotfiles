@@ -614,8 +614,24 @@ a pulse"
 (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
 
 ;; Be able to easily jump over to my servers
-(defun open-home-on-server (serv-name)
+(defun open-home-on-server ()
   "Opens up the home directory on a server"
-  (interactive "MServer? ")
-  (dired (concat "/sshx:" serv-name ":~")))
+  (interactive)
+  (defun my-write (file data)
+    (with-temp-file file
+      (prin1 data (current-buffer))))
+  (defun my-read (file)
+    (if (file-exists-p file)
+	(with-temp-buffer
+	  (insert-file-contents file)
+	  (goto-char (point-min))
+	  (read (current-buffer)))
+      nil))
+  (let* ((history-path "~/.emacs.d/servers_accessed.txt")
+	 (serv-history-list (my-read history-path))
+	 (serv-name (ido-completing-read "Server: " serv-history-list)))
+    (progn
+      (unless (member serv-name serv-history-list)
+	(my-write history-path (cons serv-name serv-history-list)))
+      (dired (concat "/sshx:" serv-name ":~")))))
 (global-set-key (kbd "<f6>") 'open-home-on-server)
