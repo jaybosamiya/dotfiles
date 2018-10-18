@@ -612,3 +612,10 @@ a pulse"
 
 ;; Make tramp uses the entire path it gets from the remote
 (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+
+;; Be able to easily jump over to my servers
+(defun open-home-on-server (serv-name)
+  "Opens up the home directory on a server"
+  (interactive "MServer? ")
+  (dired (concat "/sshx:" serv-name ":~")))
+(global-set-key (kbd "<f6>") 'open-home-on-server)
