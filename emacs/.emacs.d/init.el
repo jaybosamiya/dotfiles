@@ -228,7 +228,7 @@
 					  "--use_hints" ;; "--record_hints"
 					  "--detail_hint_replay"
 					  ;; "--include" "/home/jay/everest/kremlin/kremlib"
-					  "--__no_positivity" ;; For QUIC (due to pointers and stuff)
+					  ;; "--__no_positivity" ;; For QUIC (due to pointers and stuff)
 					  "--cache_checked_modules"
 					  )))
 (defun fstar-set-to-release-paths ()
