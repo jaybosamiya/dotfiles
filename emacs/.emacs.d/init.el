@@ -46,6 +46,41 @@
    (quote
     (vlf semantic-mode srefactor go-mode htmlize cl-lib zpresent org-present ox-reveal xcscope writegood-mode whitespace-cleanup-mode which-key wc-mode vagrant-tramp use-package unfill undohist undo-tree spray solarized-theme smex restart-emacs powerline popup php-mode pdf-tools paredit olivetti ocp-indent minimap markdown-mode magit lice latex-preview-pane imenu-anywhere ido-yes-or-no ido-occur guru-mode fstar-mode flx-ido exec-path-from-shell epresent elpy dockerfile-mode deferred company-coq caml boogie-friends auto-package-update ag adoc-mode)))
  '(proof-electric-terminator-enable nil)
+ '(safe-local-variable-values
+   (quote
+    ((fstar-subp-prover-additional-args lambda nil
+					(require
+					 (quote magit))
+					(split-string
+					 (string-join
+					  (remove-if
+					   (lambda
+					     (s)
+					     (string-match-p "^$" s))
+					   (mapcar
+					    (lambda
+					      (s)
+					      (replace-regexp-in-string "--include "
+									(concat "--include "
+										(magit-toplevel))
+									s))
+					    (mapcar
+					     (lambda
+					       (s)
+					       (replace-regexp-in-string "[[:space:]]*#.*$" "" s))
+					     (split-string
+					      (with-temp-buffer
+						(insert-file-contents
+						 (concat
+						  (magit-toplevel)
+						  "fstar-args"))
+						(buffer-substring-no-properties
+						 (point-min)
+						 (point-max)))
+					      "
+" t))))
+					  " ")
+					 " " t)))))
  '(send-mail-function (quote mailclient-send-it))
  '(tool-bar-mode nil))
 (custom-set-faces
