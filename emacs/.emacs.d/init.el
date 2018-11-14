@@ -633,3 +633,6 @@ a pulse"
     (my-write history-path (cons serv-name (remove serv-name serv-history-list)))
     (dired (concat "/sshx:" serv-name ":~"))))
 (global-set-key (kbd "<f6>") 'open-home-on-server)
+
+;; Enable ".dir-locals.el" usage even via tramp
+(setq enable-remote-dir-locals t)
