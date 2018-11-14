@@ -171,21 +171,21 @@ if [ -d /usr/lib/ccache ]; then
     export PATH="/usr/lib/ccache:$PATH"
 fi
 
-# ntfy integration
-eval "$(ntfy shell-integration)"
-mobile-send () {
-    k="$@[*]";
-    k=$(if [ -z "$k" ]; then echo "ping"; else echo "$k"; fi);
-    ntfy -b insta send "$k";
-}
-mobile-when-finished () {
-    k="${history[$HISTCMD]}";
-    k="${k//; mobile-when-finished/}";
-    k="${k//;mobile-when-finished/}";
-    k="${k//&& mobile-when-finished}";
-    k="${k//&&mobile-when-finished}";
-    mobile-send "$k";
-}
+# # ntfy integration
+# eval "$(ntfy shell-integration)"
+# mobile-send () {
+#     k="$@[*]";
+#     k=$(if [ -z "$k" ]; then echo "ping"; else echo "$k"; fi);
+#     ntfy -b insta send "$k";
+# }
+# mobile-when-finished () {
+#     k="${history[$HISTCMD]}";
+#     k="${k//; mobile-when-finished/}";
+#     k="${k//;mobile-when-finished/}";
+#     k="${k//&& mobile-when-finished}";
+#     k="${k//&&mobile-when-finished}";
+#     mobile-send "$k";
+# }
 
 xbox-bluetooth () {
     echo 1 | sudo tee /sys/module/bluetooth/parameters/disable_ertm
