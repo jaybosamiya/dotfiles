@@ -61,6 +61,18 @@ function public-ip() {
     curl https://ipinfo.io/ip
 }
 
+function waitmake() {
+    while true; do
+	inotifywait -e modify -r .
+	make
+	sleep 0.1
+    done
+}
+
+function latexwaitmake() {
+    yes q | waitmake
+}
+
 function pdfsmaller() {
     case $1 in
 	vlow)
