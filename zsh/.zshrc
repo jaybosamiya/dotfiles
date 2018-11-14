@@ -57,6 +57,10 @@ alias screensaver='cmatrix -abs'
 
 alias axel='axel -a -n 10'
 
+function public-ip() {
+    curl https://ipinfo.io/ip
+}
+
 function pdfsmaller() {
     case $1 in
 	vlow)
