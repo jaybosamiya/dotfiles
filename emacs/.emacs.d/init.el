@@ -63,7 +63,8 @@
 					      (replace-regexp-in-string "--include "
 									(concat "--include "
 										(replace-regexp-in-string "^/ssh.*:/" "/"
-													  (magit-toplevel)))
+													  (file-relative-name
+													   (magit-toplevel))))
 									s))
 					    (mapcar
 					     (lambda
