@@ -44,7 +44,7 @@
  '(minimap-window-location (quote right))
  '(package-selected-packages
    (quote
-    (vlf semantic-mode srefactor go-mode htmlize cl-lib zpresent org-present ox-reveal xcscope writegood-mode whitespace-cleanup-mode which-key wc-mode vagrant-tramp use-package unfill undohist undo-tree spray solarized-theme smex restart-emacs powerline popup php-mode pdf-tools paredit olivetti ocp-indent minimap markdown-mode magit lice latex-preview-pane imenu-anywhere ido-yes-or-no ido-occur guru-mode fstar-mode flx-ido exec-path-from-shell epresent elpy dockerfile-mode deferred company-coq caml boogie-friends auto-package-update ag adoc-mode)))
+    (keyfreq vlf semantic-mode srefactor go-mode htmlize cl-lib zpresent org-present ox-reveal xcscope writegood-mode whitespace-cleanup-mode which-key wc-mode vagrant-tramp use-package unfill undohist undo-tree spray solarized-theme smex restart-emacs powerline popup php-mode pdf-tools paredit olivetti ocp-indent minimap markdown-mode magit lice latex-preview-pane imenu-anywhere ido-yes-or-no ido-occur guru-mode fstar-mode flx-ido exec-path-from-shell epresent elpy dockerfile-mode deferred company-coq caml boogie-friends auto-package-update ag adoc-mode)))
  '(proof-electric-terminator-enable nil)
  '(safe-local-variable-values
    (quote
@@ -673,3 +673,12 @@ a pulse"
 
 ;; Enable ".dir-locals.el" usage even via tramp
 (setq enable-remote-dir-locals t)
+
+;; Keep track of key frequencies. Can use `keyfreq-show` to see how
+;; many times I've used each command
+(use-package keyfreq
+  :ensure t
+  :init
+  (progn
+    (keyfreq-mode 1)
+    (keyfreq-autosave-mode 1)))
