@@ -3,7 +3,7 @@
 SRC_DIR=/home/jay/Desktop/CMU/
 REMOTE=gdrive		   # Need to have [rclone config]ured for this
 REMOTE_DIR=cmu
-REMOTE_BACKUP_DIR=backup-cmu
+REMOTE_BACKUP_DIR=backup-cmu-$(date +"%Y-%m")
 
 rclone copy ${SRC_DIR} ${REMOTE}:${REMOTE_DIR} \
        --progress \
