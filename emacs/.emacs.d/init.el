@@ -44,7 +44,7 @@
  '(minimap-window-location (quote right))
  '(package-selected-packages
    (quote
-    (lua-mode ini-mode keyfreq vlf semantic-mode srefactor go-mode htmlize cl-lib zpresent org-present ox-reveal xcscope writegood-mode whitespace-cleanup-mode which-key wc-mode vagrant-tramp use-package unfill undohist undo-tree spray solarized-theme smex restart-emacs powerline popup php-mode pdf-tools paredit olivetti ocp-indent minimap markdown-mode magit lice latex-preview-pane imenu-anywhere ido-yes-or-no ido-occur guru-mode fstar-mode flx-ido exec-path-from-shell epresent elpy dockerfile-mode deferred company-coq caml boogie-friends auto-package-update ag adoc-mode)))
+    (iedit lua-mode ini-mode keyfreq vlf semantic-mode srefactor go-mode htmlize cl-lib zpresent org-present ox-reveal xcscope writegood-mode whitespace-cleanup-mode which-key wc-mode vagrant-tramp use-package unfill undohist undo-tree spray solarized-theme smex restart-emacs powerline popup php-mode pdf-tools paredit olivetti ocp-indent minimap markdown-mode magit lice latex-preview-pane imenu-anywhere ido-yes-or-no ido-occur guru-mode fstar-mode flx-ido exec-path-from-shell epresent elpy dockerfile-mode deferred company-coq caml boogie-friends auto-package-update ag adoc-mode)))
  '(proof-electric-terminator-enable nil)
  '(safe-local-variable-values
    (quote
@@ -682,3 +682,8 @@ a pulse"
   (progn
     (keyfreq-mode 1)
     (keyfreq-autosave-mode 1)))
+
+;; Allow multi line editing.
+;; Use using C-; when over a symbol
+(use-package iedit
+  :ensure t)
