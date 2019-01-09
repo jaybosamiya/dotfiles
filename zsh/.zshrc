@@ -102,7 +102,7 @@ function pdfsmaller() {
     gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/${SET} -dNOPAUSE -dQUIET -dBATCH -sOutputFile=${3} ${2}
 }
 
-function dlist() { pushd ~/this-sem/Research/misc-testing/dlist/ind }
+function dlist() { pushd ~/this-sem/Research/dlist/ind/ }
 function caps() { pushd ~/this-sem/Research/CAPS-project/ }
 
 function rc() { emacs ~/.zshrc && source ~/.zshrc }
