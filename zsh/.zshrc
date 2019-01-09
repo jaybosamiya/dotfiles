@@ -64,7 +64,7 @@ function public-ip() {
 function waitmake() {
     while true; do
 	inotifywait -e modify -r .
-	make
+	make "$@"
 	sleep 0.1
     done
 }
