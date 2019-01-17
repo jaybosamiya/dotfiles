@@ -10,4 +10,5 @@ rclone copy ${SRC_DIR} ${REMOTE}:${REMOTE_DIR} \
        --fast-list \
        --checksum \
        --copy-links \
+       --drive-chunk-size 128M \
        --backup-dir ${REMOTE}:${REMOTE_BACKUP_DIR}
