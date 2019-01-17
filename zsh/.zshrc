@@ -39,6 +39,12 @@ alias proxyhaven='echo "Port 10000. Ctrl+C to stop proxy" && ssh -D 10000 -C -q 
 alias diavola='ssh jayb@diavola.andrew.cmu.edu'
 alias vsekardesk='ssh jayb@vsekardesk.ece.cmu.edu'
 
+alias aurora='ssh jayb@aurorar8-0d73.wv.cc.cmu.edu'
+alias xaurora='xpra attach ssh:jayb@aurorar8-0d73.wv.cc.cmu.edu:13'
+function xaurora-start() {
+    xpra start ssh:jayb@aurorar8-0d73.wv.cc.cmu.edu --start="$1"
+}
+
 alias temax='emacs -nw'
 alias cemax='emacsclient'
 export ALTERNATE_EDITOR='emacs' # Opens emacs if no emacs server is
