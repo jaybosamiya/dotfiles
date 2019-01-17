@@ -360,7 +360,8 @@
 ;; first
 (use-package ggtags
   :ensure t
-  :hook ((c-mode c++-mode java-mode) . ggtags-mode))
+  :hook ((c-mode c++-mode java-mode) . ggtags-mode)
+  :custom-face (ggtags-highlight ((t nil))))
 
 ;; Elpy for Python. Requires to have run "pip install jedi flake8
 ;; autopep8 yapf" on system in advance.
