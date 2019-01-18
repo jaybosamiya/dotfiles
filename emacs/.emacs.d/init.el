@@ -44,7 +44,7 @@
  '(minimap-window-location (quote right))
  '(package-selected-packages
    (quote
-    (ggtags haskell-mode zygospore iedit lua-mode ini-mode keyfreq vlf semantic-mode srefactor go-mode htmlize cl-lib zpresent org-present ox-reveal xcscope writegood-mode whitespace-cleanup-mode which-key wc-mode vagrant-tramp use-package unfill undohist undo-tree spray solarized-theme smex restart-emacs powerline popup php-mode pdf-tools paredit olivetti ocp-indent minimap markdown-mode magit lice latex-preview-pane imenu-anywhere ido-yes-or-no ido-occur guru-mode fstar-mode flx-ido exec-path-from-shell epresent elpy dockerfile-mode deferred company-coq caml boogie-friends auto-package-update ag adoc-mode)))
+    (jdee ggtags haskell-mode zygospore iedit lua-mode ini-mode keyfreq vlf semantic-mode srefactor go-mode htmlize cl-lib zpresent org-present ox-reveal xcscope writegood-mode whitespace-cleanup-mode which-key wc-mode vagrant-tramp use-package unfill undohist undo-tree spray solarized-theme smex restart-emacs powerline popup php-mode pdf-tools paredit olivetti ocp-indent minimap markdown-mode magit lice latex-preview-pane imenu-anywhere ido-yes-or-no ido-occur guru-mode fstar-mode flx-ido exec-path-from-shell epresent elpy dockerfile-mode deferred company-coq caml boogie-friends auto-package-update ag adoc-mode)))
  '(proof-electric-terminator-enable nil)
  '(safe-local-variable-values
    (quote
@@ -699,3 +699,8 @@ a pulse"
 (use-package zygospore
   :ensure t
   :bind ("C-x 1" . zygospore-toggle-delete-other-windows))
+
+;; Java Support via JDEE
+(use-package jdee
+  :config (progn
+	    (setq jdee-server-dir "~/.emacs.d/jdee-server")))
