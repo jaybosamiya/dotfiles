@@ -44,7 +44,7 @@
  '(minimap-window-location (quote right))
  '(package-selected-packages
    (quote
-    (jdee ggtags haskell-mode zygospore iedit lua-mode ini-mode keyfreq vlf semantic-mode srefactor go-mode htmlize cl-lib zpresent org-present ox-reveal xcscope writegood-mode whitespace-cleanup-mode which-key wc-mode vagrant-tramp use-package unfill undohist undo-tree spray solarized-theme smex restart-emacs powerline popup php-mode pdf-tools paredit olivetti ocp-indent minimap markdown-mode magit lice latex-preview-pane imenu-anywhere ido-yes-or-no ido-occur guru-mode fstar-mode flx-ido exec-path-from-shell epresent elpy dockerfile-mode deferred company-coq caml boogie-friends auto-package-update ag adoc-mode)))
+    (eclim ggtags haskell-mode zygospore iedit lua-mode ini-mode keyfreq vlf semantic-mode srefactor go-mode htmlize cl-lib zpresent org-present ox-reveal xcscope writegood-mode whitespace-cleanup-mode which-key wc-mode vagrant-tramp use-package unfill undohist undo-tree spray solarized-theme smex restart-emacs powerline popup php-mode pdf-tools paredit olivetti ocp-indent minimap markdown-mode magit lice latex-preview-pane imenu-anywhere ido-yes-or-no ido-occur guru-mode fstar-mode flx-ido exec-path-from-shell epresent elpy dockerfile-mode deferred company-coq caml boogie-friends auto-package-update ag adoc-mode)))
  '(proof-electric-terminator-enable nil)
  '(safe-local-variable-values
    (quote
@@ -91,6 +91,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Source Code Pro" :foundry "adobe" :slant normal :weight normal :height 113 :width normal))))
+ '(ggtags-highlight ((t nil)))
  '(minimap-active-region-background ((t (:inverse-video t))))
  '(writegood-duplicates-face ((t (:underline (:color "DodgerBlue1" :style wave)))))
  '(writegood-passive-voice-face ((t (:underline "PaleTurquoise4"))))
@@ -700,7 +701,8 @@ a pulse"
   :ensure t
   :bind ("C-x 1" . zygospore-toggle-delete-other-windows))
 
-;; Java Support via JDEE
-(use-package jdee
-  :config (progn
-	    (setq jdee-server-dir "~/.emacs.d/jdee-server")))
+;; Java Support via Eclim (requires Eclipse)
+(use-package eclim
+  :config
+  (setq eclimd-autostart t)
+  :hook (java-mode . eclim-mode))
