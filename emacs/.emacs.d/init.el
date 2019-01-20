@@ -704,5 +704,19 @@ a pulse"
 ;; Java Support via Eclim (requires Eclipse)
 (use-package eclim
   :config
-  (setq eclimd-autostart t)
+  (progn
+    ;; Autostart Eclim
+    (setq eclimd-autostart t)
+    (setq eclimd-default-workspace "~/tmp/eclim-ws/")
+    (setq eclimd-autostart-with-default-workspace t)
+    ;; Display help at point
+    (setq help-at-pt-display-when-idle t)
+    (setq help-at-pt-timer-delay 0.1)
+    (help-at-pt-set-timer))
   :hook (java-mode . eclim-mode))
+(use-package company-emacs-eclim
+  :after (eclim company)
+  :config
+  (progn
+    (company-emacs-eclim-setup)
+    (setq company-emacs-eclim-ignore-case t)))
