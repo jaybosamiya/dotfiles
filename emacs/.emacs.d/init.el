@@ -235,6 +235,7 @@
 ;; Turn on global auto completion
 (require 'company)
 (add-hook 'after-init-hook 'global-company-mode)
+(global-set-key (kbd "C-<tab>") 'company-complete)
 
 ;; ;; Set up SLIME for common add
 ;; (lisp-hook 'lisp-mode-hook (lambda ()
