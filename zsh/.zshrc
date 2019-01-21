@@ -30,6 +30,24 @@ alias fstarr='fstar --record_hints'
 alias fstarru='fstaru --record_hints'
 alias fstarur='fstarru'
 
+function fstar-profile() {
+    if [ "$#" -ne 2 ]; then
+	echo "Usage: fstar-profile {fst file} {admit except this}"
+	return 1
+    fi
+    if test -n "$(find . -maxdepth 1 -name 'queries-*.smt2' -print -quit)"
+    then
+	echo "Pre existing smt2 files found. Quitting".
+	return 1
+    fi
+    echo "\033[1m\033[4mRunning F*\033[0m";
+    fstar.exe --query_stats --admit_except "${2}" --log_queries "${1}"
+    for i in queries-*.smt2; do
+	echo "\033[1m\033[4mProfiling ${i}\033[0m";
+	z3 smt.case_split=3 smt.relevancy=2 model=true auto_config=false smt.qi.profile=true "${i}" |& grep quantifier_instances | sort -t ':' -k 2 | tee "${i}.profiled"
+    done
+}
+
 alias manually-installed-to-auto='sudo apt-mark auto'
 
 alias record-term='asciinema rec --yes -i 1 --title'
