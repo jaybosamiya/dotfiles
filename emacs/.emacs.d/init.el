@@ -53,7 +53,7 @@
 					 (quote magit))
 					(split-string
 					 (string-join
-					  (remove-if
+					  (cl-remove-if
 					   (lambda
 					     (s)
 					     (string-match-p "^$" s))
