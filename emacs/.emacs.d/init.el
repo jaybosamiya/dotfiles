@@ -44,7 +44,7 @@
  '(minimap-window-location (quote right))
  '(package-selected-packages
    (quote
-    (eclim ggtags haskell-mode zygospore iedit lua-mode ini-mode keyfreq vlf semantic-mode srefactor go-mode htmlize cl-lib zpresent org-present ox-reveal xcscope writegood-mode whitespace-cleanup-mode which-key wc-mode vagrant-tramp use-package unfill undohist undo-tree spray solarized-theme smex restart-emacs powerline popup php-mode pdf-tools paredit olivetti ocp-indent minimap markdown-mode magit lice latex-preview-pane imenu-anywhere ido-yes-or-no ido-occur guru-mode fstar-mode flx-ido exec-path-from-shell epresent elpy dockerfile-mode deferred company-coq caml boogie-friends auto-package-update ag adoc-mode)))
+    (visual-fill-column eclim ggtags haskell-mode zygospore iedit lua-mode ini-mode keyfreq vlf semantic-mode srefactor go-mode htmlize cl-lib zpresent org-present ox-reveal xcscope writegood-mode whitespace-cleanup-mode which-key wc-mode vagrant-tramp use-package unfill undohist undo-tree spray solarized-theme smex restart-emacs powerline popup php-mode pdf-tools paredit olivetti ocp-indent minimap markdown-mode magit lice latex-preview-pane imenu-anywhere ido-yes-or-no ido-occur guru-mode fstar-mode flx-ido exec-path-from-shell epresent elpy dockerfile-mode deferred company-coq caml boogie-friends auto-package-update ag adoc-mode)))
  '(proof-electric-terminator-enable nil)
  '(safe-local-variable-values
    (quote
@@ -718,3 +718,19 @@ a pulse"
   (progn
     (company-emacs-eclim-setup)
     (setq company-emacs-eclim-ignore-case t)))
+
+;; Use visual-fill-column to wrap buffers at a specific width instead
+;; of full width, as visual-line-mode does
+(use-package visual-fill-column
+  :ensure t)
+
+;; Set up "C-x v" to switch into and out of visual line wrapping
+(setq-default visual---state nil)
+(make-variable-buffer-local 'visual---state)
+(defun toggle-visual ()
+  (interactive)
+  (setq visual---state (not visual---state))
+  (let ((x (if visual---state 1 -1)))
+    (visual-fill-column-mode x)
+    (visual-line-mode x)))
+(global-set-key (kbd "C-x v") 'toggle-visual)
