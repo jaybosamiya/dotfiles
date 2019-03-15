@@ -318,6 +318,7 @@
 	    (add-hook 'before-save-hook 'ocp-indent-buffer nil t)
 	    (local-set-key (kbd "C-c C-k") 'killall-z3)
 	    (local-set-key (kbd "C-'") 'fstar-jump-to-definition-other-window)
+	    (local-set-key (kbd "M-'") 'fstar-jump-to-related-error-other-window)
 	    (local-set-key (kbd "M-,") 'xref-pop-marker-stack) ; works nicely with M-.
 	    ))
 
