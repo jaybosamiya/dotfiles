@@ -310,6 +310,7 @@
   (call-process "killall" nil nil nil "z3"))
 (add-hook 'fstar-mode-hook
 	  (lambda ()
+	    (superword-mode 1)
 	    ; (auto-fill-mode)
 	    (ocp-setup-indent)
 	    ;; (add-hook 'fstar-newline-hook
