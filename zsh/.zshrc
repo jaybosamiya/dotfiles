@@ -65,6 +65,9 @@ function xaurora-start() {
 
 alias temax='emacs -nw'
 alias cemax='emacsclient'
+function e() {
+    emacs "$@" &!
+}
 export ALTERNATE_EDITOR='emacs' # Opens emacs if no emacs server is
 				# already started
 
