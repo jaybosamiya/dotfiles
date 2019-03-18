@@ -84,6 +84,23 @@ alias screensaver='cmatrix -abs'
 
 alias axel='axel -a -n 10'
 
+function comment_aux() {
+    if [ "$#" -ne 3 ]; then
+	echo "Usage: comment_aux {start} {comment-text} {end}"
+	return 1
+    fi
+    figlet "$2" | awk '{print "'$1'" $0 "'$3'"}'
+}
+function comment_c() {
+    comment_aux '// ' "$(echo "$@")" ''
+}
+function comment_cpp() {
+    comment_aux '/* ' "$(echo "$@")" ' */'
+}
+function comment_ocaml() {
+    comment_aux '(* ' "$(echo "$@")" ' *)'
+}
+
 function public-ip() {
     curl https://ipinfo.io/ip
 }
