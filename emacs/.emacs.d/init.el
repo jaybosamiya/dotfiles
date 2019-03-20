@@ -452,7 +452,7 @@ a pulse"
 (global-linum-mode)
 
 ;; Disable linum-mode for incompatible cases
-(dolist (hook '(pdf-view-mode-hook))
+(dolist (hook '(pdf-view-mode-hook olivetti-mode-hook))
   (add-hook hook '(lambda () (linum-mode 0))))
 
 ;; Handle escape sequence colorization properly for compilation-mode
