@@ -1,4 +1,5 @@
 *~
+emacs/.emacs.d/transient/
 emacs/.emacs.d/servers_accessed.txt
 emacs/.emacs.d/semanticdb/
 emacs/.emacs.d/srecode-map.el
