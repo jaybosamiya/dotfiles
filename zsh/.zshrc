@@ -100,6 +100,9 @@ function comment_cpp() {
 function comment_ocaml() {
     comment_aux '(* ' "$(echo "$@")" ' *)'
 }
+function comment_shell() {
+    comment_aux '# ' "$(echo "$@")" ''
+}
 
 function public-ip() {
     curl https://ipinfo.io/ip
