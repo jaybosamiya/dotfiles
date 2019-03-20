@@ -14,7 +14,11 @@
 (tool-bar-mode -1)
 
 (eval-when-compile
-  (require 'use-package))
+  (or (require 'use-package nil t)
+      (progn
+	(package-refresh-contents)
+	(package-install 'use-package)
+	(message "On a new system. Just installed use-package!"))))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
