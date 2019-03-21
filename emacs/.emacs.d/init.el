@@ -127,10 +127,13 @@
 (flx-ido-mode t)
 
 ;; Get some distraction free goodness :)
-(require 'olivetti)
-(global-set-key (kbd "C-<f11>") 'olivetti-mode)
-(setq olivetti-hide-mode-line t)
-(setq olivetti-body-width 90)
+(use-package olivetti
+  :ensure t
+  :bind ("C-<f11>" . olivetti-mode)
+  :config
+  (progn
+    (setq olivetti-hide-mode-line t)
+    (setq olivetti-body-width 90)))
 
 ;; smex
 (use-package smex
