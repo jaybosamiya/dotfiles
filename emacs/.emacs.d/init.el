@@ -139,7 +139,8 @@
 (use-package fold-this
   :ensure t
   :demand t
-  :bind (("C-c C-f" . fold-this)
+  :bind (("C-c C-f" . fold-this-all)
+	 ("C-c C-S-f" . fold-this)
 	 ("C-c M-f" . fold-this-unfold-all)))
 
 ;; smex
