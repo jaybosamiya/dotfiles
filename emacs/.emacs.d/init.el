@@ -130,6 +130,7 @@
 (require 'olivetti)
 (global-set-key (kbd "C-<f11>") 'olivetti-mode)
 (setq olivetti-hide-mode-line t)
+(setq olivetti-body-width 90)
 
 ;; smex
 (use-package smex
