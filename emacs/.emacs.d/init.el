@@ -133,7 +133,7 @@
   :config
   (progn
     (setq olivetti-hide-mode-line t)
-    (setq olivetti-body-width 90)))
+    (setq-default olivetti-body-width 90)))
 
 ;; smex
 (use-package smex
