@@ -101,6 +101,9 @@
  '(writegood-passive-voice-face ((t (:underline "PaleTurquoise4"))))
  '(writegood-weasels-face ((t (:underline (:color "yellow4" :style wave))))))
 
+;; Make minibuffer history persist across sessions
+(savehist-mode 1)
+
 ;; Exec Path from Shell
 (use-package exec-path-from-shell
   :ensure t
