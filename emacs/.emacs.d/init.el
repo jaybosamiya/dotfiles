@@ -111,11 +111,11 @@
   :config
   (exec-path-from-shell-initialize))
 
-;; Start off emacs server, so that `emacsclient` can be used
-(load "server")
-(if (server-running-p)
-    (message "%s" "Server already started by someone else")
-  (server-start))
+;; ;; Start off emacs server, so that `emacsclient` can be used
+;; (load "server")
+;; (if (server-running-p)
+;;     (message "%s" "Server already started by someone else")
+;;   (server-start))
 
 ;; Allow loading customizations from the f0xtr0t directory
 (add-to-list 'load-path
