@@ -11,4 +11,6 @@ rclone copy ${SRC_DIR} ${REMOTE}:${REMOTE_DIR} \
        --checksum \
        --copy-links \
        --drive-chunk-size 128M \
+       --exclude '.git/' \
+       --exclude '.svn/' \
        --backup-dir ${REMOTE}:${REMOTE_BACKUP_DIR}
