@@ -342,6 +342,7 @@
 	    (local-set-key (kbd "C-'") 'fstar-jump-to-definition-other-window)
 	    (local-set-key (kbd "M-'") 'fstar-jump-to-related-error-other-window)
 	    (local-set-key (kbd "M-,") 'xref-pop-marker-stack) ; works nicely with M-.
+	    (local-set-key (kbd "<f12>") 'flycheck-clear)
 	    ))
 
 ;; Set up markdown editing
