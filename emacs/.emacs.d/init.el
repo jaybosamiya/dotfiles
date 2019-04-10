@@ -190,6 +190,10 @@
   	    (concat (nth 1 org-emphasis-regexp-components) "s"))
     ;; Actually update the emphasis regexp
     (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components))
+  ;; Allow snippets (eg: "< s TAB" for source,
+  ;;                  or "< q TAB" for quote,
+  ;;                  or "< l TAB" for LaTeX etc)
+  (require 'org-tempo)
   ;; Enable extra backends
   (setq org-export-backends
 	(quote (ascii html icalendar latex md deck reveal)))
