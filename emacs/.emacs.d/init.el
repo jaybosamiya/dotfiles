@@ -144,7 +144,8 @@
   :demand t
   :bind (("C-c C-f" . fold-this-all)
 	 ("C-c C-S-f" . fold-this)
-	 ("C-c M-f" . fold-this-unfold-all)))
+	 ("C-c M-f" . fold-this-unfold-at-point)
+	 ("C-c M-F" . fold-this-unfold-all)))
 
 ;; smex
 (use-package smex
