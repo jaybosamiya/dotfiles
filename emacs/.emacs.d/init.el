@@ -180,6 +180,7 @@
   (org-support-shift-select t "Allow selecting with shift")
   (org-hide-emphasis-markers t "Hide emphasis markers (/, _, etc.)")
   (org-export-with-toc nil "Disable table-of-contents generation")
+  (org-startup-with-inline-images t "Show images inline upon startup")
   :config
   (progn
     ;; Allow quotes inside of emphasis sections : Based off
