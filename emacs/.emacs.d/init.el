@@ -111,6 +111,10 @@
   :config
   (exec-path-from-shell-initialize))
 
+;; Be able to restart emacs from within emacs
+(use-package restart-emacs
+  :ensure t)
+
 ;; ;; Start off emacs server, so that `emacsclient` can be used
 ;; (load "server")
 ;; (if (server-running-p)
@@ -400,6 +404,7 @@
 ;; Elpy for Python. Requires to have run "pip install jedi flake8
 ;; autopep8 yapf" on system in advance.
 (use-package elpy
+  :ensure t
   :hook (python-mode . elpy-mode)
   :config
   (elpy-enable))
@@ -765,3 +770,8 @@ a pulse"
     (visual-fill-column-mode x)
     (visual-line-mode x)))
 (global-set-key (kbd "C-x v") 'toggle-visual)
+
+;; Make sure to get markdown-mode
+(use-package markdown-mode
+  :ensure t
+  :mode ("\\.md\\'" . markdown-mode))
