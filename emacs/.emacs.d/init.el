@@ -298,8 +298,7 @@
 (setq fstar-subp-prover-args (lambda () `(
 					  "--use_hints" ;; "--record_hints"
 					  "--detail_hint_replay"
-					  ;; "--include" "/home/jay/everest/kremlin/kremlib"
-					  ;; "--__no_positivity" ;; For QUIC (due to pointers and stuff)
+					  "--include" "/home/jay/everest/kremlin/kremlib"
 					  "--cache_checked_modules"
 					  )))
 (defun fstar-set-to-release-paths ()
