@@ -48,7 +48,7 @@
  '(minimap-window-location (quote right))
  '(package-selected-packages
    (quote
-    (wc-mode vagrant-tramp undohist solarized-theme restart-emacs powerline php-mode paredit ocp-indent markdown markdown-mode guru-mode elpy dockerfile-mode caml boogie-friends visual-fill-column ido-yes-or-no ag xcscope ido-occur auctex fold-this eclim haskell-mode zygospore iedit ini-mode keyfreq vlf semantic-mode srefactor cl-lib zpresent org-present ox-reveal undo-tree minimap epresent)))
+    (rainbox-identifiers-mode wc-mode vagrant-tramp undohist solarized-theme restart-emacs powerline php-mode paredit ocp-indent markdown markdown-mode guru-mode elpy dockerfile-mode caml boogie-friends visual-fill-column ido-yes-or-no ag xcscope ido-occur auctex fold-this eclim haskell-mode zygospore iedit ini-mode keyfreq vlf semantic-mode srefactor cl-lib zpresent org-present ox-reveal undo-tree minimap epresent)))
  '(proof-electric-terminator-enable nil)
  '(safe-local-variable-values
    (quote
@@ -774,3 +774,9 @@ a pulse"
 (use-package markdown-mode
   :ensure t
   :mode ("\\.md\\'" . markdown-mode))
+
+;; Bring in rainbow-identifiers-mode; super useful when trying to
+;; deobfuscate or working with complex code with too many similar
+;; variable names.
+(use-package rainbow-identifiers
+  :ensure t)
