@@ -48,7 +48,7 @@
  '(minimap-window-location (quote right))
  '(package-selected-packages
    (quote
-    (rainbox-identifiers-mode wc-mode vagrant-tramp undohist solarized-theme restart-emacs powerline php-mode paredit ocp-indent markdown markdown-mode guru-mode elpy dockerfile-mode caml boogie-friends visual-fill-column ido-yes-or-no ag xcscope ido-occur auctex fold-this eclim haskell-mode zygospore iedit ini-mode keyfreq vlf semantic-mode srefactor cl-lib zpresent org-present ox-reveal undo-tree minimap epresent)))
+    (smooth-scrolling rainbow-identifiers-mode wc-mode vagrant-tramp undohist solarized-theme restart-emacs powerline php-mode paredit ocp-indent markdown markdown-mode guru-mode elpy dockerfile-mode caml boogie-friends visual-fill-column ido-yes-or-no ag xcscope ido-occur auctex fold-this eclim haskell-mode zygospore iedit ini-mode keyfreq vlf semantic-mode srefactor cl-lib zpresent org-present ox-reveal undo-tree minimap epresent)))
  '(proof-electric-terminator-enable nil)
  '(safe-local-variable-values
    (quote
@@ -409,12 +409,17 @@
   (elpy-enable))
 
 ;; Smoothen scrolling
-(setq scroll-margin 1
-      scroll-conservatively 0
-      scroll-up-aggressively 0.01
-      scroll-down-aggressively 0.01)
-(setq-default scroll-up-aggressively 0.01
-	      scroll-down-aggressively 0.01)
+;; (setq scroll-margin 1
+;;       scroll-conservatively 0
+;;       scroll-up-aggressively 0.01
+;;       scroll-down-aggressively 0.01)
+;; (setq-default scroll-up-aggressively 0.01
+;; 	      scroll-down-aggressively 0.01)
+(use-package smooth-scrolling
+  :ensure t
+  :config
+  (setq smooth-scroll-margin 1))
+(smooth-scrolling-mode 1)
 
 ;; Let emacs learn and set style from a C file
 (defun infer-indentation-style ()
