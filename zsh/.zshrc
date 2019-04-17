@@ -71,7 +71,12 @@ function e() {
     emacs "$@" &!
 }
 function ef() {
-    e $(fzf)
+    X="$(fzf)"
+    if [ -n "$X" ]; then
+	e "$X"
+    else
+	false
+    fi
 }
 export ALTERNATE_EDITOR='emacs' # Opens emacs if no emacs server is
 				# already started
