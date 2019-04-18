@@ -785,3 +785,8 @@ a pulse"
 ;; variable names.
 (use-package rainbow-identifiers
   :ensure t)
+
+;; Use dharma-mode for .dg files
+;; See dharma-mode defined in f0xtr0t/dharma-mode.el
+(use-package dharma-mode
+  :mode ("\\.dg\\'" . dharma-mode))
