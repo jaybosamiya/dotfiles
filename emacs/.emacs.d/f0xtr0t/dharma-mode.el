@@ -64,9 +64,15 @@
   "DHARMA mode is a major mode for editing DHARMA files"
   (setq font-lock-defaults dharma-font-lock-defaults)
   (when dharma-tab-width
-    (setq tab-width dharma-tab-width))
+    (setq tab-width dharma-tab-width)
+    (setq tab-stop-list (number-sequence
+			 dharma-tab-width
+			 (* 30 dharma-tab-width)
+			 dharma-tab-width))
+    (setq indent-line-function 'tab-to-tab-stop))
   (setq comment-start "%%%")
   (setq comment-end "")
+  (setq indent-tabs-mode nil)
   (modify-syntax-entry ?\" "w" dharma-mode-syntax-table))
 
 (provide 'dharma-mode)
