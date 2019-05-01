@@ -94,6 +94,14 @@ alias screensaver='cmatrix -abs'
 
 alias axel='axel -a -n 10'
 
+# Make things easy to copy over into markdown/slack :)
+function shcopy() {
+    export PS1='\`\`\`
+
+\`\`\`
+$ '
+}
+
 function comment_aux() {
     if [ "$#" -ne 3 ]; then
 	echo "Usage: comment_aux {start} {comment-text} {end}"
