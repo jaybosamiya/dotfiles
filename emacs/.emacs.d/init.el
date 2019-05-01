@@ -636,12 +636,15 @@ a pulse"
 ;; Use ibuffer instead of list-buffer for C-x C-b
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
-;; Use ido-occur to be able to easily move around the buffer
-(use-package ido-occur
-  :ensure t
-  :bind (("C-o" . 'ido-occur)
-	 :map isearch-mode-map
-	 ("C-o" . 'ido-occur-from-isearch)))
+;; ;; Use ido-occur to be able to easily move around the buffer
+;; (use-package ido-occur
+;;   :ensure t
+;;   :bind (("C-o" . 'ido-occur)
+;; 	 :map isearch-mode-map
+;; 	 ("C-o" . 'ido-occur-from-isearch)))
+
+;; Bind "occur" to C-o instead of open-line
+(global-set-key (kbd "C-o") 'occur)
 
 ;; Be able to move around C/C++ projects easily using cscope.
 ;; Try C-c s SOMETHING in a C/C++ buffer.
