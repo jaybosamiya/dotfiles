@@ -7,3 +7,7 @@ email = jaybosamiya@gmail.com
 [core]
 	editor = vim
 	excludesfile = ~/.gitignore_global
+	attributesfile = ~/.gitattributes
+[filter "nevercommitfilter"]
+	smudge = cat
+	clean = sed '/NEVERCOMMIT/'d
