@@ -60,6 +60,13 @@
      ( ,(regexp-opt dharma-constants 'words) . font-lock-constant-face)
      )))
 
+(defun dharma-backtab-to-tab-stop ()
+  "Like `tab-to-tab-stop', but backwards."
+  (interactive)
+  (let ((nexttab (indent-next-tab-stop (current-column) t)))
+    (delete-horizontal-space t)
+    (indent-to nexttab)))
+
 (define-derived-mode dharma-mode fundamental-mode "DHARMA script"
   "DHARMA mode is a major mode for editing DHARMA files"
   (setq font-lock-defaults dharma-font-lock-defaults)
@@ -69,7 +76,9 @@
 			 dharma-tab-width
 			 (* 30 dharma-tab-width)
 			 dharma-tab-width))
-    (setq indent-line-function 'tab-to-tab-stop))
+    (setq indent-line-function 'tab-to-tab-stop)
+    (local-set-key (kbd "<backtab>") 'dharma-backtab-to-tab-stop)
+    (electric-indent-local-mode -1))
   (setq comment-start "%%%")
   (setq comment-end "")
   (setq indent-tabs-mode nil)
