@@ -48,7 +48,7 @@
  '(minimap-window-location (quote right))
  '(package-selected-packages
    (quote
-    (rainbow-identifiers-mode wc-mode vagrant-tramp undohist solarized-theme restart-emacs powerline php-mode paredit ocp-indent markdown markdown-mode guru-mode elpy dockerfile-mode caml boogie-friends visual-fill-column ido-yes-or-no ag xcscope ido-occur auctex fold-this eclim haskell-mode zygospore iedit ini-mode keyfreq vlf semantic-mode srefactor cl-lib zpresent org-present ox-reveal undo-tree minimap epresent)))
+    (langtool rainbow-identifiers-mode wc-mode vagrant-tramp undohist solarized-theme restart-emacs powerline php-mode paredit ocp-indent markdown markdown-mode guru-mode elpy dockerfile-mode caml boogie-friends visual-fill-column ido-yes-or-no ag xcscope ido-occur auctex fold-this eclim haskell-mode zygospore iedit ini-mode keyfreq vlf semantic-mode srefactor cl-lib zpresent org-present ox-reveal undo-tree minimap epresent)))
  '(proof-electric-terminator-enable nil)
  '(safe-local-variable-values
    (quote
@@ -790,3 +790,15 @@ a pulse"
 ;; See dharma-mode defined in f0xtr0t/dharma-mode.el
 (use-package dharma-mode
   :mode ("\\.dg\\'" . dharma-mode))
+
+;; Language Tool support to be able to perform grammar checks.
+;; Useful commands:
+;;   M-x langtool-check
+;;   M-x langtool-check-done
+;; Requires https://www.languagetool.org/ to be installed into the
+;; right location
+(use-package langtool
+  :config
+  (setq langtool-language-tool-jar
+	"/home/jay/.local/share/languagetool/languagetool-commandline.jar")
+  (setq langtool-default-language "en-US"))
