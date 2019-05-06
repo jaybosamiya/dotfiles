@@ -729,12 +729,12 @@ a pulse"
 
 ;; Keep track of key frequencies. Can use `keyfreq-show` to see how
 ;; many times I've used each command
-(use-package keyfreq
-  :ensure t
-  :init
-  (progn
-    (keyfreq-mode 1)
-    (keyfreq-autosave-mode 1)))
+;; (use-package keyfreq
+;;   :ensure t
+;;   :init
+;;   (progn
+;;     (keyfreq-mode 1)
+;;     (keyfreq-autosave-mode 1)))
 
 ;; Allow multi line editing.
 ;; Use using C-; when over a symbol
