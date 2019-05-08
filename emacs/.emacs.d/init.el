@@ -818,3 +818,6 @@ a pulse"
   :config
   (setq golden-ratio-auto-scale t)
   (golden-ratio-mode 1))
+
+;; Prevent magit transient window from popping up so damn fast!
+(setq transient-show-popup 0.5)
