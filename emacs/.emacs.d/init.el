@@ -797,19 +797,14 @@ a pulse"
 ;; deobfuscate or working with complex code with too many similar
 ;; variable names.
 (use-package rainbow-identifiers
-  :ensure t)
+  :ensure t
+  :delight " rainbow-ident")
 
 ;; Bring in rainbow-delimiters-mode; super useful when some parens are
 ;; very nested
 (use-package rainbow-delimiters
   :ensure t
-  :delight '((rainbow-delimiters-mode " ")
-	     (rainbow-delimiters-mode #("(" 0 1 (face rainbow-delimiters-depth-1-face)))
-	     (rainbow-delimiters-mode #("(" 0 1 (face rainbow-delimiters-depth-2-face)))
-	     (rainbow-delimiters-mode #("(" 0 1 (face rainbow-delimiters-depth-3-face)))
-	     (rainbow-delimiters-mode #(")" 0 1 (face rainbow-delimiters-depth-3-face)))
-	     (rainbow-delimiters-mode #(")" 0 1 (face rainbow-delimiters-depth-2-face)))
-	     (rainbow-delimiters-mode #(")" 0 1 (face rainbow-delimiters-depth-1-face)))))
+  :delight " rainbow-delim")
 
 ;; Use dharma-mode for .dg files
 ;; See dharma-mode defined in f0xtr0t/dharma-mode.el
