@@ -228,6 +228,7 @@
 (use-package which-key
   :ensure t
   :demand t
+  :delight
   :config (which-key-mode))
 
 ;; Prevent C-z from accidentally sending the window to background
@@ -820,6 +821,7 @@ a pulse"
 ;; focus by making it a bit larger.
 (use-package golden-ratio
   :ensure t
+  :delight
   :config
   (setq golden-ratio-auto-scale t)
   (golden-ratio-mode 1))
