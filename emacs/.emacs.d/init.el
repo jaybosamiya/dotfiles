@@ -839,3 +839,10 @@ a pulse"
 
 ;; Prevent magit transient window from popping up so damn fast!
 (setq transient-show-popup 0.5)
+
+;; Be able to open nautilus with some nice keybindings
+(defun open-nautilus-in-directory (dir)
+  (interactive "D")
+  (let ((dir (expand-file-name dir)))
+    (start-process "nautilus" nil "nautilus" dir)))
+(global-set-key (kbd "C-x C-d") 'open-nautilus-in-directory)
