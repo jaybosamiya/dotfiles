@@ -34,6 +34,7 @@
  '(flyspell-default-dictionary "english")
  '(font-use-system-font t)
  '(global-auto-revert-mode t)
+ '(ido-default-buffer-method (quote selected-window))
  '(ido-enable-flex-matching t)
  '(ido-ubiquitous-mode t)
  '(inhibit-startup-screen t)
@@ -48,7 +49,7 @@
  '(minimap-window-location (quote right))
  '(package-selected-packages
    (quote
-    (rainbow-delimiters delight golden-ratio langtool rainbow-identifiers-mode wc-mode vagrant-tramp undohist solarized-theme restart-emacs powerline php-mode paredit ocp-indent markdown markdown-mode guru-mode elpy dockerfile-mode caml boogie-friends visual-fill-column ido-yes-or-no ag xcscope ido-occur auctex fold-this eclim haskell-mode zygospore iedit ini-mode keyfreq vlf semantic-mode srefactor cl-lib zpresent org-present ox-reveal undo-tree minimap epresent)))
+    (framemove ox-gfm zoom rainbow-identifiers rainbow-delimiters delight golden-ratio langtool rainbow-identifiers-mode wc-mode vagrant-tramp undohist solarized-theme restart-emacs powerline php-mode paredit ocp-indent markdown markdown-mode guru-mode elpy dockerfile-mode caml boogie-friends visual-fill-column ido-yes-or-no ag xcscope ido-occur auctex fold-this eclim haskell-mode zygospore iedit ini-mode keyfreq vlf semantic-mode srefactor cl-lib zpresent org-present ox-reveal undo-tree minimap epresent)))
  '(proof-electric-terminator-enable nil)
  '(safe-local-variable-values
    (quote
@@ -94,8 +95,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Source Code Pro" :foundry "adobe" :slant normal :weight normal :height 113 :width normal))))
+ '(default ((t (:family "Ubuntu Mono derivative Powerline" :foundry "DAMA" :slant normal :weight normal :height 143 :width normal))))
  '(ggtags-highlight ((t nil)))
+ '(italic ((t (:slant italic))))
  '(minimap-active-region-background ((t (:inverse-video t))))
  '(writegood-duplicates-face ((t (:underline (:color "DodgerBlue1" :style wave)))))
  '(writegood-passive-voice-face ((t (:underline "PaleTurquoise4"))))
@@ -167,9 +169,9 @@
 	 ("C-c M-x" . execute-extended-command)))
 
 ;; imenu-anywhere lets you jump between relevant parts of code easily
-(use-package imenu-anywhere
-  :ensure t
-  :bind (("C-." . imenu-anywhere)))
+;; (use-package imenu-anywhere
+;;   :ensure t
+;;   :bind (("C-." . imenu-anywhere)))
 
 (display-time-mode 1)
 
@@ -240,7 +242,7 @@
 (global-unset-key (kbd "C-<prior>"))
 (global-unset-key (kbd "C-<next>"))
 
-(require 'latex-preview-pane)
+;; (require 'latex-preview-pane)
 (use-package tex
   :ensure auctex
   :demand t)
@@ -289,26 +291,36 @@
 ;; ; work
 
 ;; Set up Dafny integration
-(use-package boogie-friends
-  :mode ("\\.dfy\\'" . dafny-mode)
-  :config
-  (setq dafny-prefix-path "/opt/dafny/")
-  (setq flycheck-dafny-executable (concat dafny-prefix-path "dafny"))
-  (setq flycheck-z3-executable (concat dafny-prefix-path "z3/bin/z3"))
-  (setq flycheck-inferior-dafny-executable (concat
-					    dafny-prefix-path "dafny-server")))
+;; (use-package boogie-friends
+;;   :mode ("\\.dfy\\'" . dafny-mode)
+;;   :config
+;;   (setq dafny-prefix-path "/opt/dafny/")
+;;   (setq flycheck-dafny-executable (concat dafny-prefix-path "dafny"))
+;;   (setq flycheck-z3-executable (concat dafny-prefix-path "z3/bin/z3"))
+;;   (setq flycheck-inferior-dafny-executable (concat
+;; 					    dafny-prefix-path "dafny-server")))
 
+
+(setq exec-path (append exec-path '("/home/jay/.opam/default/bin")))
 
 ;; Set up F* integration
 (require 'fstar-mode)
-(setq fstar-executable "fstar.exe")
-(setq fstar-smt-executable "z3")
+(setq fstar-executable "/home/jay/.local/bin/fstar.exe")
+(setq fstar-smt-executable "/home/jay/.local/bin/z3")
 (setq fstar-subp-prover-args (lambda () `(
 					  "--use_hints" ;; "--record_hints"
 					  ;; "--detail_hint_replay"
 					  ;; "--include" "/home/jay/everest/kremlin/kremlib"
 					  "--cache_checked_modules"
 					  )))
+(defun my-fstar-compute-prover-args-using-make ()
+  "Construct arguments to pass to F* by calling make."
+  (with-demoted-errors "Error when constructing arg string: %S"
+    (let* ((fname (file-name-nondirectory buffer-file-name))
+	   (target (concat fname "-in"))
+	   (argstr (car (process-lines "make" "--quiet" target))))
+      (split-string argstr))))
+(setq fstar-subp-prover-additional-args #'my-fstar-compute-prover-args-using-make)
 (defun fstar-set-to-release-paths ()
   (interactive)
   (setq fstar-prefix-path "/opt/fstar-release/")
@@ -316,7 +328,6 @@
   (setq fstar-smt-executable (concat fstar-prefix-path "bin/z3")))
 (require 'fstar-rewrite)
 (add-to-list 'load-path "/home/jay/.local/share/emacs/site-lisp")
-(require 'fstar-indent)
 (defun fstar-indent-buffer ()
   (interactive)
   (if fstar-indent-buffer-must-run
@@ -377,6 +388,11 @@
 ;; Turn on show-trailing-whitespace
 (setq-default show-trailing-whitespace t)
 
+;; Disable on some modes
+(dolist (hook '(term-mode-hook))
+  (add-hook hook '(lambda () (setq show-trailing-whitespace nil))))
+
+
 ;; Be able to unfill paragraphs
 (require 'unfill)
 (global-set-key (kbd "M-Q") 'unfill-paragraph)
@@ -393,28 +409,28 @@
 ;; This clobbers tags-loop-continue however
 (global-set-key (kbd "M-,") 'pop-tag-mark)
 
-;; Allow creation of ctags info from inside emacs itself :)
-(setq path-to-ctags "/usr/bin/ctags")
-(defun create-tags (dir-name)
-  "Create tags file."
-  (interactive "DDirectory: ")
-  (shell-command
-   (format "%s -f TAGS -e -R '%s'" path-to-ctags (file-truename (directory-file-name dir-name)))))
+;; ;; Allow creation of ctags info from inside emacs itself :)
+;; (setq path-to-ctags "/usr/bin/ctags")
+;; (defun create-tags (dir-name)
+;;   "Create tags file."
+;;   (interactive "DDirectory: ")
+;;   (shell-command
+;;    (format "%s -f TAGS -e -R '%s'" path-to-ctags (file-truename (directory-file-name dir-name)))))
 
-;; To use gtags, must have run `apt install global exuberant-ctags`
-;; first
-(use-package ggtags
-  :ensure t
-  :hook ((c-mode c++-mode java-mode) . ggtags-mode)
-  :custom-face (ggtags-highlight ((t nil))))
+;; ;; To use gtags, must have run `apt install global exuberant-ctags`
+;; ;; first
+;; (use-package ggtags
+;;   :ensure t
+;;   :hook ((c-mode c++-mode java-mode) . ggtags-mode)
+;;   :custom-face (ggtags-highlight ((t nil))))
 
-;; Elpy for Python. Requires to have run "pip install jedi flake8
-;; autopep8 yapf" on system in advance.
-(use-package elpy
-  :ensure t
-  :hook (python-mode . elpy-mode)
-  :config
-  (elpy-enable))
+;; ;; Elpy for Python. Requires to have run "pip install jedi flake8
+;; ;; autopep8 yapf" on system in advance.
+;; (use-package elpy
+;;   :ensure t
+;;   :hook (python-mode . elpy-mode)
+;;   :config
+;;   (elpy-enable))
 
 ;; Smoothen scrolling
 (setq scroll-margin 1
@@ -429,34 +445,34 @@
 ;;   (setq smooth-scroll-margin 1))
 ;; (smooth-scrolling-mode 1)
 
-;; Let emacs learn and set style from a C file
-(defun infer-indentation-style ()
-  (interactive)
-  ;; if our source file uses tabs, we use tabs, if spaces spaces, and
-  ;; if neither, we use the current indent-tabs-mode
-  (let ((space-count (how-many "^  " (point-min) (point-max)))
-        (tab-count (how-many "^\t" (point-min) (point-max))))
-    (if (> space-count tab-count) (setq indent-tabs-mode nil))
-    (if (> tab-count space-count) (setq indent-tabs-mode t)))
-  (message "Inferred indentation"))
-(defun c-guess-and-set-style ()		; TODO: Check file size and
-					; ask for permission if too
-					; large, to speed things up
-					; for large files.
-  (interactive)
-  (let
-    ((stylename (concat "guessed-style-" (file-name-base))))
-  (c-guess-buffer-no-install)
-  (c-guess-install stylename)
-  (c-set-style stylename)
-  (message (concat "Installed and set " stylename))))
-(add-hook 'c-mode-common-hook
-	  (lambda ()
-	    (infer-indentation-style)
-	    ;; (c-guess-and-set-style)
-	    ;; ;; Disabled guessing by default, to speed up file
-	    ;; ;; opens for large files.
-	    ))
+;; ;; Let emacs learn and set style from a C file
+;; (defun infer-indentation-style ()
+;;   (interactive)
+;;   ;; if our source file uses tabs, we use tabs, if spaces spaces, and
+;;   ;; if neither, we use the current indent-tabs-mode
+;;   (let ((space-count (how-many "^  " (point-min) (point-max)))
+;;         (tab-count (how-many "^\t" (point-min) (point-max))))
+;;     (if (> space-count tab-count) (setq indent-tabs-mode nil))
+;;     (if (> tab-count space-count) (setq indent-tabs-mode t)))
+;;   (message "Inferred indentation"))
+;; (defun c-guess-and-set-style ()		; TODO: Check file size and
+;; 					; ask for permission if too
+;; 					; large, to speed things up
+;; 					; for large files.
+;;   (interactive)
+;;   (let
+;;     ((stylename (concat "guessed-style-" (file-name-base))))
+;;   (c-guess-buffer-no-install)
+;;   (c-guess-install stylename)
+;;   (c-set-style stylename)
+;;   (message (concat "Installed and set " stylename))))
+;; (add-hook 'c-mode-common-hook
+;; 	  (lambda ()
+;; 	    (infer-indentation-style)
+;; 	    ;; (c-guess-and-set-style)
+;; 	    ;; ;; Disabled guessing by default, to speed up file
+;; 	    ;; ;; opens for large files.
+;; 	    ))
 
 ;; Make sure packages stay updated; but prompt before each update
 ;; Runs approximately once every 7 days
@@ -510,42 +526,42 @@ a pulse"
 ;;   (toggle-read-only))
 ;; (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
-;; Fix escape sequence issues in shell, compilation-mode etc.
-;; See : https://emacs.stackexchange.com/a/38531
-(defun regexp-alternatives (regexps)
-  "Return the alternation of a list of regexps."
-  (mapconcat (lambda (regexp)
-               (concat "\\(?:" regexp "\\)"))
-             regexps "\\|"))
-(defvar non-sgr-control-sequence-regexp nil
-  "Regexp that matches non-SGR control sequences.")
-(setq non-sgr-control-sequence-regexp
-      (regexp-alternatives
-       '(;; icon name escape sequences
-         "\033\\][0-2];.*?\007"
-         ;; non-SGR CSI escape sequences
-         "\033\\[\\??[0-9;]*[^0-9;m]"
-         ;; noop
-         "\012\033\\[2K\033\\[1F"
-         )))
-(defun filter-non-sgr-control-sequences-in-region (begin end)
-  (save-excursion
-    (goto-char begin)
-    (while (re-search-forward
-            non-sgr-control-sequence-regexp end t)
-      (replace-match ""))))
-(defun filter-non-sgr-control-sequences-in-output (ignored)
-  (let ((start-marker
-         (or comint-last-output-start
-             (point-min-marker)))
-        (end-marker
-         (process-mark
-          (get-buffer-process (current-buffer)))))
-    (filter-non-sgr-control-sequences-in-region
-     start-marker
-     end-marker)))
-(add-hook 'comint-output-filter-functions
-          'filter-non-sgr-control-sequences-in-output)
+;; ;; Fix escape sequence issues in shell, compilation-mode etc.
+;; ;; See : https://emacs.stackexchange.com/a/38531
+;; (defun regexp-alternatives (regexps)
+;;   "Return the alternation of a list of regexps."
+;;   (mapconcat (lambda (regexp)
+;;                (concat "\\(?:" regexp "\\)"))
+;;              regexps "\\|"))
+;; (defvar non-sgr-control-sequence-regexp nil
+;;   "Regexp that matches non-SGR control sequences.")
+;; (setq non-sgr-control-sequence-regexp
+;;       (regexp-alternatives
+;;        '(;; icon name escape sequences
+;;          "\033\\][0-2];.*?\007"
+;;          ;; non-SGR CSI escape sequences
+;;          "\033\\[\\??[0-9;]*[^0-9;m]"
+;;          ;; noop
+;;          "\012\033\\[2K\033\\[1F"
+;;          )))
+;; (defun filter-non-sgr-control-sequences-in-region (begin end)
+;;   (save-excursion
+;;     (goto-char begin)
+;;     (while (re-search-forward
+;;             non-sgr-control-sequence-regexp end t)
+;;       (replace-match ""))))
+;; (defun filter-non-sgr-control-sequences-in-output (ignored)
+;;   (let ((start-marker
+;;          (or comint-last-output-start
+;;              (point-min-marker)))
+;;         (end-marker
+;;          (process-mark
+;;           (get-buffer-process (current-buffer)))))
+;;     (filter-non-sgr-control-sequences-in-region
+;;      start-marker
+;;      end-marker)))
+;; (add-hook 'comint-output-filter-functions
+;;           'filter-non-sgr-control-sequences-in-output)
 
 ;; Use undo-tree everywhere (Use C-x u to visualize the undo-tree)
 ;; (require 'undo-tree)
@@ -592,19 +608,19 @@ a pulse"
 ;; Speed up flyspell by using no messages
 (setq-default flyspell-issue-message-flag nil)
 
-;; Opam, OCaml
-(require 'ocaml)
+;; ;; Opam, OCaml
+;; (require 'ocaml)
 
 ;; Coq
 ;; Proof General
-(load-file "/usr/share/emacs/site-lisp/proofgeneral/generic/proof-site.el")
-;; Load company-coq when opening Coq files
-(use-package company-coq
-  :hook (coq-mode . company-coq-mode))
+;; (load-file "/usr/share/emacs/site-lisp/proofgeneral/generic/proof-site.el")
+;; ;; Load company-coq when opening Coq files
+;; (use-package company-coq
+;;   :hook (coq-mode . company-coq-mode))
 
 ;; Agda mode
-(load-file (let ((coding-system-for-read 'utf-8))
-                (shell-command-to-string "agda-mode locate")))
+;; (load-file (let ((coding-system-for-read 'utf-8))
+;;                 (shell-command-to-string "agda-mode locate")))
 
 ;; Theme flipper
 (setq
@@ -624,7 +640,7 @@ a pulse"
 (global-set-key (kbd "C-<f12>") 'theme-flip)
 
 ;; Microsoft IVy
-(use-package ivy-mode)
+;; (use-package ivy-mode)
 
 ;; Use a hippie-expand, instead of dabbrev-expand, which has
 ;; dabbrev-expand as one of its tactics, so leads to a guaranteed
@@ -656,32 +672,34 @@ a pulse"
 ;; Bind "occur" to C-o instead of open-line
 (global-set-key (kbd "C-o") 'occur)
 
-;; Be able to move around C/C++ projects easily using cscope.
-;; Try C-c s SOMETHING in a C/C++ buffer.
-(use-package xcscope
-  :ensure t
-  :defer t
-  :config
-  (require 'cc-mode)
-  (cscope-setup)
-  :hook (c-mode . cscope-minor-mode)
-  :bind (:map c-mode-map
-	 ("C-c C-s" . 'cscope-display-buffer)))
+;; ;; Be able to move around C/C++ projects easily using cscope.
+;; ;; Try C-c s SOMETHING in a C/C++ buffer.
+;; (use-package xcscope
+;;   :ensure t
+;;   :defer t
+;;   :config
+;;   (require 'cc-mode)
+;;   (cscope-setup)
+;;   :hook (c-mode . cscope-minor-mode)
+;;   :bind (:map c-mode-map
+;; 	 ("C-c C-s" . 'cscope-display-buffer)))
 
-(use-package semantic
-  :ensure t
-  :defer t
-  :hook (c-mode . semantic-mode))
+;; (use-package semantic
+;;   :ensure t
+;;   :defer t
+;;   :hook (c-mode . semantic-mode))
 
-(use-package srefactor
-  :ensure t
-  :defer t
-  :config (semantic-mode 1)
-  :bind ("M-RET" . 'srefactor-refactor-at-point))
+;; (use-package srefactor
+;;   :ensure t
+;;   :defer t
+;;   :config (semantic-mode 1)
+;;   :bind ("M-RET" . 'srefactor-refactor-at-point))
 
 ;; Be able to move between buffers more easily, using M-up, M-down,
 ;; M-left, M-right.
+(require 'framemove)
 (windmove-default-keybindings 'meta)
+(setq framemove-hook-into-windmove t)
 
 ;; Be able to use ag from emacs
 (use-package ag
@@ -756,42 +774,42 @@ a pulse"
   :ensure t
   :bind ("C-x 1" . zygospore-toggle-delete-other-windows))
 
-;; Java Support via Eclim (requires Eclipse)
-(use-package eclim
-  :config
-  (progn
-    ;; Autostart Eclim
-    (setq eclimd-autostart t)
-    (setq eclimd-default-workspace "~/tmp/eclim-ws/")
-    (setq eclimd-autostart-with-default-workspace t))
-  :hook (java-mode . eclim-mode))
-(use-package company-emacs-eclim
-  :after (eclim company)
-  :config
-  (progn
-    (company-emacs-eclim-setup)
-    (setq company-emacs-eclim-ignore-case t)))
+;; ;; Java Support via Eclim (requires Eclipse)
+;; (use-package eclim
+;;   :config
+;;   (progn
+;;     ;; Autostart Eclim
+;;     (setq eclimd-autostart t)
+;;     (setq eclimd-default-workspace "~/tmp/eclim-ws/")
+;;     (setq eclimd-autostart-with-default-workspace t))
+;;   :hook (java-mode . eclim-mode))
+;; (use-package company-emacs-eclim
+;;   :after (eclim company)
+;;   :config
+;;   (progn
+;;     (company-emacs-eclim-setup)
+;;     (setq company-emacs-eclim-ignore-case t)))
 
 ;; Use visual-fill-column to wrap buffers at a specific width instead
 ;; of full width, as visual-line-mode does
 (use-package visual-fill-column
   :ensure t)
 
-;; Set up "C-x v" to switch into and out of visual line wrapping
-(setq-default visual---state nil)
-(make-variable-buffer-local 'visual---state)
-(defun toggle-visual ()
-  (interactive)
-  (setq visual---state (not visual---state))
-  (let ((x (if visual---state 1 -1)))
-    (visual-fill-column-mode x)
-    (visual-line-mode x)))
-(global-set-key (kbd "C-x v") 'toggle-visual)
+;; ;; Set up "C-x v" to switch into and out of visual line wrapping
+;; (setq-default visual---state nil)
+;; (make-variable-buffer-local 'visual---state)
+;; (defun toggle-visual ()
+;;   (interactive)
+;;   (setq visual---state (not visual---state))
+;;   (let ((x (if visual---state 1 -1)))
+;;     (visual-fill-column-mode x)
+;;     (visual-line-mode x)))
+;; (global-set-key (kbd "C-x v") 'toggle-visual)
 
-;; Make sure to get markdown-mode
-(use-package markdown-mode
-  :ensure t
-  :mode ("\\.md\\'" . markdown-mode))
+;; ;; Make sure to get markdown-mode
+;; (use-package markdown-mode
+;;   :ensure t
+;;   :mode ("\\.md\\'" . markdown-mode))
 
 ;; Bring in rainbow-identifiers-mode; super useful when trying to
 ;; deobfuscate or working with complex code with too many similar
@@ -806,10 +824,10 @@ a pulse"
   :ensure t
   :delight " rainbow-delim")
 
-;; Use dharma-mode for .dg files
-;; See dharma-mode defined in f0xtr0t/dharma-mode.el
-(use-package dharma-mode
-  :mode ("\\.dg\\'" . dharma-mode))
+;; ;; Use dharma-mode for .dg files
+;; ;; See dharma-mode defined in f0xtr0t/dharma-mode.el
+;; (use-package dharma-mode
+;;   :mode ("\\.dg\\'" . dharma-mode))
 
 ;; Language Tool support to be able to perform grammar checks.
 ;; Useful commands:
@@ -817,32 +835,82 @@ a pulse"
 ;;   M-x langtool-check-done
 ;; Requires https://www.languagetool.org/ to be installed into the
 ;; right location
-(use-package langtool
-  :config
-  (setq langtool-language-tool-jar
-	"/home/jay/.local/share/languagetool/languagetool-commandline.jar")
-  (setq langtool-default-language "en-US"))
+;; (use-package langtool
+;;   :config
+;;   (setq langtool-language-tool-jar
+;; 	"/home/jay/.local/share/languagetool/languagetool-commandline.jar")
+;;   (setq langtool-default-language "en-US"))
 
 ;; Allow mini-buffer to get quite large. Super useful for F*'s
 ;; evaluation to see what the hell really went on. Might decide to
 ;; remove this or restrict to F* only if it gets too annoying.
 (setq max-mini-window-height 0.5)
 
-;; Use golden-ratio-mode to help keep the current window in better
-;; focus by making it a bit larger.
-(use-package golden-ratio
+;; ;; Use golden-ratio-mode to help keep the current window in better
+;; ;; focus by making it a bit larger.
+;; (use-package golden-ratio
+;;   :ensure t
+;;   :delight
+;;   :config
+;;   (setq golden-ratio-auto-scale t)
+;;   (golden-ratio-mode 1))
+(use-package zoom
   :ensure t
   :delight
   :config
-  (setq golden-ratio-auto-scale t)
-  (golden-ratio-mode 1))
+  (zoom-mode 1))
 
 ;; Prevent magit transient window from popping up so damn fast!
 (setq transient-show-popup 0.5)
 
-;; Be able to open nautilus with some nice keybindings
-(defun open-nautilus-in-directory (dir)
-  (interactive "D")
-  (let ((dir (expand-file-name dir)))
-    (start-process "nautilus" nil "nautilus" dir)))
-(global-set-key (kbd "C-x C-d") 'open-nautilus-in-directory)
+;; ;; Be able to open nautilus with some nice keybindings
+;; (defun open-nautilus-in-directory (dir)
+;;   (interactive "D")
+;;   (let ((dir (expand-file-name dir)))
+;;     (start-process "nautilus" nil "nautilus" dir)))
+;; (global-set-key (kbd "C-x C-d") 'open-nautilus-in-directory)
+
+
+;; enable recent files mode.
+(recentf-mode t)
+
+; 50 files ought to be enough.
+(setq recentf-max-saved-items 50)
+
+(defun ido-recentf-open ()
+  "Use `ido-completing-read' to \\[find-file] a recent file"
+  (interactive)
+  (if (find-file (ido-completing-read "Find recent file: " recentf-list))
+      (message "Opening file...")
+    (message "Aborting")))
+
+;; get rid of `find-file-read-only' and replace it with something
+;; more useful.
+(global-set-key (kbd "C-x C-r") 'ido-recentf-open)
+
+
+;;;;;;;; Cursor color
+
+;; (set-cursor-color "#ffffff")
+
+;; (defvar blink-cursor-colors (list  "#92c48f" "#6785c5" "#be369c" "#d9ca65")
+;;   "On each blink the cursor will cycle to the next color in this list.")
+
+;; (setq blink-cursor-count 0)
+;; (defun blink-cursor-timer-function ()
+;;   "Zarza wrote this cyberpunk variant of timer `blink-cursor-timer'. 
+;; Warning: overwrites original version in `frame.el'.
+
+;; This one changes the cursor color on each blink. Define colors in `blink-cursor-colors'."
+;;   (when (not (internal-show-cursor-p))
+;;     (when (>= blink-cursor-count (length blink-cursor-colors))
+;;       (setq blink-cursor-count 0))
+;;     (set-cursor-color (nth blink-cursor-count blink-cursor-colors))
+;;     (setq blink-cursor-count (+ 1 blink-cursor-count))
+;;     )
+;;   (internal-show-cursor nil (not (internal-show-cursor-p)))
+;;   )
+
+(add-to-list 'default-frame-alist '(cursor-color . "#ffffff"))
+
+(global-set-key (kbd "C-x 4 c") 'clone-indirect-buffer)
