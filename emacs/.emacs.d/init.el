@@ -375,6 +375,11 @@
 (defun killall-z3 ()
   (interactive)
   (call-process "killall" nil nil nil "z3"))
+(defun fstar-show-admits-and-assumes (&optional prefix)
+  (interactive "P")
+  (if prefix
+      (occur "admit\\|assume\\|TODO\\|WARN\\|FIXME\\|XXX\\|UNSOUND")
+    (occur "admit\\|assume")))
 (add-hook 'fstar-mode-hook
 	  (lambda ()
 	    (superword-mode 1)
@@ -388,6 +393,7 @@
 	    (local-set-key (kbd "M-'") 'fstar-jump-to-related-error-other-window)
 	    (local-set-key (kbd "M-,") 'xref-pop-marker-stack) ; works nicely with M-.
 	    (local-set-key (kbd "<f12>") 'flycheck-clear)
+	    (local-set-key (kbd "<f5>") 'fstar-show-admits-and-assumes)
 	    ))
 
 ;; Set up markdown editing
