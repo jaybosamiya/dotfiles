@@ -203,6 +203,15 @@
   (org-startup-with-inline-images t "Show images inline upon startup")
   :config
   (progn
+    ;; Allow windmove to continue working
+    (add-hook 'org-shiftup-final-hook 'windmove-up)
+    (add-hook 'org-shiftleft-final-hook 'windmove-left)
+    (add-hook 'org-shiftdown-final-hook 'windmove-down)
+    (add-hook 'org-shiftright-final-hook 'windmove-right)
+    (add-hook 'org-metaup-final-hook 'windmove-up)
+    (add-hook 'org-metaleft-final-hook 'windmove-left)
+    (add-hook 'org-metadown-final-hook 'windmove-down)
+    (add-hook 'org-metaright-final-hook 'windmove-right)
     ;; Allow quotes inside of emphasis sections : Based off
     ;; of https://stackoverflow.com/a/24173780/3696619
     (setcar (nthcdr 2 org-emphasis-regexp-components) " \t\r\n")
