@@ -87,7 +87,7 @@
      ;; ("/\\*[\0-\377[:nonascii:]]*?\\*/" . font-lock-comment-face)
 
      ;; Directives
-     ( ,(regexp-opt vale-directives nil) . font-lock-preprocessor-face)
+     ( ,(concat (regexp-opt vale-directives nil) ".*$") . font-lock-preprocessor-face)
      ( "{:.*?}" . font-lock-preprocessor-face)
 
      ;; Keywords
