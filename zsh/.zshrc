@@ -34,6 +34,18 @@ alias fstarr='fstar --record_hints'
 alias fstarru='fstaru --record_hints'
 alias fstarur='fstarru'
 
+function valef() {
+    if [ "$#" -ne 1 ]; then
+        echo "Usage: valef {path to vaf file}"
+        return 1
+    fi
+    cwd="$(pwd)"
+    fname=$(basename $1 .vaf)
+    cd ~/everest/hacl-star/
+    rlwrap python3 ~/everest/vale/tools/scripts/interact.py --fstar-cmd obj/${fname}.fst.checked.cmd --vale-cmd obj/${fname}.fst.cmd
+    cd "${cwd}"
+}
+
 function fstar-profile() {
     if [ "$#" -ne 2 ]; then
 	echo "Usage: fstar-profile {fst file} {admit except this}"
