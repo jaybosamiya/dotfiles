@@ -129,8 +129,8 @@
   ;; words
   (modify-syntax-entry ?\" "w" vale-mode-syntax-table)
   ;; comments /* */
-  (modify-syntax-entry ?\/ ". 14an12bn" vale-mode-syntax-table)
+  (modify-syntax-entry ?\/ ". 14a12b" vale-mode-syntax-table)
   (modify-syntax-entry ?* ". 23a" vale-mode-syntax-table)
-  (modify-syntax-entry ?\n "> bn" vale-mode-syntax-table))
+  (modify-syntax-entry ?\n "> b" vale-mode-syntax-table))
 
 (provide 'vale-mode)
