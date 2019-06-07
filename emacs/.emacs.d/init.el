@@ -37,6 +37,7 @@
  '(ido-default-buffer-method (quote selected-window))
  '(ido-enable-flex-matching t)
  '(ido-ubiquitous-mode t)
+ '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(magit-diff-refine-hunk t)
  '(menu-bar-mode nil)
@@ -54,40 +55,40 @@
  '(safe-local-variable-values
    (quote
     ((fstar-subp-prover-additional-args lambda nil
-					(require
-					 (quote magit))
-					(split-string
-					 (string-join
-					  (cl-remove-if
-					   (lambda
-					     (s)
-					     (string-match-p "^$" s))
-					   (mapcar
-					    (lambda
-					      (s)
-					      (replace-regexp-in-string "--include "
-									(concat "--include "
-										(replace-regexp-in-string "^/ssh.*:/" "/"
-													  (file-relative-name
-													   (magit-toplevel))))
-									s))
-					    (mapcar
-					     (lambda
-					       (s)
-					       (replace-regexp-in-string "[[:space:]]*#.*$" "" s))
-					     (split-string
-					      (with-temp-buffer
-						(insert-file-contents
-						 (concat
-						  (magit-toplevel)
-						  "fstar-args"))
-						(buffer-substring-no-properties
-						 (point-min)
-						 (point-max)))
-					      "
+                                        (require
+                                         (quote magit))
+                                        (split-string
+                                         (string-join
+                                          (cl-remove-if
+                                           (lambda
+                                             (s)
+                                             (string-match-p "^$" s))
+                                           (mapcar
+                                            (lambda
+                                              (s)
+                                              (replace-regexp-in-string "--include "
+                                                                        (concat "--include "
+                                                                                (replace-regexp-in-string "^/ssh.*:/" "/"
+                                                                                                          (file-relative-name
+                                                                                                           (magit-toplevel))))
+                                                                        s))
+                                            (mapcar
+                                             (lambda
+                                               (s)
+                                               (replace-regexp-in-string "[[:space:]]*#.*$" "" s))
+                                             (split-string
+                                              (with-temp-buffer
+                                                (insert-file-contents
+                                                 (concat
+                                                  (magit-toplevel)
+                                                  "fstar-args"))
+                                                (buffer-substring-no-properties
+                                                 (point-min)
+                                                 (point-max)))
+                                              "
 " t))))
-					  " ")
-					 " " t)))))
+                                          " ")
+                                         " " t)))))
  '(send-mail-function (quote mailclient-send-it))
  '(tool-bar-mode nil))
 (custom-set-faces
@@ -147,7 +148,7 @@
   :config
   (progn
     (setq olivetti-hide-mode-line t)
-    (setq-default olivetti-body-width 90)))
+    (setq-default olivetti-body-width 116)))
 
 ;; fold-this
 (use-package fold-this
@@ -378,7 +379,7 @@
 (defun fstar-show-admits-and-assumes (&optional prefix)
   (interactive "P")
   (if prefix
-      (occur "admit\\|assume\\|TODO\\|WARN\\|FIXME\\|XXX\\|UNSOUND")
+      (occur "admit\\|assume\\|TODO\\|WARN\\|FIXME\\|XXX\\|UNSOUND\\|REVIEW\\|WAT")
     (occur "admit\\|assume")))
 (add-hook 'fstar-mode-hook
 	  (lambda ()
@@ -895,7 +896,7 @@ a pulse"
 
 
 ;; enable recent files mode.
-(recentf-mode t)
+;; (recentf-mode t)
 
 ; 50 files ought to be enough.
 (setq recentf-max-saved-items 50)
