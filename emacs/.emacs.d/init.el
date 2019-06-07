@@ -939,5 +939,8 @@ a pulse"
 
 (global-set-key (kbd "C-x 4 c") 'clone-indirect-buffer)
 
+(use-package vale-mode
+  :mode ("\\.vaf\\'" . vale-mode))
+
 (desktop-save-mode 1)
 (desktop-auto-save-enable)
