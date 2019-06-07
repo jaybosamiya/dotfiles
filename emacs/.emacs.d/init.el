@@ -944,3 +944,5 @@ a pulse"
 
 (desktop-save-mode 1)
 (desktop-auto-save-enable)
+(setq desktop-restore-eager 3)
+(push '(mouse-color . :never) frameset-filter-alist)
