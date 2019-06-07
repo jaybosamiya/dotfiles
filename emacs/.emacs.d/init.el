@@ -938,3 +938,6 @@ a pulse"
 (add-to-list 'default-frame-alist '(cursor-color . "#ffffff"))
 
 (global-set-key (kbd "C-x 4 c") 'clone-indirect-buffer)
+
+(desktop-save-mode 1)
+(desktop-auto-save-enable)
