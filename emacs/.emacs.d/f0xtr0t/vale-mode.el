@@ -82,10 +82,6 @@
      ;; NOTE: The order here matters. Once a color is set, it won't be
      ;; overwritten.
 
-     ;; Comments
-     ;; ("//.*$" . font-lock-comment-face)
-     ;; ("/\\*[\0-\377[:nonascii:]]*?\\*/" . font-lock-comment-face)
-
      ;; Directives
      ( ,(concat (regexp-opt vale-directives nil) ".*$") . font-lock-preprocessor-face)
      ( "{:.*?}" . font-lock-preprocessor-face)
@@ -97,11 +93,11 @@
      ( ,(regexp-opt vale-constants 'symbols) . font-lock-constant-face)
 
      ;; Definitions/Declarations
-     ("procedure \\_<\\(.*?\\)\\_>" . (1 font-lock-function-name-face))
-     ("const \\_<\\(.*?\\)\\_>" . (1 font-lock-constant-face))
-     ("let \\_<\\(.*?\\)\\_>" . (1 font-lock-variable-name-face))
-     ("\\_<\\(.*?\\)\\_> *[:@]=" . (1 font-lock-variable-name-face))
-
+     ("procedure \\_<\\([^ ]*?\\)\\_>" . (1 font-lock-function-name-face))
+     ("const \\_<\\([^ ]*?\\)\\_>" . (1 font-lock-constant-face))
+     ("let \\_<\\([^ ]*?\\)\\_>" . (1 font-lock-variable-name-face))
+     ("\\_<\\([^ ]*?\\)\\_> *?[:@]=" . (1 font-lock-variable-name-face))
+     ("\\_<\\([^ ]*?\\)\\_> *?:" . (1 font-lock-variable-name-face))
      )))
 
 (defun vale-backtab-to-tab-stop ()
@@ -111,7 +107,7 @@
     (delete-horizontal-space t)
     (indent-to nexttab)))
 
-(define-derived-mode vale-mode fundamental-mode "VALE script"
+(define-derived-mode vale-mode fundamental-mode "VALE"
   "VALE mode is a major mode for editing VALE files"
   (setq-local font-lock-defaults vale-font-lock-defaults)
   (when vale-tab-width
