@@ -166,8 +166,8 @@
   (interactive "DPath to make TAGS file in: ")
   (let* ((args (append
                 '("etags"
-                 "--language=none"
-                 "--regex=/[ \t]*procedure[ \t]+\([^ \t]*\)[ \t]*(/\1/")
+                  "--language=none"
+                  "--regex=/[ \\t]*procedure[ \\t]+\\([^ \\t]*\\)[ \\t]*(/\\1/")
                 (directory-files-recursively path ".*\\.vaf$")))
          (cmd (mapconcat 'shell-quote-argument args " ")))
     (with-temp-buffer
