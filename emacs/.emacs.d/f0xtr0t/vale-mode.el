@@ -129,8 +129,6 @@
   (setq-local comment-continue "  ")
   ;; (setq-local comment-style 'extra-line)
   (setq-local indent-tabs-mode nil)
-  ;; words
-  (modify-syntax-entry ?\" "w" vale-mode-syntax-table)
   ;; comments /* */
   (modify-syntax-entry ?\/ ". 14a12b" vale-mode-syntax-table)
   (modify-syntax-entry ?* ". 23a" vale-mode-syntax-table)
