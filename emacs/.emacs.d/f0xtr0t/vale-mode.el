@@ -53,6 +53,7 @@
     "module"
     "old"
     "open"
+    "operand_type"
     "operator"
     "out"
     "procedure"
