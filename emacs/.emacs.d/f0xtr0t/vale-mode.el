@@ -110,6 +110,57 @@
     (delete-horizontal-space t)
     (indent-to nexttab)))
 
+(defcustom vale-interact-path nil
+  "Path to Vale's interact.py"
+  :type '(file :must-match t)
+  :risky t)
+
+(defun vale--repetitions-1 (v num)
+  (if (= num 0) ""
+    (concat v (vale--repetitions-1 v (- num 1)))))
+
+(defun vale--repetitions (v num)
+  (if (= num 0) nil
+    (cons (vale--repetitions-1 v num) (vale--repetitions v (- num 1)))))
+
+(defun vale--also-suffix (l suffix)
+  (cond
+   ((null l) nil)
+   (t (cons (car l) (cons (concat (car l) suffix) (vale--also-suffix (cdr l) suffix))))))
+
+(defun vale--get-path (fname suffix)
+  (let* ((base (file-name-base fname))
+         (cwd (file-name-directory fname))
+         (expected (concat base suffix)))
+    (locate-file
+     expected
+     (vale--also-suffix (append (vale--repetitions "../" 10) '("./")) "obj/"))))
+
+(defun vale-interact ()
+  "Runs the interactive vale tool"
+  (interactive)
+  (if vale-interact-path
+      (let* ((fname (buffer-file-name (current-buffer)))
+             (fstarcmd (vale--get-path fname ".fst.checked.cmd"))
+             (fstarfilepath (vale--get-path fname ".fst"))
+             (valecmd (vale--get-path fname ".fst.cmd")))
+        (if (and fstarfilepath fstarcmd valecmd)
+            (with-temp-buffer
+              (cd (string-remove-suffix "obj/" (file-name-directory fstarcmd)))
+              (switch-to-buffer-other-window
+               (make-comint (concat "vale-interact(" (file-name-base fname) ")")
+                            "python3" nil
+                            vale-interact-path
+                            "--fstar-cmd" fstarcmd
+                            "--vale-cmd" valecmd
+                            "--fstar-file" fstarfilepath)))
+          (message (concat
+                    "Unable to find files related to this .vaf file. "
+                    "Are you sure they exist? "))))
+    (warn (concat
+           "vale-interact-path not set. "
+           "Run 'M-x customize-variable RET vale-interact-path' to set the path."))))
+
 (define-derived-mode vale-mode fundamental-mode "VALE"
   "VALE mode is a major mode for editing VALE files"
   (setq-local font-lock-defaults vale-font-lock-defaults)
@@ -122,6 +173,7 @@
     (setq-local indent-line-function 'tab-to-tab-stop)
     (local-set-key (kbd "<backtab>") 'vale-backtab-to-tab-stop)
     (electric-indent-local-mode -1))
+  (local-set-key (kbd "C-c C-c") 'vale-interact)
   (setq-local comment-start "/*")
   (setq-local comment-start-skip "/\\*+[ \t]*")
   (setq-local comment-end "*/")
