@@ -188,6 +188,9 @@
     (local-set-key (kbd "<backtab>") 'vale-backtab-to-tab-stop)
     (electric-indent-local-mode -1))
   (local-set-key (kbd "C-c C-c") 'vale-interact)
+  (local-set-key (kbd "C-.") 'xref-find-definitions)
+  (local-set-key (kbd "C-'") 'xref-find-definitions-other-window)
+  (local-set-key (kbd "C-,") 'pop-tag-mark)
   (setq-local comment-start "/*")
   (setq-local comment-start-skip "/\\*+[ \t]*")
   (setq-local comment-end "*/")
@@ -195,6 +198,8 @@
   (setq-local comment-continue "  ")
   ;; (setq-local comment-style 'extra-line)
   (setq-local indent-tabs-mode nil)
+  ;; strings won't be showing up in vale code except in directives
+  (modify-syntax-entry ?\" "w" vale-mode-syntax-table)
   ;; comments /* */
   (modify-syntax-entry ?\/ ". 14a12b" vale-mode-syntax-table)
   (modify-syntax-entry ?* ". 23a" vale-mode-syntax-table)
