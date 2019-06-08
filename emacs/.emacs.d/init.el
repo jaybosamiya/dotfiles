@@ -940,6 +940,8 @@ a pulse"
 (global-set-key (kbd "C-x 4 c") 'clone-indirect-buffer)
 
 (use-package vale-mode
+  :custom
+  (vale-interact-path "/home/jay/everest/vale/tools/scripts/interact.py" "Path to vale's interact.py")
   :mode ("\\.vaf\\'" . vale-mode))
 
 (desktop-save-mode 1)
