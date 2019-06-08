@@ -161,6 +161,20 @@
            "vale-interact-path not set. "
            "Run 'M-x customize-variable RET vale-interact-path' to set the path."))))
 
+(defun vale-create-tags (path)
+  "Creates a TAGS file using etags"
+  (interactive "DPath to make TAGS file in: ")
+  (let* ((args (append
+                '("etags"
+                 "--language=none"
+                 "--regex=/[ \t]*procedure[ \t]+\([^ \t]*\)[ \t]*(/\1/")
+                (directory-files-recursively path ".*\\.vaf$")))
+         (cmd (mapconcat 'shell-quote-argument args " ")))
+    (with-temp-buffer
+      (cd path)
+      (shell-command-to-string cmd))
+    (message "Finished making TAGS file")))
+
 (define-derived-mode vale-mode fundamental-mode "VALE"
   "VALE mode is a major mode for editing VALE files"
   (setq-local font-lock-defaults vale-font-lock-defaults)
