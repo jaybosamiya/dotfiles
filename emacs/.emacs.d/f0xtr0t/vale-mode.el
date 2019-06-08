@@ -161,6 +161,17 @@
            "vale-interact-path not set. "
            "Run 'M-x customize-variable RET vale-interact-path' to set the path."))))
 
+(defun vale-jump-to-fst ()
+  "Jumps to .fst file corresponding to the .vaf"
+  (interactive)
+  (let* ((fname (buffer-file-name (current-buffer)))
+         (fstarfilepath (vale--get-path fname ".fst")))
+    (if fstarfilepath
+        (progn
+          (push-mark nil t)
+          (find-file fstarfilepath))
+      (message "Could not find corresponding .fst file"))))
+
 (defun vale-create-tags (path)
   "Creates a TAGS file using etags"
   (interactive "DPath to make TAGS file in: ")
@@ -191,6 +202,7 @@
   (local-set-key (kbd "C-.") 'xref-find-definitions)
   (local-set-key (kbd "C-'") 'xref-find-definitions-other-window)
   (local-set-key (kbd "C-,") 'pop-tag-mark)
+  (local-set-key (kbd "C-c C-a") 'vale-jump-to-fst)
   (setq-local comment-start "/*")
   (setq-local comment-start-skip "/\\*+[ \t]*")
   (setq-local comment-end "*/")
