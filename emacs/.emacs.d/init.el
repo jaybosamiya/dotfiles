@@ -948,3 +948,4 @@ a pulse"
 (desktop-auto-save-enable)
 (setq desktop-restore-eager 3)
 (push '(mouse-color . :never) frameset-filter-alist)
+(midnight-mode 1) ;; Enable midnight mode to automatically purge old unvisited buffers at midnight.
