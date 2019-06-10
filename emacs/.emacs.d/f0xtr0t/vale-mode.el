@@ -1,12 +1,13 @@
-;;; vale-mode.el -- Major mode for writing Vale vaf files
+;;; vale-mode.el --- Major mode for writing Vale vaf files -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2019 Jay Bosamiya
 ;; Author: Jay Bosamiya <jaybosamiya@gmail.com>
-;; URL: TODO
+;; URL: https://github.com/jaybosamiya/vale-mode.el
 
 ;; Created: 7 June 2019
 ;; Version: 0.1
 ;; Keywords: convenience, languages
+;; Package-Requires: ((emacs "25"))
 
 ;; This file is not part of GNU Emacs.
 
@@ -14,13 +15,25 @@
 ;; you may not use this file except in compliance with the License.
 ;; You may obtain a copy of the License at
 ;;
-;; http://www.apache.org/licenses/LICENSE-2.0
+;; https://www.apache.org/licenses/LICENSE-2.0
 ;;
 ;; Unless required by applicable law or agreed to in writing, software
 ;; distributed under the License is distributed on an "AS IS" BASIS,
 ;; WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 ;; See the License for the specific language governing permissions and
 ;; limitations under the License.
+
+;;; Commentary:
+
+;; This file implements support for Vale programming in Emacs, including:
+;;
+;; * Syntax highlighting
+;; * Interactive proving
+;; * Jumping to procedure under cursor
+;;
+;; See https://github.com/jaybosamiya/vale-mode.el for setup and usage tips.
+
+;;; Code:
 
 (defvar vale-constants
   '(
@@ -76,8 +89,6 @@
     "#endverbatim"
     ))
 
-(defvar vale-tab-width 4 "Width of a tab for VALE mode")
-
 (defvar vale-font-lock-defaults
   `((
      ;; NOTE: The order here matters. Once a color is set, it won't be
@@ -110,34 +121,47 @@
     (delete-horizontal-space t)
     (indent-to nexttab)))
 
+(defgroup vale nil
+  "Vale mode."
+  :group 'languages)
+
 (defcustom vale-interact-path nil
-  "Path to Vale's interact.py"
+  "Path to Vale's interact.py."
   :type '(file :must-match t)
-  :risky t)
+  :risky t
+  :group 'vale)
+
+(defcustom vale-tab-width 4
+  "Width of a tab for Vale code."
+  :type 'integer
+  :group 'vale)
 
 (defun vale--repetitions-1 (v num)
+  "Return a string containing [V] repeated [NUM] times."
   (if (= num 0) ""
     (concat v (vale--repetitions-1 v (- num 1)))))
 
 (defun vale--repetitions (v num)
+  "Return a list consisting of all repetitions of [V] upto [NUM] times."
   (if (= num 0) nil
     (cons (vale--repetitions-1 v num) (vale--repetitions v (- num 1)))))
 
 (defun vale--also-suffix (l suffix)
+  "Each element of [L] is returned also with the [SUFFIX]."
   (cond
    ((null l) nil)
    (t (cons (car l) (cons (concat (car l) suffix) (vale--also-suffix (cdr l) suffix))))))
 
 (defun vale--get-path (fname suffix)
+  "Get path related to the vaf filename (FNAME) such that it ends with [SUFFIX]."
   (let* ((base (file-name-base fname))
-         (cwd (file-name-directory fname))
          (expected (concat base suffix)))
     (locate-file
      expected
      (vale--also-suffix (append (vale--repetitions "../" 10) '("./")) "obj/"))))
 
 (defun vale-interact ()
-  "Runs the interactive vale tool"
+  "Run the interactive vale tool."
   (interactive)
   (if vale-interact-path
       (let* ((fname (buffer-file-name (current-buffer)))
@@ -162,7 +186,7 @@
            "Run 'M-x customize-variable RET vale-interact-path' to set the path."))))
 
 (defun vale-jump-to-fst ()
-  "Jumps to .fst file corresponding to the .vaf"
+  "Jumps to .fst file corresponding to the .vaf."
   (interactive)
   (let* ((fname (buffer-file-name (current-buffer)))
          (fstarfilepath (vale--get-path fname ".fst")))
@@ -173,7 +197,7 @@
       (message "Could not find corresponding .fst file"))))
 
 (defun vale-create-tags (path)
-  "Creates a TAGS file using etags"
+  "Create a TAGS file at PATH using etags."
   (interactive "DPath to make TAGS file in: ")
   (let* ((args (append
                 '("etags"
@@ -186,8 +210,8 @@
       (shell-command-to-string cmd))
     (message "Finished making TAGS file")))
 
-(define-derived-mode vale-mode fundamental-mode "VALE"
-  "VALE mode is a major mode for editing VALE files"
+(define-derived-mode vale-mode prog-mode "Vale"
+  "Vale mode is a major mode for editing Vale files"
   (setq-local font-lock-defaults vale-font-lock-defaults)
   (when vale-tab-width
     (setq-local tab-width vale-tab-width)
@@ -199,6 +223,7 @@
     (local-set-key (kbd "<backtab>") 'vale-backtab-to-tab-stop)
     (electric-indent-local-mode -1))
   (local-set-key (kbd "C-c C-c") 'vale-interact)
+  (local-set-key (kbd "C-c C-t") 'vale-create-tags)
   (local-set-key (kbd "C-.") 'xref-find-definitions)
   (local-set-key (kbd "C-'") 'xref-find-definitions-other-window)
   (local-set-key (kbd "C-,") 'pop-tag-mark)
@@ -218,3 +243,5 @@
   (modify-syntax-entry ?\n "> b" vale-mode-syntax-table))
 
 (provide 'vale-mode)
+
+;;; vale-mode.el ends here
