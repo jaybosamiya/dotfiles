@@ -211,11 +211,12 @@ If in a procedure, then start verification of that procedure."
   (when-let ((buf (vale--interactive-buffer (buffer-file-name (current-buffer)))))
     (when (save-excursion
 	    (search-backward-regexp "procedure \\_<\\([^ ]*?\\)\\_>" nil t nil))
-      (with-current-buffer buf
-	;; insert and send, instead of comint-send-string to make sure
-	;; we get an echo back of what was sent
-	(insert (concat "v " (match-string 1)))
-	(comint-send-input)))
+      (let ((matched-string (match-string 1)))
+        (with-current-buffer buf
+          ;; insert and send, instead of comint-send-string to make sure
+          ;; we get an echo back of what was sent
+          (insert (concat "v " matched-string))
+          (comint-send-input))))
     (switch-to-buffer-other-window buf)))
 
 (defun vale-jump-to-fst ()
