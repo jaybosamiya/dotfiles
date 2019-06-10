@@ -28,6 +28,7 @@
 ;; This file implements support for Vale programming in Emacs, including:
 ;;
 ;; * Syntax highlighting
+;; * Prettification (prettify-symbols-mode)
 ;; * Interactive proving
 ;; * Jumping to procedure under cursor
 ;;
@@ -136,6 +137,25 @@
   :type 'integer
   :group 'vale)
 
+(defcustom vale-symbols-alist
+  '(("old" . ?𝕆)
+    ("nat" . ?ℕ) ("int" . ?ℤ)
+    ("*" . ?×)
+    ("<=" . ?≤) (">=" . ?≥)
+    ("!=" . ?≠)
+    ("&&" . ?∧) ("||" . ?∨)
+    ("==>" . ?⟹) ("<==>" . ?⟺)
+    ("exists" . ?∃) ("forall" . ?∀)
+    (":=" . ?≔)
+    ;; For "@=" use one of these:
+    ;;    ≝ ≞ ≟ ≠ ∹ ≎ ≏ ⪮ ≐ ≑ ≒ ≓ ≔ ≕ ≖ ≗ ≘ ≙ ≚ ≛ ≜ ⩬ ⩭
+    ;;    ⩮ ⩱ ⩲ ⩦ ⩴ ⩵ ⩶ ⩷ ≡ ≢ ⩧ ≍ ≭ ≣ ⩸ ≁ ≂ ≃ ≄ ⋍ ≅ ≆ ≇
+    ;;    ≈ ≉ ≊ ≋ ≌ ⩯ ⩰
+    ("@=" . ?≝))
+  "Vale symbols."
+  :group 'vale
+  :type 'alist)
+
 (defun vale--repetitions-1 (v num)
   "Return a string containing [V] repeated [NUM] times."
   (if (= num 0) ""
@@ -160,30 +180,43 @@
      expected
      (vale--also-suffix (append (vale--repetitions "../" 10) '("./")) "obj/"))))
 
-(defun vale-interact ()
-  "Run the interactive vale tool."
-  (interactive)
+(defun vale--interactive-buffer (fname)
+  "Get the interactive buffer related to FNAME."
   (if vale-interact-path
-      (let* ((fname (buffer-file-name (current-buffer)))
-             (fstarcmd (vale--get-path fname ".fst.checked.cmd"))
-             (fstarfilepath (vale--get-path fname ".fst"))
+      (let* ((fstarfilepath (vale--get-path fname ".fst"))
+	     (fstarcmd (vale--get-path fname ".fst.checked.cmd"))
              (valecmd (vale--get-path fname ".fst.cmd")))
-        (if (and fstarfilepath fstarcmd valecmd)
-            (with-temp-buffer
-              (cd (string-remove-suffix "obj/" (file-name-directory fstarcmd)))
-              (switch-to-buffer-other-window
-               (make-comint (concat "vale-interact(" (file-name-base fname) ")")
-                            "python3" nil
-                            vale-interact-path
-                            "--fstar-cmd" fstarcmd
-                            "--vale-cmd" valecmd
-                            "--fstar-file" fstarfilepath)))
+	(if (and fstarfilepath fstarcmd valecmd)
+	    (with-temp-buffer
+	      (cd (string-remove-suffix "obj/" (file-name-directory fstarcmd)))
+	      (make-comint (concat "vale-interact(" (file-name-base fname) ")")
+			   "python3" nil
+			   vale-interact-path
+			   "--fstar-cmd" fstarcmd
+			   "--vale-cmd" valecmd
+			   "--fstar-file" fstarfilepath))
           (message (concat
                     "Unable to find files related to this .vaf file. "
-                    "Are you sure they exist? "))))
+                    "Are you sure they exist? "))
+	  nil))
     (warn (concat
            "vale-interact-path not set. "
-           "Run 'M-x customize-variable RET vale-interact-path' to set the path."))))
+           "Run 'M-x customize-variable RET vale-interact-path' to set the path."))
+    nil))
+
+(defun vale-interact ()
+  "Run the interactive vale tool.
+If in a procedure, then start verification of that procedure."
+  (interactive)
+  (when-let ((buf (vale--interactive-buffer (buffer-file-name (current-buffer)))))
+    (when (save-excursion
+	    (search-backward-regexp "procedure \\_<\\([^ ]*?\\)\\_>" nil t nil))
+      (with-current-buffer buf
+	;; insert and send, instead of comint-send-string to make sure
+	;; we get an echo back of what was sent
+	(insert (concat "v " (match-string 1)))
+	(comint-send-input)))
+    (switch-to-buffer-other-window buf)))
 
 (defun vale-jump-to-fst ()
   "Jumps to .fst file corresponding to the .vaf."
@@ -240,7 +273,12 @@
   ;; comments /* */
   (modify-syntax-entry ?\/ ". 14a12b" vale-mode-syntax-table)
   (modify-syntax-entry ?* ". 23a" vale-mode-syntax-table)
-  (modify-syntax-entry ?\n "> b" vale-mode-syntax-table))
+  (modify-syntax-entry ?\n "> b" vale-mode-syntax-table)
+  (when (and (boundp 'prettify-symbols-alist)
+	     (fboundp 'prettify-symbols-mode))
+    (setq-local prettify-symbols-alist (append vale-symbols-alist
+					       prettify-symbols-alist))
+    (prettify-symbols-mode)))
 
 (provide 'vale-mode)
 
