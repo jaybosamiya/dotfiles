@@ -22,7 +22,7 @@ alias gef='gdb -q -ex gef'
 
 alias uniquify='awk '"'"'!_[$0]++'"'" # Equivalent to uniq, but preserves order
 
-alias dockerubuntu='docker run --rm -it -v "$(pwd):/connect" ubuntu' # Runs a docker container in current spot, and connects it to /connect
+alias dockerubuntu='docker run --rm -it -v "$(pwd):/connect" --cap-add=SYS_PTRACE ubuntu' # Runs a docker container in current spot, and connects it to /connect ; enables ptrace
 
 alias fzf="fzf --layout=reverse-list --multi"
 
