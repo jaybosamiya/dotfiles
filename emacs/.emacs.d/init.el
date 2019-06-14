@@ -379,7 +379,7 @@
 (defun fstar-show-admits-and-assumes (&optional prefix)
   (interactive "P")
   (if prefix
-      (occur "admit\\|assume\\|TODO\\|WARN\\|FIXME\\|XXX\\|UNSOUND\\|REVIEW\\|WAT")
+      (occur "admit\\|assume\\|TODO\\|WARN\\|FIXME\\|XXX\\|UNSOUND\\|REVIEW\\|WAT|\\NEVERCOMMIT")
     (occur "admit\\|assume")))
 (defun fstar-confirm-before-kill (&optional arg)
   (interactive "P")
