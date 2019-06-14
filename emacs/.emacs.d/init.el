@@ -381,6 +381,10 @@
   (if prefix
       (occur "admit\\|assume\\|TODO\\|WARN\\|FIXME\\|XXX\\|UNSOUND\\|REVIEW\\|WAT")
     (occur "admit\\|assume")))
+(defun fstar-confirm-before-kill (&optional arg)
+  (interactive "P")
+  (when (y-or-n-p "Are you sure you want to kill the F* process? ")
+    (fstar-subp-kill-one-or-many arg)))
 (add-hook 'fstar-mode-hook
 	  (lambda ()
 	    (superword-mode 1)
@@ -395,6 +399,7 @@
 	    (local-set-key (kbd "M-,") 'xref-pop-marker-stack) ; works nicely with M-.
 	    (local-set-key (kbd "<f12>") 'flycheck-clear)
 	    (local-set-key (kbd "<f5>") 'fstar-show-admits-and-assumes)
+            (local-set-key (kbd "C-c C-x") 'fstar-confirm-before-kill)
 	    ))
 
 ;; Set up markdown editing
