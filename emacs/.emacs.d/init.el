@@ -254,6 +254,9 @@
 ;; Prevent C-z from accidentally sending the window to background
 (global-unset-key (kbd "C-z"))
 
+;; Prevent F11 from accidentally trying to maximize the window
+(global-unset-key (kbd "<f11>"))
+
 ;; Handle "Page Up" and "Page Down" better
 (global-set-key (kbd "<next>") 'scroll-up-line)
 (global-set-key (kbd "<prior>") 'scroll-down-line)
