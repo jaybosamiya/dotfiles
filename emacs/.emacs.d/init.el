@@ -902,6 +902,14 @@ a pulse"
 ;;     (start-process "nautilus" nil "nautilus" dir)))
 ;; (global-set-key (kbd "C-x C-d") 'open-nautilus-in-directory)
 
+;; Be able to open gnome-terminal with some nice keybindings
+(setenv "SHELL" "/usr/bin/zsh")
+(defun open-gnome-terminal-in-directory (dir)
+  (interactive "D")
+  (let ((dir (expand-file-name dir)))
+    (start-process "gnome-terminal" nil "gnome-terminal" dir)))
+(global-set-key (kbd "C-x C-t") 'open-gnome-terminal-in-directory)
+
 
 ;; enable recent files mode.
 ;; (recentf-mode t)
