@@ -4,6 +4,8 @@ ZSH_THEME="robbyrussell"
 plugins=(git command-not-found vagrant taskwarrior)
 source $ZSH/oh-my-zsh.sh || git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 
+DISABLE_AUTO_UPDATE=true
+
 source $HOME/.profile
 
 alias intern='cd /mnt/c/Users/t-jabosa/Desktop/Internship/'
