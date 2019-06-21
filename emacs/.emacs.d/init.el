@@ -975,3 +975,5 @@ a pulse"
   ("<M-S-right>" . buf-move-right))
 
 (global-set-key (kbd "<f7>") 'normal-mode)
+
+(global-set-key (kbd "M-`") 'other-frame)
