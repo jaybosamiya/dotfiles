@@ -978,3 +978,18 @@ a pulse"
 (global-set-key (kbd "<f7>") 'normal-mode)
 
 (global-set-key (kbd "M-`") 'other-frame)
+
+(defun narrow-region-to-indirect-readonly-buffer (start end)
+  "Narrow to selected region in an indirect readonly buffer"
+  (interactive "r")
+  (let ((buf (clone-indirect-buffer
+              (concat (buffer-name) "-" (int-to-string start) "-" (int-to-string end))
+              nil
+              t)))
+    (display-buffer buf 'display-buffer-same-window)
+    (with-current-buffer buf
+      (setq-local buffer-read-only t)
+      (narrow-to-region start end)
+      (use-local-map (copy-keymap (car (current-active-maps))))
+      (local-set-key (kbd "q") 'kill-this-buffer))))
+(global-set-key (kbd "C-<f7>") 'narrow-region-to-indirect-readonly-buffer)
