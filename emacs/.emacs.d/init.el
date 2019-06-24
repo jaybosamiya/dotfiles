@@ -987,7 +987,7 @@ a pulse"
               (concat (buffer-name) "-" (int-to-string start) "-" (int-to-string end))
               nil
               t)))
-    (switch-to-buffer buf t t)
+    (switch-to-buffer buf nil t)
     (with-current-buffer buf
       (setq-local buffer-read-only t)
       (narrow-to-region start end)
