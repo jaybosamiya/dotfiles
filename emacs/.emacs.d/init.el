@@ -50,7 +50,7 @@
  '(minimap-window-location (quote right))
  '(package-selected-packages
    (quote
-    (buffer-move magit-todos sublimity framemove ox-gfm zoom rainbow-identifiers rainbow-delimiters delight golden-ratio langtool rainbow-identifiers-mode wc-mode vagrant-tramp undohist solarized-theme restart-emacs powerline php-mode paredit ocp-indent markdown markdown-mode guru-mode elpy dockerfile-mode caml boogie-friends visual-fill-column ido-yes-or-no ag xcscope ido-occur auctex fold-this eclim haskell-mode zygospore iedit ini-mode keyfreq vlf semantic-mode srefactor cl-lib zpresent org-present ox-reveal undo-tree minimap epresent)))
+    (vale-mode buffer-move magit-todos sublimity framemove ox-gfm zoom rainbow-identifiers rainbow-delimiters delight golden-ratio langtool rainbow-identifiers-mode wc-mode vagrant-tramp undohist solarized-theme restart-emacs powerline php-mode paredit ocp-indent markdown markdown-mode guru-mode elpy dockerfile-mode caml boogie-friends visual-fill-column ido-yes-or-no ag xcscope ido-occur auctex fold-this eclim haskell-mode zygospore iedit ini-mode keyfreq vlf semantic-mode srefactor cl-lib zpresent org-present ox-reveal undo-tree minimap epresent)))
  '(proof-electric-terminator-enable nil)
  '(safe-local-variable-values
    (quote
@@ -956,6 +956,7 @@ a pulse"
 (global-set-key (kbd "C-x 4 c") 'clone-indirect-buffer)
 
 (use-package vale-mode
+  :ensure t
   :custom
   (vale-interact-path "/home/jay/everest/vale/tools/scripts/interact.py" "Path to vale's interact.py")
   :mode ("\\.vaf\\'" . vale-mode))
