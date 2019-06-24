@@ -982,11 +982,12 @@ a pulse"
 (defun narrow-region-to-indirect-readonly-buffer (start end)
   "Narrow to selected region in an indirect readonly buffer"
   (interactive "r")
+  (deactivate-mark)
   (let ((buf (clone-indirect-buffer
               (concat (buffer-name) "-" (int-to-string start) "-" (int-to-string end))
               nil
               t)))
-    (display-buffer buf 'display-buffer-same-window)
+    (switch-to-buffer buf t t)
     (with-current-buffer buf
       (setq-local buffer-read-only t)
       (narrow-to-region start end)
