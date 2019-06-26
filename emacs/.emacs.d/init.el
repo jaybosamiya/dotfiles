@@ -975,7 +975,7 @@ a pulse"
   ("<M-S-left>" . buf-move-left)
   ("<M-S-right>" . buf-move-right))
 
-(global-set-key (kbd "<f7>") 'normal-mode)
+(global-set-key (kbd "C-M-<f7>") 'normal-mode)
 
 (global-set-key (kbd "M-`") 'other-frame)
 
