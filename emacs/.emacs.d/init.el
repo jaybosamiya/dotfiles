@@ -50,7 +50,7 @@
  '(minimap-window-location (quote right))
  '(package-selected-packages
    (quote
-    (vale-mode buffer-move magit-todos sublimity framemove ox-gfm zoom rainbow-identifiers rainbow-delimiters delight golden-ratio langtool rainbow-identifiers-mode wc-mode vagrant-tramp undohist solarized-theme restart-emacs powerline php-mode paredit ocp-indent markdown markdown-mode guru-mode elpy dockerfile-mode caml boogie-friends visual-fill-column ido-yes-or-no ag xcscope ido-occur auctex fold-this eclim haskell-mode zygospore iedit ini-mode keyfreq vlf semantic-mode srefactor cl-lib zpresent org-present ox-reveal undo-tree minimap epresent)))
+    (doom-modeline vale-mode buffer-move magit-todos sublimity framemove ox-gfm zoom rainbow-identifiers rainbow-delimiters delight golden-ratio langtool rainbow-identifiers-mode wc-mode vagrant-tramp undohist solarized-theme restart-emacs powerline php-mode paredit ocp-indent markdown markdown-mode guru-mode elpy dockerfile-mode caml boogie-friends visual-fill-column ido-yes-or-no ag xcscope ido-occur auctex fold-this eclim haskell-mode zygospore iedit ini-mode keyfreq vlf semantic-mode srefactor cl-lib zpresent org-present ox-reveal undo-tree minimap epresent)))
  '(proof-electric-terminator-enable nil)
  '(safe-local-variable-values
    (quote
@@ -994,3 +994,17 @@ a pulse"
       (use-local-map (copy-keymap (car (current-active-maps))))
       (local-set-key (kbd "q") 'kill-this-buffer))))
 (global-set-key (kbd "C-<f7>") 'narrow-region-to-indirect-readonly-buffer)
+
+;; Always have column number mode on
+(column-number-mode 1)
+
+;; Add the doom modeline
+;; If fonts don't work, use "M-x all-the-icons-install-fonts"
+(use-package doom-modeline
+  :ensure t
+  :hook (after-init . doom-modeline-mode)
+  :config
+  (setq doom-modeline-buffer-file-name-style 'buffer-name)
+  (setq doom-modeline-major-mode-icon nil)
+  (setq doom-modeline-buffer-encoding nil)
+  (setq doom-modeline-vcs-max-length 40))
