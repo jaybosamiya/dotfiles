@@ -333,6 +333,16 @@
 					  ;; "--detail_hint_replay"
 					  ;; "--include" "/home/jay/everest/kremlin/kremlib"
 					  "--cache_checked_modules"
+                                          ,@(when (string-match-p (regexp-quote "hacl-star/vale") (buffer-file-name))
+                                              '(
+                                                "--z3cliopt" "smt.QI.EAGER_THRESHOLD=100"
+                                                "--z3cliopt" "smt.CASE_SPLIT=3"
+                                                "--max_fuel" "1"
+                                                "--max_ifuel" "1"
+                                                "--initial_ifuel" "0"
+                                                "--smtencoding.elim_box" "true"
+                                                "--smtencoding.l_arith_repr" "native"
+                                                "--smtencoding.nl_arith_repr" "wrapped"))
 					  )))
 (defun my-fstar-compute-prover-args-using-make ()
   "Construct arguments to pass to F* by calling make."
