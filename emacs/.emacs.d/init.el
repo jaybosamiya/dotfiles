@@ -1003,6 +1003,7 @@ a pulse"
 (use-package doom-modeline
   :ensure t
   :hook (after-init . doom-modeline-mode)
+  :custom-face (doom-modeline-info ((t (:inherit bold))))
   :config
   (setq doom-modeline-buffer-file-name-style 'buffer-name)
   (setq doom-modeline-major-mode-icon nil)
