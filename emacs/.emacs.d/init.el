@@ -333,7 +333,7 @@
 					  ;; "--detail_hint_replay"
 					  ;; "--include" "/home/jay/everest/kremlin/kremlib"
 					  "--cache_checked_modules"
-                                          ,@(when (string-match-p (regexp-quote "hacl-star/vale") (buffer-file-name))
+                                          ,@(when (string-match-p (regexp-opt '("hacl-star/vale" "Vale.")) (buffer-file-name))
                                               '(
                                                 "--z3cliopt" "smt.QI.EAGER_THRESHOLD=100"
                                                 "--z3cliopt" "smt.CASE_SPLIT=3"
