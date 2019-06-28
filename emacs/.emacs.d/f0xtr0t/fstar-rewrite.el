@@ -24,7 +24,7 @@
 	  ((indented-str
 	    (with-output-to-string
 	      (call-process fstar-executable nil (list standard-output errfile) nil
-			    "--indent" strfile))))
+			    "--print" strfile))))
 	(when (file-exists-p errfile)
 	  (let* ((err-msg (fstar-rewrite-file-to-string errfile)))
 	    (delete-file errfile)
