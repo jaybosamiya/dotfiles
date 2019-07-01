@@ -1019,3 +1019,6 @@ a pulse"
   (setq doom-modeline-major-mode-icon nil)
   (setq doom-modeline-buffer-encoding nil)
   (setq doom-modeline-vcs-max-length 40))
+
+;; Make emacs reload TAGS files automatically
+(setq tags-revert-without-query 1)
