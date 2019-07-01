@@ -97,6 +97,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Ubuntu Mono derivative Powerline" :foundry "DAMA" :slant normal :weight normal :height 143 :width normal))))
+ '(doom-modeline-info ((t (:inherit bold))))
  '(ggtags-highlight ((t nil)))
  '(italic ((t (:slant italic))))
  '(minimap-active-region-background ((t (:inverse-video t))))
