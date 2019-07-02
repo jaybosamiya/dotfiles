@@ -1,6 +1,8 @@
 # Need to migrate some settings from old machine
 export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="powerlevel10k/powerlevel10k"
+export POWERLEVEL9K_SHORTEN_DIR_LENGTH=1
+export POWERLEVEL9K_SHORTEN_STRATEGY=truncate_from_right
 plugins=(git command-not-found vagrant taskwarrior)
 source $ZSH/oh-my-zsh.sh || git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 
