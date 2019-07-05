@@ -308,7 +308,25 @@
 					  ;; "--detail_hint_replay"
 					  ;; "--include" "/home/jay/everest/kremlin/kremlib"
 					  "--cache_checked_modules"
+                                          ,@(when (string-match-p (regexp-opt '("hacl-star/vale" "Vale.")) (buffer-file-name))
+                                              '(
+                                                "--z3cliopt" "smt.QI.EAGER_THRESHOLD=100"
+                                                "--z3cliopt" "smt.CASE_SPLIT=3"
+                                                "--max_fuel" "1"
+                                                "--max_ifuel" "1"
+                                                "--initial_ifuel" "0"
+                                                "--smtencoding.elim_box" "true"
+                                                "--smtencoding.l_arith_repr" "native"
+						"--smtencoding.nl_arith_repr" "wrapped"))
 					  )))
+(defun my-fstar-compute-prover-args-using-make ()
+  "Construct arguments to pass to F* by calling make."
+  (with-demoted-errors "Error when constructing arg string: %S"
+    (let* ((fname (file-name-nondirectory buffer-file-name))
+	   (target (concat fname "-in"))
+	   (argstr (car (process-lines "make" "--quiet" target))))
+      (split-string argstr))))
+(setq fstar-subp-prover-additional-args #'my-fstar-compute-prover-args-using-make)
 (defun fstar-set-to-release-paths ()
   (interactive)
   (setq fstar-prefix-path "/opt/fstar-release/")
