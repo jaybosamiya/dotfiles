@@ -48,7 +48,7 @@
  '(minimap-window-location (quote right))
  '(package-selected-packages
    (quote
-    (flycheck-package package-lint rainbow-delimiters delight golden-ratio langtool rainbow-identifiers-mode wc-mode vagrant-tramp undohist solarized-theme restart-emacs powerline php-mode paredit ocp-indent markdown markdown-mode guru-mode elpy dockerfile-mode caml boogie-friends visual-fill-column ido-yes-or-no ag xcscope ido-occur auctex fold-this eclim haskell-mode zygospore iedit ini-mode keyfreq vlf semantic-mode srefactor cl-lib zpresent org-present ox-reveal undo-tree minimap epresent)))
+    (zoom flycheck-package package-lint rainbow-delimiters delight golden-ratio langtool rainbow-identifiers-mode wc-mode vagrant-tramp undohist solarized-theme restart-emacs powerline php-mode paredit ocp-indent markdown markdown-mode guru-mode elpy dockerfile-mode caml boogie-friends visual-fill-column ido-yes-or-no ag xcscope ido-occur auctex fold-this eclim haskell-mode zygospore iedit ini-mode keyfreq vlf semantic-mode srefactor cl-lib zpresent org-present ox-reveal undo-tree minimap epresent)))
  '(proof-electric-terminator-enable nil)
  '(safe-local-variable-values
    (quote
@@ -830,12 +830,19 @@ a pulse"
 
 ;; Use golden-ratio-mode to help keep the current window in better
 ;; focus by making it a bit larger.
-(use-package golden-ratio
+;; (use-package golden-ratio
+;;   :ensure t
+;;   :delight
+;;   :config
+;;   (setq golden-ratio-auto-scale t)
+;;   (golden-ratio-mode 1))
+
+;; Use zoom-mode which is a more modern version of golden-ratio-mode
+(use-package zoom
   :ensure t
   :delight
   :config
-  (setq golden-ratio-auto-scale t)
-  (golden-ratio-mode 1))
+  (zoom-mode 1))
 
 ;; Prevent magit transient window from popping up so damn fast!
 (setq transient-show-popup 0.5)
