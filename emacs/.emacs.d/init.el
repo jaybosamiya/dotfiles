@@ -632,8 +632,8 @@ a pulse"
 
 ;; Set C-' to correct word using flyspell, and F9 to flyspell the
 ;; entire buffer. C-F9 to disable flyspell.
-(global-set-key (kbd "C-'")
-		'flyspell-correct-word-before-point)
+;; (global-set-key (kbd "C-'")
+;; 		'flyspell-correct-word-before-point)
 (defun flyspell-enable ()
   (interactive)
   (if (derived-mode-p 'prog-mode)
