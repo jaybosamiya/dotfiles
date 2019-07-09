@@ -411,10 +411,12 @@
 	    (local-set-key (kbd "C-'") 'fstar-jump-to-definition-other-window)
 	    (local-set-key (kbd "M-'") 'fstar-jump-to-related-error-other-window)
 	    (local-set-key (kbd "M-,") 'xref-pop-marker-stack) ; works nicely with M-.
-	    (local-set-key (kbd "<f12>") 'flycheck-clear)
 	    (local-set-key (kbd "<f5>") 'fstar-show-admits-and-assumes)
             (local-set-key (kbd "C-c C-x") 'fstar-confirm-before-kill)
 	    ))
+
+;; Make F-12 clear all flycheck marks
+(global-set-key (kbd "<f12>") 'flycheck-clear)
 
 ;; Set up markdown editing
 (use-package markdown-mode
