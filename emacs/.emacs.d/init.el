@@ -324,7 +324,7 @@
   (with-demoted-errors "Error when constructing arg string: %S"
     (let* ((fname (file-name-nondirectory buffer-file-name))
 	   (target (concat fname "-in"))
-	   (argstr (car (process-lines "make" "--quiet" target))))
+	   (argstr (shell-command-to-string (concat "make --quiet " target " 2>/dev/null"))))
       (split-string argstr))))
 (setq fstar-subp-prover-additional-args #'my-fstar-compute-prover-args-using-make)
 (defun fstar-set-to-release-paths ()
