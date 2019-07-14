@@ -201,9 +201,6 @@
   	    (concat (nth 1 org-emphasis-regexp-components) "s"))
     ;; Actually update the emphasis regexp
     (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components))
-  ;; Make sure to use PDF export with synctex to easily move around from the PDF.
-  (setq org-latex-pdf-process
-      '("pdflatex -synctex=1 -interaction nonstopmode -output-directory %o %f"))
   ;; Allow snippets (eg: "< s TAB" for source,
   ;;                  or "< q TAB" for quote,
   ;;                  or "< l TAB" for LaTeX etc)
