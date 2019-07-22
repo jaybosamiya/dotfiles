@@ -188,6 +188,14 @@
   :ensure t
   :bind (("C-x g" . magit-status)))
 
+;; Temporary workaround for the lisp-mode-symbol-regexp "bug" for
+;; magit. Either have to fix it and remove this, or maybe move to
+;; emacs 25?
+(defconst lisp-mode-symbol-regexp "\\(?:\\sw\\|\\s_\\|\\\\.\\)+")
+
+;; Prevent magit transient window from popping up so damn fast!
+(setq transient-show-popup 0.5)
+
 ;; (use-package magit-todos
 ;;   :ensure t
 ;;   :custom
@@ -758,11 +766,6 @@ a pulse"
   :ensure t
   :config (ido-yes-or-no-mode))
 
-;; Temporary workaround for the lisp-mode-symbol-regexp "bug" for
-;; magit. Either have to fix it and remove this, or maybe move to
-;; emacs 25?
-(defconst lisp-mode-symbol-regexp "\\(?:\\sw\\|\\s_\\|\\\\.\\)+")
-
 ;; Make large files less painful to use
 (use-package vlf
   :ensure t
@@ -905,9 +908,6 @@ a pulse"
   :delight
   :config
   (zoom-mode 1))
-
-;; Prevent magit transient window from popping up so damn fast!
-(setq transient-show-popup 0.5)
 
 ;; ;; Be able to open nautilus with some nice keybindings
 ;; (defun open-nautilus-in-directory (dir)
