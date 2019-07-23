@@ -50,7 +50,7 @@
  '(minimap-window-location (quote right))
  '(package-selected-packages
    (quote
-    (projectile fsharp-mode doom-modeline vale-mode buffer-move magit-todos sublimity framemove ox-gfm zoom rainbow-identifiers rainbow-delimiters delight golden-ratio langtool rainbow-identifiers-mode wc-mode vagrant-tramp undohist solarized-theme restart-emacs powerline php-mode paredit ocp-indent markdown markdown-mode guru-mode elpy dockerfile-mode caml boogie-friends visual-fill-column ido-yes-or-no ag xcscope ido-occur auctex fold-this eclim haskell-mode zygospore iedit ini-mode keyfreq vlf semantic-mode srefactor cl-lib zpresent org-present ox-reveal undo-tree minimap epresent)))
+    (suggest projectile fsharp-mode doom-modeline vale-mode buffer-move magit-todos sublimity framemove ox-gfm zoom rainbow-identifiers rainbow-delimiters delight golden-ratio langtool rainbow-identifiers-mode wc-mode vagrant-tramp undohist solarized-theme restart-emacs powerline php-mode paredit ocp-indent markdown markdown-mode guru-mode elpy dockerfile-mode caml boogie-friends visual-fill-column ido-yes-or-no ag xcscope ido-occur auctex fold-this eclim haskell-mode zygospore iedit ini-mode keyfreq vlf semantic-mode srefactor cl-lib zpresent org-present ox-reveal undo-tree minimap epresent)))
  '(proof-electric-terminator-enable nil)
  '(safe-local-variable-values
    (quote
@@ -1034,3 +1034,9 @@ a pulse"
 (use-package projectile
   :ensure t
   :bind-keymap ("C-c p" . projectile-command-map))
+
+;; Use the "suggest" package to easily find lisp functions via
+;; input-output pairs.
+(use-package suggest
+  :ensure t
+  :commands (suggest))
