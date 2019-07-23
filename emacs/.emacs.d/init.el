@@ -186,7 +186,14 @@
 
 (use-package magit
   :ensure t
-  :bind (("C-x g" . magit-status)))
+  :bind (("C-x g" . magit-status))
+  :config
+  ;; Set up stuff for magit wip -- See magit-wip below.
+  (setq magit-wip-merge-branch t)
+  (transient-append-suffix 'magit-log "a"
+    '("i" "Index wipref" magit-wip-log-index))
+  (transient-append-suffix 'magit-log "i"
+    '("w" "Worktree wipref" magit-wip-log-worktree)))
 
 ;; Temporary workaround for the lisp-mode-symbol-regexp "bug" for
 ;; magit. Either have to fix it and remove this, or maybe move to
@@ -195,6 +202,16 @@
 
 ;; Prevent magit transient window from popping up so damn fast!
 (setq transient-show-popup 0.5)
+
+;; Make magit smarter at keeping progress of changes along the way.
+;; See https://emacs.stackexchange.com/a/45153
+(use-package magit-wip
+  :after magit
+  :config
+  (magit-wip-before-change-mode)
+  (magit-wip-after-apply-mode)
+  (magit-wip-after-save-mode))
+(add-hook 'before-save-hook 'magit-wip-commit-initial-backup)
 
 ;; (use-package magit-todos
 ;;   :ensure t
