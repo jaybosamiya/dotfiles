@@ -740,8 +740,8 @@ a pulse"
 ;; 	 :map isearch-mode-map
 ;; 	 ("C-o" . 'ido-occur-from-isearch)))
 
-;; Bind "occur" to C-o instead of open-line
-(global-set-key (kbd "C-o") 'occur)
+;; Bind "occur" to M-o instead of facemenu stuff
+(global-set-key (kbd "M-o") 'occur)
 
 ;; ;; Be able to move around C/C++ projects easily using cscope.
 ;; ;; Try C-c s SOMETHING in a C/C++ buffer.
@@ -1050,7 +1050,9 @@ a pulse"
 ;; Use projectile for easily moving around in projects
 (use-package projectile
   :ensure t
-  :bind-keymap ("C-c p" . projectile-command-map))
+  :bind-keymap ("C-c p" . projectile-command-map)
+  :bind
+  ("C-o" . projectile-multi-occur)) ;; Replaces open-line
 
 ;; Use the "suggest" package to easily find lisp functions via
 ;; input-output pairs.
