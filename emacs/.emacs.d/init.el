@@ -511,6 +511,11 @@
   :commands lsp
   :hook (python-mode . lsp)
   :config
+  ;; Stop asking if we want to restart the lsp server upon killing
+  ;; Emacs. See https://github.com/emacs-lsp/lsp-mode/issues/641
+  (add-hook 'kill-emacs-hook
+            '(lambda ()
+               (setq lsp-restart 'ignore)))
   ;; Use flake8 rather than the default pycodestyle, for pyls. See
   ;; specific settings for this in lsp-ui too.
   (setq	lsp-pyls-plugins-pyflakes-enabled nil
