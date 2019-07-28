@@ -48,7 +48,7 @@
  '(minimap-window-location (quote right))
  '(package-selected-packages
    (quote
-    (zoom flycheck-package package-lint rainbow-delimiters delight golden-ratio langtool rainbow-identifiers-mode wc-mode vagrant-tramp undohist solarized-theme restart-emacs powerline php-mode paredit ocp-indent markdown markdown-mode guru-mode elpy dockerfile-mode caml boogie-friends visual-fill-column ido-yes-or-no ag xcscope ido-occur auctex fold-this eclim haskell-mode zygospore iedit ini-mode keyfreq vlf semantic-mode srefactor cl-lib zpresent org-present ox-reveal undo-tree minimap epresent)))
+    (lsp-ui lsp-mode zoom flycheck-package package-lint rainbow-delimiters delight golden-ratio langtool rainbow-identifiers-mode wc-mode vagrant-tramp undohist solarized-theme restart-emacs powerline php-mode paredit ocp-indent markdown markdown-mode guru-mode elpy dockerfile-mode caml boogie-friends visual-fill-column ido-yes-or-no ag xcscope ido-occur auctex fold-this eclim haskell-mode zygospore iedit ini-mode keyfreq vlf semantic-mode srefactor cl-lib zpresent org-present ox-reveal undo-tree minimap epresent)))
  '(proof-electric-terminator-enable nil)
  '(safe-local-variable-values
    (quote
@@ -426,13 +426,45 @@
   :hook ((c-mode c++-mode java-mode) . ggtags-mode)
   :custom-face (ggtags-highlight ((t nil))))
 
-;; Elpy for Python. Requires to have run "pip install jedi flake8
-;; autopep8 yapf" on system in advance.
-(use-package elpy
+;; ------ CURRENTLY DISABLED ------ Using lsp-mode instead.
+;; ;; Elpy for Python. Requires to have run "pip install jedi flake8
+;; ;; autopep8 yapf" on system in advance.
+;; (use-package elpy
+;;   :ensure t
+;;   :hook (python-mode . elpy-mode)
+;;   :config
+;;   (elpy-enable))
+
+;; Use lsp-mode.
+;;
+;; For Python: Requires to have run the following in advance:
+;;      `pip install 'python-language-server[all]'`
+(use-package lsp-mode
   :ensure t
-  :hook (python-mode . elpy-mode)
+  :commands lsp
+  :hook (python-mode . lsp)
   :config
-  (elpy-enable))
+  ;; Use flake8 rather than the default pycodestyle, for pyls. See
+  ;; specific settings for this in lsp-ui too.
+  (setq	lsp-pyls-plugins-pyflakes-enabled nil
+  	lsp-pyls-plugins-pylint-enabled nil
+  	lsp-pyls-plugins-pycodestyle-enabled nil
+	flycheck-checker 'python-flake8)
+  ;; Disable the annoying symbol highlighting behavior
+  (setq lsp-enable-symbol-highlighting nil))
+
+;; Nice UI features :)
+(use-package lsp-ui
+  :ensure t
+  :after (lsp-mode)
+  :hook (lsp-mode-hook . lsp-ui-mode)
+  :config
+  ;; Set stuff up to ensure that we can use flake8 rather than default
+  ;; stuff for python. See specific settings for this in lsp-mode too.
+  (add-hook 'lsp-after-open-hook
+	    '(lambda ()
+	       (when (eq major-mode 'python-mode)
+		 (flycheck-add-next-checker 'lsp-ui 'python-flake8)))))
 
 ;; Smoothen scrolling
 (setq scroll-margin 1
