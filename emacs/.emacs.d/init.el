@@ -34,8 +34,10 @@
  '(flyspell-default-dictionary "english")
  '(font-use-system-font t)
  '(global-auto-revert-mode t)
+ '(ido-default-buffer-method (quote selected-window))
  '(ido-enable-flex-matching t)
  '(ido-ubiquitous-mode t)
+ '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(magit-diff-refine-hunk t)
  '(menu-bar-mode nil)
@@ -48,45 +50,45 @@
  '(minimap-window-location (quote right))
  '(package-selected-packages
    (quote
-    (lsp-ui lsp-mode zoom flycheck-package package-lint rainbow-delimiters delight golden-ratio langtool rainbow-identifiers-mode wc-mode vagrant-tramp undohist solarized-theme restart-emacs powerline php-mode paredit ocp-indent markdown markdown-mode guru-mode elpy dockerfile-mode caml boogie-friends visual-fill-column ido-yes-or-no ag xcscope ido-occur auctex fold-this eclim haskell-mode zygospore iedit ini-mode keyfreq vlf semantic-mode srefactor cl-lib zpresent org-present ox-reveal undo-tree minimap epresent)))
+    (lsp-ui lsp-mode suggest projectile fsharp-mode doom-modeline vale-mode buffer-move magit-todos sublimity framemove ox-gfm zoom rainbow-identifiers flycheck-package package-lint rainbow-delimiters delight golden-ratio langtool rainbow-identifiers-mode wc-mode vagrant-tramp undohist solarized-theme restart-emacs powerline php-mode paredit ocp-indent markdown markdown-mode guru-mode elpy dockerfile-mode caml boogie-friends visual-fill-column ido-yes-or-no ag xcscope ido-occur auctex fold-this eclim haskell-mode zygospore iedit ini-mode keyfreq vlf semantic-mode srefactor cl-lib zpresent org-present ox-reveal undo-tree minimap epresent)))
  '(proof-electric-terminator-enable nil)
  '(safe-local-variable-values
    (quote
     ((fstar-subp-prover-additional-args lambda nil
-					(require
-					 (quote magit))
-					(split-string
-					 (string-join
-					  (cl-remove-if
-					   (lambda
-					     (s)
-					     (string-match-p "^$" s))
-					   (mapcar
-					    (lambda
-					      (s)
-					      (replace-regexp-in-string "--include "
-									(concat "--include "
-										(replace-regexp-in-string "^/ssh.*:/" "/"
-													  (file-relative-name
-													   (magit-toplevel))))
-									s))
-					    (mapcar
-					     (lambda
-					       (s)
-					       (replace-regexp-in-string "[[:space:]]*#.*$" "" s))
-					     (split-string
-					      (with-temp-buffer
-						(insert-file-contents
-						 (concat
-						  (magit-toplevel)
-						  "fstar-args"))
-						(buffer-substring-no-properties
-						 (point-min)
-						 (point-max)))
-					      "
+                                        (require
+                                         (quote magit))
+                                        (split-string
+                                         (string-join
+                                          (cl-remove-if
+                                           (lambda
+                                             (s)
+                                             (string-match-p "^$" s))
+                                           (mapcar
+                                            (lambda
+                                              (s)
+                                              (replace-regexp-in-string "--include "
+                                                                        (concat "--include "
+                                                                                (replace-regexp-in-string "^/ssh.*:/" "/"
+                                                                                                          (file-relative-name
+                                                                                                           (magit-toplevel))))
+                                                                        s))
+                                            (mapcar
+                                             (lambda
+                                               (s)
+                                               (replace-regexp-in-string "[[:space:]]*#.*$" "" s))
+                                             (split-string
+                                              (with-temp-buffer
+                                                (insert-file-contents
+                                                 (concat
+                                                  (magit-toplevel)
+                                                  "fstar-args"))
+                                                (buffer-substring-no-properties
+                                                 (point-min)
+                                                 (point-max)))
+                                              "
 " t))))
-					  " ")
-					 " " t)))))
+                                          " ")
+                                         " " t)))))
  '(send-mail-function (quote mailclient-send-it))
  '(tool-bar-mode nil))
 (custom-set-faces
@@ -95,6 +97,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Source Code Pro" :foundry "adobe" :slant normal :weight normal :height 113 :width normal))))
+ '(doom-modeline-info ((t (:inherit bold))))
  '(ggtags-highlight ((t nil)))
  '(minimap-active-region-background ((t (:inverse-video t))))
  '(writegood-duplicates-face ((t (:underline (:color "DodgerBlue1" :style wave)))))
@@ -137,6 +140,7 @@
 (ido-mode t)
 (require 'flx-ido)
 (flx-ido-mode t)
+(global-set-key (kbd "C-x C-d") #'ido-dired) ;; Map "C-x C-d" to do same as "C-x d" which is otherwise awkward.
 
 ;; Get some distraction free goodness :)
 (use-package olivetti
@@ -145,7 +149,7 @@
   :config
   (progn
     (setq olivetti-hide-mode-line t)
-    (setq-default olivetti-body-width 90)))
+    (setq-default olivetti-body-width 116)))
 
 ;; fold-this
 (use-package fold-this
@@ -167,9 +171,9 @@
 	 ("C-c M-x" . execute-extended-command)))
 
 ;; imenu-anywhere lets you jump between relevant parts of code easily
-(use-package imenu-anywhere
-  :ensure t
-  :bind (("C-." . imenu-anywhere)))
+;; (use-package imenu-anywhere
+;;   :ensure t
+;;   :bind (("C-." . imenu-anywhere)))
 
 (display-time-mode 1)
 
@@ -181,7 +185,40 @@
 
 (use-package magit
   :ensure t
-  :bind (("C-x g" . magit-status)))
+  :bind (("C-x g" . magit-status))
+  :config
+  ;; Set up stuff for magit wip -- See magit-wip below.
+  (setq magit-wip-merge-branch t)
+  (transient-append-suffix 'magit-log "a"
+    '("i" "Index wipref" magit-wip-log-index))
+  (transient-append-suffix 'magit-log "i"
+    '("w" "Worktree wipref" magit-wip-log-worktree)))
+
+;; Temporary workaround for the lisp-mode-symbol-regexp "bug" for
+;; magit. Either have to fix it and remove this, or maybe move to
+;; emacs 25?
+(defconst lisp-mode-symbol-regexp "\\(?:\\sw\\|\\s_\\|\\\\.\\)+")
+
+;; Prevent magit transient window from popping up so damn fast!
+(setq transient-show-popup 0.5)
+
+;; Make magit smarter at keeping progress of changes along the way.
+;; See https://emacs.stackexchange.com/a/45153
+(use-package magit-wip
+  :after magit
+  :config
+  (magit-wip-before-change-mode)
+  (magit-wip-after-apply-mode)
+  (magit-wip-after-save-mode))
+(add-hook 'before-save-hook 'magit-wip-commit-initial-backup)
+
+;; (use-package magit-todos
+;;   :ensure t
+;;   :custom
+;;   (magit-todos-keyword-suffix "" "No suffix needed")
+;;   (magit-todos-keywords (quote ("TODO" "XXX" "WARN" "UNSOUND" "admit" "assume")) "Show todos for all of these")
+;;   :config
+;;   (magit-todos-mode 1))
 
 (use-package org
   :ensure t
@@ -193,6 +230,15 @@
   (org-startup-with-inline-images t "Show images inline upon startup")
   :config
   (progn
+    ;; Allow windmove to continue working
+    (add-hook 'org-shiftup-final-hook 'windmove-up)
+    (add-hook 'org-shiftleft-final-hook 'windmove-left)
+    (add-hook 'org-shiftdown-final-hook 'windmove-down)
+    (add-hook 'org-shiftright-final-hook 'windmove-right)
+    (add-hook 'org-metaup-final-hook 'windmove-up)
+    (add-hook 'org-metaleft-final-hook 'windmove-left)
+    (add-hook 'org-metadown-final-hook 'windmove-down)
+    (add-hook 'org-metaright-final-hook 'windmove-right)
     ;; Allow quotes inside of emphasis sections : Based off
     ;; of https://stackoverflow.com/a/24173780/3696619
     (setcar (nthcdr 2 org-emphasis-regexp-components) " \t\r\n")
@@ -234,13 +280,16 @@
 ;; Prevent C-z from accidentally sending the window to background
 (global-unset-key (kbd "C-z"))
 
+;; Prevent F11 from accidentally trying to maximize the window
+(global-unset-key (kbd "<f11>"))
+
 ;; Handle "Page Up" and "Page Down" better
 (global-set-key (kbd "<next>") 'scroll-up-line)
 (global-set-key (kbd "<prior>") 'scroll-down-line)
 (global-unset-key (kbd "C-<prior>"))
 (global-unset-key (kbd "C-<next>"))
 
-(require 'latex-preview-pane)
+;; (require 'latex-preview-pane)
 (use-package tex
   :ensure auctex
   :demand t)
@@ -289,14 +338,15 @@
 ;; ; work
 
 ;; Set up Dafny integration
-(use-package boogie-friends
-  :mode ("\\.dfy\\'" . dafny-mode)
-  :config
-  (setq dafny-prefix-path "/opt/dafny/")
-  (setq flycheck-dafny-executable (concat dafny-prefix-path "dafny"))
-  (setq flycheck-z3-executable (concat dafny-prefix-path "z3/bin/z3"))
-  (setq flycheck-inferior-dafny-executable (concat
-					    dafny-prefix-path "dafny-server")))
+;; (use-package boogie-friends
+;;   :mode ("\\.dfy\\'" . dafny-mode)
+;;   :config
+;;   (setq dafny-prefix-path "/opt/dafny/")
+;;   (setq flycheck-dafny-executable (concat dafny-prefix-path "dafny"))
+;;   (setq flycheck-z3-executable (concat dafny-prefix-path "z3/bin/z3"))
+;;   (setq flycheck-inferior-dafny-executable (concat
+;; 					    dafny-prefix-path "dafny-server")))
+
 
 
 ;; Set up F* integration
@@ -334,7 +384,6 @@
   (setq fstar-smt-executable (concat fstar-prefix-path "bin/z3")))
 (require 'fstar-rewrite)
 (add-to-list 'load-path "/home/jay/.local/share/emacs/site-lisp")
-(require 'fstar-indent)
 (defun fstar-indent-buffer ()
   (interactive)
   (if fstar-indent-buffer-must-run
@@ -365,6 +414,15 @@
 (defun killall-z3 ()
   (interactive)
   (call-process "killall" nil nil nil "z3"))
+(defun fstar-show-admits-and-assumes (&optional prefix)
+  (interactive "P")
+  (if prefix
+      (occur "admit\\|assume\\|TODO\\|WARN\\|FIXME\\|XXX\\|UNSOUND\\|REVIEW\\|WAT\\|NEVERCO[M]MIT")
+    (occur "admit\\|assume")))
+(defun fstar-confirm-before-kill (&optional arg)
+  (interactive "P")
+  (when (y-or-n-p "Are you sure you want to kill the F* process? ")
+    (fstar-subp-kill-one-or-many arg)))
 (add-hook 'fstar-mode-hook
 	  (lambda ()
 	    (superword-mode 1)
@@ -377,8 +435,12 @@
 	    (local-set-key (kbd "C-'") 'fstar-jump-to-definition-other-window)
 	    (local-set-key (kbd "M-'") 'fstar-jump-to-related-error-other-window)
 	    (local-set-key (kbd "M-,") 'xref-pop-marker-stack) ; works nicely with M-.
-	    (local-set-key (kbd "<f12>") 'flycheck-clear)
+	    (local-set-key (kbd "<f5>") 'fstar-show-admits-and-assumes)
+            (local-set-key (kbd "C-c C-x") 'fstar-confirm-before-kill)
 	    ))
+
+;; Make F-12 clear all flycheck marks
+(global-set-key (kbd "<f12>") 'flycheck-clear)
 
 ;; Set up markdown editing
 (use-package markdown-mode
@@ -394,6 +456,11 @@
 
 ;; Turn on show-trailing-whitespace
 (setq-default show-trailing-whitespace t)
+
+;; Disable on some modes
+(dolist (hook '(term-mode-hook))
+  (add-hook hook '(lambda () (setq show-trailing-whitespace nil))))
+
 
 ;; Be able to unfill paragraphs
 (require 'unfill)
@@ -623,8 +690,8 @@ a pulse"
 
 ;; Set C-' to correct word using flyspell, and F9 to flyspell the
 ;; entire buffer. C-F9 to disable flyspell.
-(global-set-key (kbd "C-'")
-		'flyspell-correct-word-before-point)
+;; (global-set-key (kbd "C-'")
+;; 		'flyspell-correct-word-before-point)
 (defun flyspell-enable ()
   (interactive)
   (if (derived-mode-p 'prog-mode)
@@ -647,14 +714,14 @@ a pulse"
 
 ;; Coq
 ;; Proof General
-(load-file "/usr/share/emacs/site-lisp/proofgeneral/generic/proof-site.el")
-;; Load company-coq when opening Coq files
-(use-package company-coq
-  :hook (coq-mode . company-coq-mode))
+;; (load-file "/usr/share/emacs/site-lisp/proofgeneral/generic/proof-site.el")
+;; ;; Load company-coq when opening Coq files
+;; (use-package company-coq
+;;   :hook (coq-mode . company-coq-mode))
 
 ;; Agda mode
-(load-file (let ((coding-system-for-read 'utf-8))
-                (shell-command-to-string "agda-mode locate")))
+;; (load-file (let ((coding-system-for-read 'utf-8))
+;;                 (shell-command-to-string "agda-mode locate")))
 
 ;; Theme flipper
 (setq
@@ -674,7 +741,7 @@ a pulse"
 (global-set-key (kbd "C-<f12>") 'theme-flip)
 
 ;; Microsoft IVy
-(use-package ivy-mode)
+;; (use-package ivy-mode)
 
 ;; Use a hippie-expand, instead of dabbrev-expand, which has
 ;; dabbrev-expand as one of its tactics, so leads to a guaranteed
@@ -703,8 +770,8 @@ a pulse"
 ;; 	 :map isearch-mode-map
 ;; 	 ("C-o" . 'ido-occur-from-isearch)))
 
-;; Bind "occur" to C-o instead of open-line
-(global-set-key (kbd "C-o") 'occur)
+;; Bind "occur" to M-o instead of facemenu stuff
+(global-set-key (kbd "M-o") 'occur)
 
 ;; Be able to move around C/C++ projects easily using cscope.
 ;; Try C-c s SOMETHING in a C/C++ buffer.
@@ -731,7 +798,9 @@ a pulse"
 
 ;; Be able to move between buffers more easily, using M-up, M-down,
 ;; M-left, M-right.
+(require 'framemove)
 (windmove-default-keybindings 'meta)
+(setq framemove-hook-into-windmove t)
 
 ;; Be able to use ag from emacs
 (use-package ag
@@ -878,8 +947,8 @@ a pulse"
 ;; remove this or restrict to F* only if it gets too annoying.
 (setq max-mini-window-height 0.5)
 
-;; Use golden-ratio-mode to help keep the current window in better
-;; focus by making it a bit larger.
+;; ;; Use golden-ratio-mode to help keep the current window in better
+;; ;; focus by making it a bit larger.
 ;; (use-package golden-ratio
 ;;   :ensure t
 ;;   :delight
@@ -897,9 +966,133 @@ a pulse"
 ;; Prevent magit transient window from popping up so damn fast!
 (setq transient-show-popup 0.5)
 
-;; Be able to open nautilus with some nice keybindings
-(defun open-nautilus-in-directory (dir)
+;; ;; Be able to open nautilus with some nice keybindings
+;; (defun open-nautilus-in-directory (dir)
+;;   (interactive "D")
+;;   (let ((dir (expand-file-name dir)))
+;;     (start-process "nautilus" nil "nautilus" dir)))
+;; (global-set-key (kbd "C-x C-d") 'open-nautilus-in-directory)
+
+;; Be able to open gnome-terminal with some nice keybindings
+(setenv "SHELL" "/usr/bin/zsh")
+(defun open-gnome-terminal-in-directory (dir)
   (interactive "D")
   (let ((dir (expand-file-name dir)))
-    (start-process "nautilus" nil "nautilus" dir)))
-(global-set-key (kbd "C-x C-d") 'open-nautilus-in-directory)
+    (start-process "gnome-terminal" nil "dbus-launch" "gnome-terminal" dir)))
+(global-set-key (kbd "C-x C-t") 'open-gnome-terminal-in-directory)
+
+;; enable recent files mode.
+;; (recentf-mode t)
+
+; 50 files ought to be enough.
+(setq recentf-max-saved-items 50)
+
+(defun ido-recentf-open ()
+  "Use `ido-completing-read' to \\[find-file] a recent file"
+  (interactive)
+  (if (find-file (ido-completing-read "Find recent file: " recentf-list))
+      (message "Opening file...")
+    (message "Aborting")))
+
+;; get rid of `find-file-read-only' and replace it with something
+;; more useful.
+(global-set-key (kbd "C-x C-r") 'ido-recentf-open)
+
+
+;;;;;;;; Cursor color
+
+;; (set-cursor-color "#ffffff")
+
+;; (defvar blink-cursor-colors (list  "#92c48f" "#6785c5" "#be369c" "#d9ca65")
+;;   "On each blink the cursor will cycle to the next color in this list.")
+
+;; (setq blink-cursor-count 0)
+;; (defun blink-cursor-timer-function ()
+;;   "Zarza wrote this cyberpunk variant of timer `blink-cursor-timer'. 
+;; Warning: overwrites original version in `frame.el'.
+
+;; This one changes the cursor color on each blink. Define colors in `blink-cursor-colors'."
+;;   (when (not (internal-show-cursor-p))
+;;     (when (>= blink-cursor-count (length blink-cursor-colors))
+;;       (setq blink-cursor-count 0))
+;;     (set-cursor-color (nth blink-cursor-count blink-cursor-colors))
+;;     (setq blink-cursor-count (+ 1 blink-cursor-count))
+;;     )
+;;   (internal-show-cursor nil (not (internal-show-cursor-p)))
+;;   )
+
+(add-to-list 'default-frame-alist '(cursor-color . "#ffffff"))
+
+(global-set-key (kbd "C-x 4 c") 'clone-indirect-buffer)
+
+(use-package vale-mode
+  :ensure t
+  :custom
+  (vale-interact-path "/home/jay/everest/vale/tools/scripts/interact.py" "Path to vale's interact.py")
+  :mode ("\\.vaf\\'" . vale-mode))
+
+(desktop-save-mode 1)
+(desktop-auto-save-enable)
+(setq desktop-restore-eager 3)
+(push '(mouse-color . :never) frameset-filter-alist)
+(midnight-mode 1) ;; Enable midnight mode to automatically purge old unvisited buffers at midnight.
+
+(use-package buffer-move
+  :ensure t
+  :bind
+  ("<M-S-up>" . buf-move-up)
+  ("<M-S-down>" . buf-move-down)
+  ("<M-S-left>" . buf-move-left)
+  ("<M-S-right>" . buf-move-right))
+
+(global-set-key (kbd "C-M-<f7>") 'normal-mode)
+
+(defun narrow-region-to-indirect-readonly-buffer (start end)
+  "Narrow to selected region in an indirect readonly buffer"
+  (interactive "r")
+  (deactivate-mark)
+  (let ((buf (clone-indirect-buffer
+              (concat (buffer-name) "-" (int-to-string start) "-" (int-to-string end))
+              nil
+              t)))
+    (switch-to-buffer buf nil t)
+    (with-current-buffer buf
+      (setq-local buffer-read-only t)
+      (narrow-to-region start end)
+      (use-local-map (copy-keymap (car (current-active-maps))))
+      (local-set-key (kbd "q") 'kill-this-buffer))))
+(global-set-key (kbd "C-<f7>") 'narrow-region-to-indirect-readonly-buffer)
+
+;; Always have column number mode on
+(column-number-mode 1)
+
+;; Add the doom modeline
+;; If fonts don't work, use "M-x all-the-icons-install-fonts"
+(use-package doom-modeline
+  :ensure t
+  :hook (after-init . doom-modeline-mode)
+  :custom-face (doom-modeline-info ((t (:inherit bold))))
+  :config
+  (setq doom-modeline-buffer-file-name-style 'buffer-name)
+  (setq doom-modeline-major-mode-icon nil)
+  (setq doom-modeline-buffer-encoding nil)
+  (setq doom-modeline-vcs-max-length 40))
+
+;; Make emacs reload TAGS files automatically
+(setq tags-revert-without-query 1)
+
+;; Bring in F# mode
+(use-package fsharp-mode)
+
+;; Use projectile for easily moving around in projects
+(use-package projectile
+  :ensure t
+  :bind-keymap ("C-c p" . projectile-command-map)
+  :bind
+  ("C-o" . projectile-multi-occur)) ;; Replaces open-line
+
+;; Use the "suggest" package to easily find lisp functions via
+;; input-output pairs.
+(use-package suggest
+  :ensure t
+  :commands (suggest))
