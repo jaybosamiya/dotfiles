@@ -10,4 +10,4 @@ email = jaybosamiya@gmail.com
 	attributesfile = ~/.gitattributes
 [filter "nevercommitfilter"]
 	smudge = cat
-	clean = sed '/NEVERCOMMIT/'d
+	clean = sed '/NEVERCOMM[I]T/'d
