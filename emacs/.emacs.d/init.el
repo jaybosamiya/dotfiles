@@ -265,7 +265,7 @@
   :defer t
   :config
   (progn
-    (setq org-reveal-root "https://cdn.jsdelivr.net/reveal.js/3.0.0/")
+    (setq org-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js@3.8.0/")
     (setq org-reveal-title-slide "<h1 class=\"title\">%t</h1><h5 class=\"author\">%a</h5><h5 class=\"date\">%d</h5>")))
 
 (use-package htmlize
