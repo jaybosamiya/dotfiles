@@ -1106,3 +1106,7 @@ a pulse"
 (use-package suggest
   :ensure t
   :commands (suggest))
+
+;; Make case-changing much better to work with
+(global-set-key (kbd "M-u") 'upcase-dwim)
+(global-set-key (kbd "M-l") 'downcase-dwim)
