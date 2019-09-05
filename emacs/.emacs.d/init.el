@@ -337,6 +337,14 @@
 ;; ; of the settings above, apart from the inferior-lisp-program one even
 ;; ; work
 
+(use-package imenu-anywhere
+  :ensure t)
+
+(defun push-marker-stack-and-imenu-anywhere ()
+  (interactive)
+  (xref-push-marker-stack)
+  (imenu-anywhere))
+
 ;; Set up Dafny integration
 (use-package boogie-friends
   :mode ("\\.dfy\\'" . dafny-mode)
