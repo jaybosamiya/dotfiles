@@ -1054,11 +1054,11 @@ a pulse"
   (vale-interact-path "/home/jay/everest/vale/tools/scripts/interact.py" "Path to vale's interact.py")
   :mode ("\\.vaf\\'" . vale-mode))
 
-(desktop-save-mode 1)
-(desktop-auto-save-enable)
-(setq desktop-restore-eager 3)
-(push '(mouse-color . :never) frameset-filter-alist)
-(midnight-mode 1) ;; Enable midnight mode to automatically purge old unvisited buffers at midnight.
+;; (desktop-save-mode 1)
+;; (desktop-auto-save-enable)
+;; (setq desktop-restore-eager 3)
+;; (push '(mouse-color . :never) frameset-filter-alist)
+;; (midnight-mode 1) ;; Enable midnight mode to automatically purge old unvisited buffers at midnight.
 
 (use-package buffer-move
   :ensure t
