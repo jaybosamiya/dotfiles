@@ -179,11 +179,7 @@ alias tn='task next'
 alias ts='task start'
 function _tt() {
     task ready 2>/dev/null | \
-	sed '/^\s*$/d' |  \
-	sed '/^ID.*Age.*Description.*Urg$/d' | \
-	sed '/^\(-*\s*\)*$/d' | \
-	sed '/\d* tasks*$/d' | \
-	awk '{$1="TODO[" $1 "]"; $2=""; print $0}' | \
+        awk '$1~/^[0-9]+$/{$1="TODO[" $1 "]"; $2=""; print $0}' | \
 	rev | awk '{$1=""; print $0}' | rev
     # TODO: Use the JSON export and write a nicer output
 }
