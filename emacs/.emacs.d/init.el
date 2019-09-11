@@ -371,7 +371,7 @@
 					    dafny-prefix-path "dafny-server"))
   (progn ;; Make it easy to jump to errors from compilation mode :)
     (push 'dafny compilation-error-regexp-alist)
-    (push '(dafny "^\\(.*?\\)(\\([0-9]+\\),\\([0-9]+\\)): " 1 2 3) compilation-error-regexp-alist-alist)))
+    (push '(dafny "^\\([^ ]*?\\)(\\([0-9]+\\),\\([0-9]+\\)): " 1 2 3) compilation-error-regexp-alist-alist)))
 
 ;; Set up F* integration
 (require 'fstar-mode)
