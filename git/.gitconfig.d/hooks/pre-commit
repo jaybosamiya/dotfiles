@@ -1,0 +1,13 @@
+#
+# Prevent accidental commits using
+#  + "NOCOMMIT"
+#  + "NO_COMMIT"
+#  + "DO_NOT_COMMIT"
+#
+if git commit -v --dry-run | grep -e '\(NO\|NO_\|DO_NOT_\)COMMIT' >/dev/null 2>&1
+then
+  echo "Trying to commit non-committable code."
+  exit 1
+else
+  exit 0
+fi
