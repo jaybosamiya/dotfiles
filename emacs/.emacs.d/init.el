@@ -515,7 +515,8 @@
 (use-package ggtags
   :ensure t
   :hook ((c-mode c++-mode java-mode) . ggtags-mode)
-  :custom-face (ggtags-highlight ((t nil))))
+  :custom-face (ggtags-highlight ((t nil)))
+  :init (setq ggtags-enable-navigation-keys nil))
 
 ;; ------ CURRENTLY DISABLED ------ Using lsp-mode instead.
 ;; ;; Elpy for Python. Requires to have run "pip install jedi flake8
