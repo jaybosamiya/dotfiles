@@ -659,11 +659,16 @@ a pulse"
 (global-set-key (kbd "M-g g") 'goto-line-and-pulse)
 
 ;; Turn on line numbers for all buffers
-(global-linum-mode)
+(if (version<= "26.0.50" emacs-version)
+    (global-display-line-numbers-mode) ;; use faster version when available
+  (global-linum-mode))
 
 ;; Disable linum-mode for incompatible cases
-(dolist (hook '(pdf-view-mode-hook olivetti-mode-hook image-mode))
-  (add-hook hook '(lambda () (linum-mode 0))))
+(dolist (hook '(pdf-view-mode-hook olivetti-mode-hook image-mode-hook))
+  (add-hook hook '(lambda ()
+                    (linum-mode 0)
+                    (when (version<= "26.0.50" emacs-version)
+                      (display-line-numbers-mode 0)))))
 
 ;; Handle escape sequence colorization properly for compilation-mode
 ;; See : https://emacs.stackexchange.com/a/38531
