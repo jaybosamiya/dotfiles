@@ -570,12 +570,11 @@
   :after (lsp-mode)
   :hook (lsp-mode-hook . lsp-ui-mode)
   :config
+  (setq lsp-prefer-flymake nil)
   ;; Set stuff up to ensure that we can use flake8 rather than default
   ;; stuff for python. See specific settings for this in lsp-mode too.
   (add-hook 'lsp-after-open-hook
 	    '(lambda ()
-               (flymake-mode -1)
-               (flycheck-mode 1)
 	       (when (eq major-mode 'python-mode)
 		 (flycheck-add-next-checker 'lsp-ui 'python-flake8)))))
 
