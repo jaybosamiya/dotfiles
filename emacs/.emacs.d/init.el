@@ -574,6 +574,8 @@
   ;; stuff for python. See specific settings for this in lsp-mode too.
   (add-hook 'lsp-after-open-hook
 	    '(lambda ()
+               (flymake-mode -1)
+               (flycheck-mode 1)
 	       (when (eq major-mode 'python-mode)
 		 (flycheck-add-next-checker 'lsp-ui 'python-flake8)))))
 
