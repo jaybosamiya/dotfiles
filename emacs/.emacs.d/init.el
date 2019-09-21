@@ -1184,6 +1184,7 @@ a pulse"
     (lambda ()
       (if (and
            (not (string-match "^\*.*\*$" (buffer-name)))
-           (not (member major-mode '(dired-mode magit-diff-mode))))
+           (not (member major-mode
+                        '(dired-mode magit-diff-mode magit-status-mode))))
           (fci-mode 1))))
   (global-fci-mode 1))
