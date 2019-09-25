@@ -229,6 +229,9 @@
   (org-export-with-toc nil "Disable table-of-contents generation")
   (org-startup-with-inline-images t "Show images inline upon startup")
   :config
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((python . t)))
   (progn
     ;; Allow windmove to continue working
     (add-hook 'org-shiftup-final-hook 'windmove-up)
