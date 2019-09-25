@@ -1015,11 +1015,11 @@ a pulse"
 ;;   (golden-ratio-mode 1))
 
 ;; Use zoom-mode which is a more modern version of golden-ratio-mode
-(use-package zoom
-  :ensure t
-  :delight
-  :config
-  (zoom-mode 1))
+;; (use-package zoom
+;;   :ensure t
+;;   :delight
+;;   :config
+;;   (zoom-mode 1))
 
 ;; Prevent magit transient window from popping up so damn fast!
 (setq transient-show-popup 0.5)
@@ -1175,18 +1175,18 @@ a pulse"
 (use-package sane-term
   :ensure t)
 
-(use-package fill-column-indicator
-  :ensure t
-  :config
-  (setq fci-rule-column 80
-        fci-rule-use-dashes nil
-        fci-rule-width 1
-        fci-rule-color "#3b4b4b")
-  (define-globalized-minor-mode global-fci-mode fci-mode
-    (lambda ()
-      (if (and
-           (not (string-match "^\*.*\*$" (buffer-name)))
-           (not (member major-mode
-                        '(dired-mode magit-diff-mode magit-status-mode))))
-          (fci-mode 1))))
-  (global-fci-mode 1))
+;; (use-package fill-column-indicator
+;;   :ensure t
+;;   :config
+;;   (setq fci-rule-column 80
+;;         fci-rule-use-dashes nil
+;;         fci-rule-width 1
+;;         fci-rule-color "#3b4b4b")
+;;   (define-globalized-minor-mode global-fci-mode fci-mode
+;;     (lambda ()
+;;       (if (and
+;;            (not (string-match "^\*.*\*$" (buffer-name)))
+;;            (not (member major-mode
+;;                         '(dired-mode magit-diff-mode magit-status-mode))))
+;;           (fci-mode 1))))
+;;   (global-fci-mode 1))
