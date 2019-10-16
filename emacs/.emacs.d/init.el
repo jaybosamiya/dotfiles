@@ -383,7 +383,7 @@
   (setq dafny-prefix-path "/opt/dafny/Binaries/")
   (setq flycheck-dafny-executable (concat dafny-prefix-path "dafny"))
   (setq flycheck-z3-executable (concat dafny-prefix-path "z3/bin/z3"))
-  (setq dafny-prover-background-args '("/timeLimit:30" "/autoTriggers:1" "/printTooltips" "/allocated:2"))
+  (setq dafny-prover-background-args '("/timeLimit:30" "/autoTriggers:1" "/printTooltips" "/allocated:3"))
   (setq flycheck-inferior-dafny-executable (concat
 					    dafny-prefix-path "dafny-server"))
   (progn ;; Make it easy to jump to errors from compilation mode :)
