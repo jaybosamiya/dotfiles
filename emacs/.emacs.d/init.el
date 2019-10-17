@@ -1193,3 +1193,7 @@ a pulse"
 
 (use-package bug-hunter
   :ensure t)
+
+(use-package smerge-mode
+  :init
+  (setq smerge-command-prefix (kbd "C-c v")))
