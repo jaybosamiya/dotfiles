@@ -180,8 +180,8 @@
 (use-package pdf-tools
   :ensure t
   :defer t
+  :config (pdf-tools-install)
   :magic ("%PDF" . pdf-view-mode))
-(pdf-tools-install)
 
 (use-package magit
   :ensure t
