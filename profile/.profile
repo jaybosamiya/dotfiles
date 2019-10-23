@@ -29,7 +29,6 @@ export HACL_HOME="$EVERESTHOME/hacl-star"
 export VALE_HOME="$EVERESTHOME/vale"
 export MLCRYPTO_HOME="$EVERESTHOME/mlcrypto"
 
-
 export PATH="$HOME/.cargo/bin:$PATH"
 export PPP_EXPLOIT_LOCAL=1
 # Set up "hit only" sequences for modifiers
@@ -39,3 +38,18 @@ export PPP_EXPLOIT_LOCAL=1
 pgrep xcape >/dev/null || xcape -t 100 -e 'Caps_Lock=Escape;Shift_L=Shift_L|parenleft;Shift_R=Shift_R|parenright'
 export GOPATH="$HOME/.local/gocode"
 
+# Allow .local binaries
+export PATH=~/.local/bin:$PATH
+
+# Speed up compile times using ccache if available
+if [ -d /usr/lib/ccache ]; then
+    export PATH="/usr/lib/ccache:$PATH"
+fi
+
+# connect up local gem repository
+export PATH="$HOME/.gem/ruby/2.3.0/bin:$PATH"
+
+# connect up local cabal repository
+export PATH="$HOME/.cabal/bin/:$PATH"
+
+export PATH="$HOME/.cargo/bin:$PATH"

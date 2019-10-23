@@ -4,8 +4,6 @@ ZSH_THEME="robbyrussell"
 plugins=(git command-not-found vagrant taskwarrior)
 source $ZSH/oh-my-zsh.sh || git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 
-source $HOME/.profile
-
 # Custom aliases
 alias n='nautilus . &!' # Opens nautilus and disowns it from current shell
 alias ag='ag --pager less'
@@ -224,14 +222,6 @@ function tempdir() {
     fi
 }
 
-# Allow .local binaries
-export PATH=~/.local/bin:$PATH
-
-# Speed up compile times using ccache if available
-if [ -d /usr/lib/ccache ]; then
-    export PATH="/usr/lib/ccache:$PATH"
-fi
-
 # # ntfy integration
 # eval "$(ntfy shell-integration)"
 # mobile-send () {
@@ -251,15 +241,6 @@ fi
 xbox-bluetooth () {
     echo 1 | sudo tee /sys/module/bluetooth/parameters/disable_ertm
 }
-
-# opam configuration
-test -r $HOME/.opam/opam-init/init.zsh && . $HOME/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
-
-# connect up local gem repository
-export PATH="$HOME/.gem/ruby/2.3.0/bin:$PATH"
-
-# connect up local cabal repository
-export PATH="$HOME/.cabal/bin/:$PATH"
 
 # Show the next set up of tasks upon zsh load, if they exist; but
 # don't display of recording
