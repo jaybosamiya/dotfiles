@@ -311,6 +311,8 @@
 		  (preview-document)
 		  )
 	       )
+             (highlight-regexp "\\\\comment{[^}]*}" 'superscript)
+             (highlight-regexp "\\\\comment" 'hi-blue)
 	     )
 	  )
 ;; Allow the LaTeX-narrow-to-environment command be run without
