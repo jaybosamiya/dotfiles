@@ -47,7 +47,8 @@ if [ -d /usr/lib/ccache ]; then
 fi
 
 # connect up local gem repository
-export PATH="$HOME/.gem/ruby/2.3.0/bin:$PATH"
+export GEM_HOME="$HOME/.gem"
+export PATH="$HOME/.gem/bin:$PATH"
 
 # connect up local cabal repository
 export PATH="$HOME/.cabal/bin/:$PATH"
