@@ -107,23 +107,23 @@
 	 (possible-frames
 	  (sort
 	   (remove-if-not
-	    '(lambda (f) (fm-frame-is-to-dir-of f dir thisframe))
+	    #'(lambda (f) (fm-frame-is-to-dir-of f dir thisframe))
 	    (visible-frame-list))
-	   '(lambda (f1 f2) (fm-frame-is-to-dir-of f1 (fm-opposite dir) f2)))))
+	   #'(lambda (f1 f2) (fm-frame-is-to-dir-of f1 (fm-opposite dir) f2)))))
     (if possible-frames
 	(let ((frames-in-line-of-cursor
 	       ;; try to find frame in line with cursor
 	       (remove-if-not
-		'(lambda (f) (fm-coord-in-range current-coords dir f))
+		#'(lambda (f) (fm-coord-in-range current-coords dir f))
 		possible-frames))
 	      (frames-in-line-of-frame
 	       ;; find frame that overlaps current frame
 	       ;; need to sort by distance from cursor
 	       (sort
 		(remove-if-not
-		 '(lambda (f) (fm-range-overlap thisframe f dir))
+		 #'(lambda (f) (fm-range-overlap thisframe f dir))
 		 possible-frames)
-		'(lambda (f1 f2)
+		#'(lambda (f1 f2)
 		   (< (fm-dist-from-coords coords-projected-in-dir f1)
 		      (fm-dist-from-coords coords-projected-in-dir f2))))))
 	  (select-frame-set-input-focus
