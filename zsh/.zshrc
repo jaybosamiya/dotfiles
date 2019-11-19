@@ -124,6 +124,11 @@ function public-ip() {
     curl https://ipinfo.io/ip
 }
 
+function latexmakefile() {
+    # Drop the super nice Makefile I've written into current directory
+    wget --no-clobber https://raw.githubusercontent.com/jaybosamiya/latex-paper-template/master/Makefile
+}
+
 function waitmake() {
     while true; do
 	inotifywait -e modify -r .
