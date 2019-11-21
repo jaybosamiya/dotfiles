@@ -668,7 +668,11 @@ a pulse"
   (global-linum-mode))
 
 ;; Disable linum-mode for incompatible cases
-(dolist (hook '(pdf-view-mode-hook olivetti-mode-hook image-mode-hook))
+;;
+;; NOTE: olivetti-mode does not work well with linum, but we don't
+;; need to disable display-line-numbers-mode for it, so I've removed
+;; it from here.
+(dolist (hook '(pdf-view-mode-hook image-mode-hook))
   (add-hook hook '(lambda ()
                     (linum-mode 0)
                     (when (version<= "26.0.50" emacs-version)
