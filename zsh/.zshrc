@@ -1,7 +1,7 @@
 # Need to migrate some settings from old machine
 export ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="robbyrussell"
-plugins=(git command-not-found vagrant taskwarrior)
+plugins=(git command-not-found vagrant taskwarrior rust cargo)
 source $ZSH/oh-my-zsh.sh || git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 
 # Custom aliases
