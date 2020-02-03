@@ -1251,4 +1251,8 @@ a pulse"
 ;; Use `M-x org-noter` inside a PDF document to be able to write up
 ;; notes for it in a really nice way
 (use-package org-noter
-  :ensure t)
+  :ensure t
+  :config
+  (add-hook 'pdf-view-mode-hook
+            (lambda () (local-set-key (kbd "i")
+                                      #'org-noter))))
