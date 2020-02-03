@@ -12,6 +12,7 @@ emacs/.emacs.d/eshell/history
 emacs/.emacs.d/tramp
 emacs/.emacs.d/ido.last
 emacs/.emacs.d/smex-items
+emacs/.emacs.d/amx-items
 emacs/.emacs.d/elpa
 emacs/.emacs.d/.last-package-update-day
 emacs/.emacs.d/.lsp-session-v1
