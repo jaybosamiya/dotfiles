@@ -226,6 +226,9 @@
   (org-hide-emphasis-markers t "Hide emphasis markers (/, _, etc.)")
   (org-export-with-toc nil "Disable table-of-contents generation")
   (org-startup-with-inline-images t "Show images inline upon startup")
+  (org-startup-with-latex-preview t
+   ; Use C-c C-x C-l to reload previews
+   t "Show LaTeX fragment previews upon startup")
   :config
   (org-babel-do-load-languages
    'org-babel-load-languages
