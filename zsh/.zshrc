@@ -129,6 +129,11 @@ function latexmakefile() {
     wget --no-clobber https://raw.githubusercontent.com/jaybosamiya/latex-paper-template/master/Makefile
 }
 
+function dockermakefile() {
+    # Drop the super nice Makefile I've written into current directory
+    wget --no-clobber https://gist.githubusercontent.com/jaybosamiya/551b98812a82d3235f9f515c67af4539/raw/5382d85a2a2d3ed934c5f45c75ed6f5a532edcc6/Makefile
+}
+
 function waitmake() {
     while true; do
 	inotifywait -e modify -r .
