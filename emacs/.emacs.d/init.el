@@ -1258,4 +1258,5 @@ a pulse"
   :config
   (add-hook 'pdf-view-mode-hook
             (lambda () (local-set-key (kbd "i")
-                                      #'org-noter))))
+                                      #'org-noter)))
+  (setq org-noter-always-create-frame nil))
