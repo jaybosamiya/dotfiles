@@ -404,8 +404,12 @@
 					  "--cache_checked_modules"
                                           ,@(when (string-match-p (regexp-opt '("hacl-star/vale" "Vale.")) (buffer-file-name))
                                               '(
+                                                "--trivial_pre_for_unannotated_effectful_fns" "false"
+                                                "--warn_error" "'+241@247-272'"
+                                                "--z3cliopt" "smt.arith.nl=false"
                                                 "--z3cliopt" "smt.QI.EAGER_THRESHOLD=100"
                                                 "--z3cliopt" "smt.CASE_SPLIT=3"
+                                                "--use_extracted_interfaces" "true"
                                                 "--max_fuel" "1"
                                                 "--max_ifuel" "1"
                                                 "--initial_ifuel" "0"
