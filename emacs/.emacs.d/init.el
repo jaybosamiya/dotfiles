@@ -405,7 +405,7 @@
                                           ,@(when (string-match-p (regexp-opt '("hacl-star/vale" "Vale.")) (buffer-file-name))
                                               '(
                                                 "--trivial_pre_for_unannotated_effectful_fns" "false"
-                                                "--warn_error" "'+241@247-272'"
+                                                "--warn_error" "+241@247-272"
                                                 "--z3cliopt" "smt.arith.nl=false"
                                                 "--z3cliopt" "smt.QI.EAGER_THRESHOLD=100"
                                                 "--z3cliopt" "smt.CASE_SPLIT=3"
