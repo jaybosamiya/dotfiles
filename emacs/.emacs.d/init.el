@@ -872,13 +872,13 @@ a pulse"
 
 ;; Be able to use ag from emacs
 (use-package ag
-  :ensure t
-  :bind (("M-s M-s" . 'ag)
-	 ("M-s s"   . 'ag)))
+  :ensure t)
 
 ;; Be able to use rg from emacs
 (use-package rg
-  :ensure t)
+  :ensure t
+  :bind (("M-s M-s" . 'rg-menu)
+	 ("M-s s"   . 'rg)))
 
 ;; Use IDO for yes-or-no-p and y-or-n-p
 (use-package ido-yes-or-no
