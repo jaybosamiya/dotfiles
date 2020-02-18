@@ -48,7 +48,7 @@
  '(minimap-window-location (quote right))
  '(package-selected-packages
    (quote
-    (amx org-noter company-lsp flymake-shellcheck flycheck-popup-tip flycheck-pos-tip flycheck-rust racer cargo rust-mode graphviz-dot-mode urlenc bug-hunter fill-column-indicator sane-term default-text-scale dumb-jump lsp-ui lsp-mode suggest projectile doom-modeline vale-mode buffer-move magit-todos sublimity framemove ox-gfm zoom rainbow-identifiers flycheck-package package-lint rainbow-delimiters delight golden-ratio langtool rainbow-identifiers-mode wc-mode vagrant-tramp undohist solarized-theme restart-emacs powerline php-mode paredit ocp-indent markdown markdown-mode guru-mode elpy dockerfile-mode caml boogie-friends visual-fill-column ido-yes-or-no ag xcscope ido-occur auctex fold-this eclim haskell-mode zygospore iedit ini-mode keyfreq vlf semantic-mode srefactor cl-lib zpresent org-present ox-reveal undo-tree minimap epresent)))
+    (rg amx org-noter company-lsp flymake-shellcheck flycheck-popup-tip flycheck-pos-tip flycheck-rust racer cargo rust-mode graphviz-dot-mode urlenc bug-hunter fill-column-indicator sane-term default-text-scale dumb-jump lsp-ui lsp-mode suggest projectile doom-modeline vale-mode buffer-move magit-todos sublimity framemove ox-gfm zoom rainbow-identifiers flycheck-package package-lint rainbow-delimiters delight golden-ratio langtool rainbow-identifiers-mode wc-mode vagrant-tramp undohist solarized-theme restart-emacs powerline php-mode paredit ocp-indent markdown markdown-mode guru-mode elpy dockerfile-mode caml boogie-friends visual-fill-column ido-yes-or-no ag xcscope ido-occur auctex fold-this eclim haskell-mode zygospore iedit ini-mode keyfreq vlf semantic-mode srefactor cl-lib zpresent org-present ox-reveal undo-tree minimap epresent)))
  '(proof-electric-terminator-enable nil)
  '(safe-local-variable-values
    (quote
@@ -875,6 +875,10 @@ a pulse"
   :ensure t
   :bind (("M-s M-s" . 'ag)
 	 ("M-s s"   . 'ag)))
+
+;; Be able to use rg from emacs
+(use-package rg
+  :ensure t)
 
 ;; Use IDO for yes-or-no-p and y-or-n-p
 (use-package ido-yes-or-no
