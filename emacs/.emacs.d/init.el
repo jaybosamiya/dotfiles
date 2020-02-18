@@ -877,6 +877,8 @@ a pulse"
 ;; Be able to use rg from emacs
 (use-package rg
   :ensure t
+  :config (setq rg-executable "rg") ;; Use rg from the $PATH; allows
+                                    ;; working via TRAMP too!
   :bind (("M-s M-s" . 'rg-menu)
 	 ("M-s s"   . 'rg)))
 
