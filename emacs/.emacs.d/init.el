@@ -185,6 +185,11 @@
   :ensure t
   :bind (("C-x g" . magit-status))
   :config
+  ;; Make the `q` key in magit not revert to the window configuration
+  ;; to whatever it was before the buffer was open, making one lose
+  ;; progress. Instead, now it will just kill itself, leaving
+  ;; everything else as-is.
+  (setq magit-bury-buffer-function #'magit-mode-quit-window)
   ;; Set up stuff for magit wip -- See magit-wip below.
   (setq magit-wip-merge-branch t)
   (transient-append-suffix 'magit-log "a"
