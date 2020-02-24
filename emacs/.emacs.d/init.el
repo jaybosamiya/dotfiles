@@ -884,8 +884,8 @@ a pulse"
   :ensure t
   :config (setq rg-executable "rg") ;; Use rg from the $PATH; allows
                                     ;; working via TRAMP too!
-  :bind (("M-s M-s" . 'rg-menu)
-	 ("M-s s"   . 'rg)))
+  :bind (("M-s M-s" . 'rg-dwim)
+	 ("M-s s"   . 'rg-menu)))
 
 ;; Use IDO for yes-or-no-p and y-or-n-p
 (use-package ido-yes-or-no
