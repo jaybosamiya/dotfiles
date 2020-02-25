@@ -882,8 +882,10 @@ a pulse"
 ;; Be able to use rg from emacs
 (use-package rg
   :ensure t
-  :config (setq rg-executable "rg") ;; Use rg from the $PATH; allows
-                                    ;; working via TRAMP too!
+  :config
+  (setq rg-executable "rg") ;; Use rg from the $PATH; allows
+                            ;; working via TRAMP too!
+  (setq rg-default-alias-fallback "everything")
   :bind (("M-s M-s" . 'rg-dwim)
 	 ("M-s s"   . 'rg-menu)))
 
