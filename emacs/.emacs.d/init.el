@@ -572,12 +572,12 @@
   ;;   (add-hook 'kill-emacs-hook
   ;;             '(lambda ()
   ;;                (setq lsp-restart 'ignore)))
-  ;;   ;; Use flake8 rather than the default pycodestyle, for pyls. See
-  ;;   ;; specific settings for this in lsp-ui too.
-  ;;   (setq	lsp-pyls-plugins-pyflakes-enabled nil
-  ;;   	lsp-pyls-plugins-pylint-enabled nil
-  ;;   	lsp-pyls-plugins-pycodestyle-enabled nil
-  ;; 	flycheck-checker 'python-flake8)
+  ;; Use flake8 instead of pycodestyle+pyflakes+...
+  (setq lsp-pyls-plugins-pyflakes-enabled nil
+        lsp-pyls-plugins-pylint-enabled nil
+        lsp-pyls-plugins-mccabe-enabled nil
+        lsp-pyls-plugins-pycodestyle-enabled nil
+        lsp-pyls-plugins-flake8-enabled t)
   ;; Disable the annoying symbol highlighting behavior
   (setq lsp-enable-symbol-highlighting nil))
 
@@ -589,14 +589,7 @@
   :hook (lsp-mode-hook . lsp-ui-mode)
   :config
   ;; Make sure lsp prefers flycheck over flymake
-  (setq lsp-prefer-flymake nil)
-  ;; ;; Set stuff up to ensure that we can use flake8 rather than default
-  ;; ;; stuff for python. See specific settings for this in lsp-mode too.
-  ;; (add-hook 'lsp-after-open-hook
-  ;;           '(lambda ()
-  ;;              (when (eq major-mode 'python-mode)
-  ;;       	 (flycheck-add-next-checker 'lsp-ui 'python-flake8))))
-  )
+  (setq lsp-prefer-flymake nil))
 
 ;; Connect things up to company via lsp.
 (use-package company-lsp
