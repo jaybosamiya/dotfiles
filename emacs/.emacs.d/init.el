@@ -580,9 +580,6 @@
   ;; 	flycheck-checker 'python-flake8)
   ;; Disable the annoying symbol highlighting behavior
   (setq lsp-enable-symbol-highlighting nil))
-(use-package lsp-ui
-  :ensure t
-  :commands lsp-ui-mode)
 
 ;; Nice UI features :)
 (use-package lsp-ui
