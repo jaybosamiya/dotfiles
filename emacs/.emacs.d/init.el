@@ -563,40 +563,49 @@
 (use-package lsp-mode
   :ensure t
   :commands lsp
-  :hook (python-mode . lsp)
+  :init (setq lsp-keymap-prefix "C-c l")
+  :hook ((python-mode . lsp)
+         (lsp-mode . lsp-enable-which-key-integration))
   :config
-  ;; Stop asking if we want to restart the lsp server upon killing
-  ;; Emacs. See https://github.com/emacs-lsp/lsp-mode/issues/641
-  (add-hook 'kill-emacs-hook
-            '(lambda ()
-               (setq lsp-restart 'ignore)))
-  ;; Use flake8 rather than the default pycodestyle, for pyls. See
-  ;; specific settings for this in lsp-ui too.
-  (setq	lsp-pyls-plugins-pyflakes-enabled nil
-  	lsp-pyls-plugins-pylint-enabled nil
-  	lsp-pyls-plugins-pycodestyle-enabled nil
-	flycheck-checker 'python-flake8)
+  ;;   ;; Stop asking if we want to restart the lsp server upon killing
+  ;;   ;; Emacs. See https://github.com/emacs-lsp/lsp-mode/issues/641
+  ;;   (add-hook 'kill-emacs-hook
+  ;;             '(lambda ()
+  ;;                (setq lsp-restart 'ignore)))
+  ;;   ;; Use flake8 rather than the default pycodestyle, for pyls. See
+  ;;   ;; specific settings for this in lsp-ui too.
+  ;;   (setq	lsp-pyls-plugins-pyflakes-enabled nil
+  ;;   	lsp-pyls-plugins-pylint-enabled nil
+  ;;   	lsp-pyls-plugins-pycodestyle-enabled nil
+  ;; 	flycheck-checker 'python-flake8)
   ;; Disable the annoying symbol highlighting behavior
   (setq lsp-enable-symbol-highlighting nil))
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode)
 
 ;; Nice UI features :)
 (use-package lsp-ui
   :ensure t
+  :commands lsp-ui-mode
   :after (lsp-mode)
   :hook (lsp-mode-hook . lsp-ui-mode)
   :config
-  (setq lsp-prefer-flymake nil)
-  ;; Set stuff up to ensure that we can use flake8 rather than default
-  ;; stuff for python. See specific settings for this in lsp-mode too.
-  (add-hook 'lsp-after-open-hook
-	    '(lambda ()
-	       (when (eq major-mode 'python-mode)
-		 (flycheck-add-next-checker 'lsp-ui 'python-flake8)))))
+  ;; (setq lsp-prefer-flymake nil)
+  ;; ;; Set stuff up to ensure that we can use flake8 rather than default
+  ;; ;; stuff for python. See specific settings for this in lsp-mode too.
+  ;; (add-hook 'lsp-after-open-hook
+  ;;           '(lambda ()
+  ;;              (when (eq major-mode 'python-mode)
+  ;;       	 (flycheck-add-next-checker 'lsp-ui 'python-flake8))))
+  )
 
 ;; Connect things up to company via lsp.
 (use-package company-lsp
   :ensure t
-  :config (push 'company-lsp company-backends))
+  :commands company-lsp
+  ;; :config (push 'company-lsp company-backends)
+  )
 
 ;; Smoothen scrolling
 (setq scroll-margin 1
