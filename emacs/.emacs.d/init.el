@@ -190,6 +190,9 @@
   ;; progress. Instead, now it will just kill itself, leaving
   ;; everything else as-is.
   (setq magit-bury-buffer-function #'magit-mode-quit-window)
+  ;; Disable Emacs's normal VCS stuff, since I'm never using it, and
+  ;; am using only Magit instead.
+  (setq vc-handled-backends nil)
   ;; Set up stuff for magit wip -- See magit-wip below.
   (setq magit-wip-merge-branch t)
   (transient-append-suffix 'magit-log "a"
