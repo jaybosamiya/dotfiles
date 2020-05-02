@@ -328,6 +328,10 @@
 	       )
              (highlight-regexp "\\\\comment{[^}]*}" 'superscript)
              (highlight-regexp "\\\\comment" 'hi-blue)
+             (highlight-regexp "\\\\jay{[^}]*}" 'superscript)
+             (highlight-regexp "\\\\jay" 'hi-blue)
+             (highlight-regexp "\\\\todo{[^}]*}" 'superscript)
+             (highlight-regexp "\\\\todo" 'hi-blue)
 	     )
 	  )
 ;; Allow the LaTeX-narrow-to-environment command be run without
