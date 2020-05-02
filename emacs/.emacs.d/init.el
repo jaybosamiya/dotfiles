@@ -1290,3 +1290,5 @@ a pulse"
 ;; Use `M-x elmacro-show-last-macro`
 (use-package elmacro
   :ensure t)
+
+;; TODO: Look into el-patch (https://github.com/raxod502/el-patch)
