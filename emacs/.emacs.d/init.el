@@ -362,7 +362,9 @@
   :ensure t
   :delight
   :hook (after-init . global-company-mode)
-  :bind (("C-<tab>" . company-complete)))
+  :config
+  (setq company-require-match nil) ;; Allow easily quitting out of completions
+  :bind (("M-<SPC>" . company-complete)))
 
 ;; ;; Set up SLIME for common add
 ;; (lisp-hook 'lisp-mode-hook (lambda ()
