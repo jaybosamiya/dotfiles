@@ -1239,7 +1239,8 @@ a pulse"
 (use-package rust-mode
   :ensure t
   :config
-  (setq rust-format-on-save t)
+  (setq rust-format-on-save t
+        rust-format-show-buffer nil)
   (add-hook 'rust-mode-hook
             (lambda () (setq indent-tabs-mode nil))))
 (use-package cargo
