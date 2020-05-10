@@ -364,7 +364,10 @@
   :hook (after-init . global-company-mode)
   :config
   (setq company-require-match nil) ;; Allow easily quitting out of completions
-  :bind (("M-<SPC>" . company-complete)))
+  :bind (("M-<SPC>" . company-complete)) ;; Requires disabling M-SPC
+                                         ;; from Gnome (replaced with
+                                         ;; Super-SPC there)
+  )
 
 ;; ;; Set up SLIME for common add
 ;; (lisp-hook 'lisp-mode-hook (lambda ()
