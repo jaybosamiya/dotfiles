@@ -54,3 +54,6 @@ export PATH="$HOME/.gem/bin:$PATH"
 export PATH="$HOME/.cabal/bin/:$PATH"
 
 export PATH="$HOME/.cargo/bin:$PATH"
+
+# connect up to nix
+if [ -e /home/jay/.nix-profile/etc/profile.d/nix.sh ]; then . /home/jay/.nix-profile/etc/profile.d/nix.sh; fi
