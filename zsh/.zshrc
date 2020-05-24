@@ -292,6 +292,11 @@ function duplicate-repo() {
     echo "Done duplicating repository"
 }
 
+# Enable the cod completion daemon
+#
+# See https://github.com/dim-an/cod
+source <(cod init $$ zsh)
+
 # Enable nice syntax highlighting if available
 # Install via [sudo apt install zsh-syntax-highlighting]
 # NOTE: This MUST be at the end of .zshrc
