@@ -17,3 +17,8 @@ email = jaybosamiya@gmail.com
         # (https://link.springer.com/article/10.1007%2Fs10664-019-09772-z)
         # seems to be the best at providing diff results.
 	algorithm = histogram
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
