@@ -305,6 +305,10 @@ function duplicate-repo() {
 # See https://github.com/dim-an/cod
 source <(cod init $$ zsh)
 
+# Enable fish like auto-suggestions when available
+# Install via [sudo apt install zsh-autosuggestions]
+test -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh && source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
 # Enable nice syntax highlighting if available
 # Install via [sudo apt install zsh-syntax-highlighting]
 # NOTE: This MUST be at the end of .zshrc
