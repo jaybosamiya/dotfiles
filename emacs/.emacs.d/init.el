@@ -1303,5 +1303,6 @@ a pulse"
 ;; (https://neuron.zettel.page/) on the PATH to be useful.
 (use-package neuron-mode
   :ensure t
+  :mode "zettelkasten/.*\\.md\\'"
   :bind (("C-c C-z" . neuron-new-zettel)
          ("C-c z" . neuron-edit-zettel)))
