@@ -59,6 +59,7 @@ function fstar-profile() {
 alias manually-installed-to-auto='sudo apt-mark auto'
 
 alias record-term='asciinema rec --yes -i 1 --title'
+# TODO: Also look into termtosvg
 
 alias haven='ssh haven'
 alias proxyhaven='echo "Port 10000. Ctrl+C to stop proxy" && ssh -D 10000 -C -q -N haven'
