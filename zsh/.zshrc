@@ -308,7 +308,12 @@ source <(cod init $$ zsh)
 
 # Enable fish like auto-suggestions when available
 # Install via [sudo apt install zsh-autosuggestions]
-test -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh && source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+#
+# Make sure not to enable them when recording for asciinema, to
+# prevent accidental information leakage.
+if [ -z "$ASCIINEMA_REC" ]; then
+    test -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh && source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
 
 # Enable nice syntax highlighting if available
 # Install via [sudo apt install zsh-syntax-highlighting]
