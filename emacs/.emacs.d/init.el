@@ -48,7 +48,7 @@
  '(minimap-window-location (quote right))
  '(package-selected-packages
    (quote
-    (neuron-mode elmacro org-fragtog rg amx org-noter company-lsp flymake-shellcheck flycheck-popup-tip flycheck-pos-tip flycheck-rust racer cargo rust-mode graphviz-dot-mode urlenc bug-hunter fill-column-indicator sane-term default-text-scale dumb-jump lsp-ui lsp-mode suggest projectile doom-modeline vale-mode buffer-move magit-todos sublimity framemove ox-gfm zoom rainbow-identifiers flycheck-package package-lint rainbow-delimiters delight golden-ratio langtool rainbow-identifiers-mode wc-mode vagrant-tramp undohist solarized-theme restart-emacs powerline php-mode paredit ocp-indent markdown markdown-mode guru-mode elpy dockerfile-mode caml boogie-friends visual-fill-column ido-yes-or-no ag xcscope ido-occur auctex fold-this eclim haskell-mode zygospore iedit ini-mode keyfreq vlf semantic-mode srefactor cl-lib zpresent org-present ox-reveal undo-tree minimap epresent)))
+    (comment-or-uncomment-sexp neuron-mode elmacro org-fragtog rg amx org-noter company-lsp flymake-shellcheck flycheck-popup-tip flycheck-pos-tip flycheck-rust racer cargo rust-mode graphviz-dot-mode urlenc bug-hunter fill-column-indicator sane-term default-text-scale dumb-jump lsp-ui lsp-mode suggest projectile doom-modeline vale-mode buffer-move magit-todos sublimity framemove ox-gfm zoom rainbow-identifiers flycheck-package package-lint rainbow-delimiters delight golden-ratio langtool rainbow-identifiers-mode wc-mode vagrant-tramp undohist solarized-theme restart-emacs powerline php-mode paredit ocp-indent markdown markdown-mode guru-mode elpy dockerfile-mode caml boogie-friends visual-fill-column ido-yes-or-no ag xcscope ido-occur auctex fold-this eclim haskell-mode zygospore iedit ini-mode keyfreq vlf semantic-mode srefactor cl-lib zpresent org-present ox-reveal undo-tree minimap epresent)))
  '(proof-electric-terminator-enable nil)
  '(safe-local-variable-values
    (quote
@@ -1307,3 +1307,9 @@ a pulse"
   :mode "zettelkasten/.*\\.md\\'"
   :bind (("C-c C-z" . neuron-new-zettel)
          ("C-c z" . neuron-edit-zettel)))
+
+;; Allow commenting or uncommenting full sexps in one go, rather than
+;; having to do so individually by line.
+(use-package comment-or-uncomment-sexp
+  :ensure t
+  :bind ("C-M-;" . comment-or-uncomment-sexp))
