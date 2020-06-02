@@ -1152,6 +1152,7 @@ a pulse"
     (switch-to-buffer buf nil t)
     (with-current-buffer buf
       (setq-local buffer-read-only t)
+      (set-window-dedicated-p nil t)
       (narrow-to-region start end)
       (use-local-map (copy-keymap (car (current-active-maps))))
       (local-set-key (kbd "q") 'kill-this-buffer))))
