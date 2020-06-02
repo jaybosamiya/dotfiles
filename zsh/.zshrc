@@ -21,7 +21,7 @@ function diff() {
     # output, when at the terminal. Also, automatically enter into a
     # pager.
     if [ -t 1 ]; then
-        command diff -u "$@" | delta --color-only --dark | less -RFX
+        command diff -u "$@" | delta | less -RFX
     else
         command diff -u "$@"
     fi
