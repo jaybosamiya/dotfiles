@@ -19,9 +19,9 @@ function rg() {
 function diff() {
     # Use delta (from `cargo install git-delta`) to better colorize
     # output, when at the terminal. Also, automatically enter into a
-    # pager.
+    # pager if needed (done by delta).
     if [ -t 1 ]; then
-        command diff -u "$@" | delta | less -RFX
+        command diff -u "$@" | delta
     else
         command diff -u "$@"
     fi
