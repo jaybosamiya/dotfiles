@@ -16,6 +16,17 @@ function rg() {
     fi
 }
 
+function diff() {
+    # Use delta (from `cargo install git-delta`) to better colorize
+    # output, when at the terminal. Also, automatically enter into a
+    # pager.
+    if [ -t 1 ]; then
+        command diff -u "$@" | delta --color-only --dark | less -RFX
+    else
+        command diff -u "$@"
+    fi
+}
+
 alias music-dl='youtube-dl --audio-format=mp3 --extract-audio --metadata-from-title "%(artist)s - %(title)s"'
 
 alias ls='ls -h --color=tty' # Human readable file sizes, and color :)
