@@ -1313,3 +1313,11 @@ a pulse"
 (use-package comment-or-uncomment-sexp
   :ensure t
   :bind ("C-M-;" . comment-or-uncomment-sexp))
+
+;; Keep a profiler to keep track of what might be causing pauses.
+;; Currently not in MELPA so I'm just keeping the file around in the
+;; f0xtr0t/ directory, but it may need to be manually updated from
+;; time to time. Also, have to figure out how to make it act nice with
+;; use-package :D
+(require 'explain-pause-mode)
+(explain-pause-mode t)
