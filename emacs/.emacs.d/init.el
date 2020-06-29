@@ -181,6 +181,14 @@
   :config (pdf-tools-install)
   :magic ("%PDF" . pdf-view-mode))
 
+;; Easy kill-switch for magit's wip mode stuff. Generally it is fine
+;; to keep on, but after having used it a while, it doesn't seem to be
+;; terribly useful to me and does incur a tiny bit of a slowdown, so
+;; instead I am going to keep it off by default from this point
+;; forward. The reason it is as a config option is so that I can
+;; re-enable it at any point easily :)
+(setq f0xtr0t-magit-wip-mode-enabled nil)
+
 (use-package magit
   :ensure t
   :bind (("C-x g" . magit-status))
@@ -194,11 +202,12 @@
   ;; am using only Magit instead.
   (setq vc-handled-backends nil)
   ;; Set up stuff for magit wip -- See magit-wip below.
-  (setq magit-wip-merge-branch t)
-  (transient-append-suffix 'magit-log "a"
-    '("i" "Index wipref" magit-wip-log-index))
-  (transient-append-suffix 'magit-log "i"
-    '("w" "Worktree wipref" magit-wip-log-worktree)))
+  (when f0xtr0t-magit-wip-mode-enabled
+    (setq magit-wip-merge-branch t)
+    (transient-append-suffix 'magit-log "a"
+      '("i" "Index wipref" magit-wip-log-index))
+    (transient-append-suffix 'magit-log "i"
+      '("w" "Worktree wipref" magit-wip-log-worktree))))
 
 ;; Temporary workaround for the lisp-mode-symbol-regexp "bug" for
 ;; magit. Either have to fix it and remove this, or maybe move to
@@ -210,13 +219,14 @@
 
 ;; Make magit smarter at keeping progress of changes along the way.
 ;; See https://emacs.stackexchange.com/a/45153
-(use-package magit-wip
-  :after magit
-  :config
-  (magit-wip-before-change-mode)
-  (magit-wip-after-apply-mode)
-  (magit-wip-after-save-mode))
-(add-hook 'before-save-hook 'magit-wip-commit-initial-backup)
+(when f0xtr0t-magit-wip-mode-enabled
+  (use-package magit-wip
+    :after magit
+    :config
+    (magit-wip-before-change-mode)
+    (magit-wip-after-apply-mode)
+    (magit-wip-after-save-mode))
+  (add-hook 'before-save-hook 'magit-wip-commit-initial-backup))
 
 ;; (use-package magit-todos
 ;;   :ensure t
