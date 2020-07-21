@@ -246,7 +246,7 @@ function tempdirnew() {
 # Jump to tempdir
 function tempdir() {
     if [ -d /tmp/tempdir ]; then
-	cd /tmp/tempdir
+	cd /tmp/tempdir/$@
     else
 	tempdirnew
     fi
