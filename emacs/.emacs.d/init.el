@@ -48,7 +48,7 @@
  '(minimap-window-location (quote right))
  '(package-selected-packages
    (quote
-    (comment-or-uncomment-sexp neuron-mode elmacro org-fragtog rg amx org-noter company-lsp flymake-shellcheck flycheck-popup-tip flycheck-pos-tip flycheck-rust racer cargo rust-mode graphviz-dot-mode urlenc bug-hunter fill-column-indicator sane-term default-text-scale dumb-jump lsp-ui lsp-mode suggest projectile doom-modeline vale-mode buffer-move magit-todos sublimity framemove ox-gfm zoom rainbow-identifiers flycheck-package package-lint rainbow-delimiters delight golden-ratio langtool rainbow-identifiers-mode wc-mode vagrant-tramp undohist solarized-theme restart-emacs powerline php-mode paredit ocp-indent markdown markdown-mode guru-mode elpy dockerfile-mode caml boogie-friends visual-fill-column ido-yes-or-no ag xcscope ido-occur auctex fold-this eclim haskell-mode zygospore iedit ini-mode keyfreq vlf semantic-mode srefactor cl-lib zpresent org-present ox-reveal undo-tree minimap epresent)))
+    (company-tabnine comment-or-uncomment-sexp neuron-mode elmacro org-fragtog rg amx org-noter company-lsp flymake-shellcheck flycheck-popup-tip flycheck-pos-tip flycheck-rust racer cargo rust-mode graphviz-dot-mode urlenc bug-hunter fill-column-indicator sane-term default-text-scale dumb-jump lsp-ui lsp-mode suggest projectile doom-modeline vale-mode buffer-move magit-todos sublimity framemove ox-gfm zoom rainbow-identifiers flycheck-package package-lint rainbow-delimiters delight golden-ratio langtool rainbow-identifiers-mode wc-mode vagrant-tramp undohist solarized-theme restart-emacs powerline php-mode paredit ocp-indent markdown markdown-mode guru-mode elpy dockerfile-mode caml boogie-friends visual-fill-column ido-yes-or-no ag xcscope ido-occur auctex fold-this eclim haskell-mode zygospore iedit ini-mode keyfreq vlf semantic-mode srefactor cl-lib zpresent org-present ox-reveal undo-tree minimap epresent)))
  '(proof-electric-terminator-enable nil)
  '(safe-local-variable-values
    (quote
@@ -1331,3 +1331,19 @@ a pulse"
 ;; use-package :D
 (require 'explain-pause-mode)
 (explain-pause-mode t)
+
+;; Use tabnine for autocompletions.
+;;
+;; Run `M-x company-tabnine-install-binary` to install the tabnine
+;; binary.
+;;
+;; At any point, simply type `TabNine::config` in the editor, when
+;; tabnine is enabled to enter config. Use
+;; `TabNine::hide_promotional_message` to prevent popup of the pro
+;; version. Use `TabNine::disable_auto_update` to disable auto-update.
+;;
+;; See the FAQ for more such options: https://www.tabnine.com/faq
+(use-package company-tabnine
+  :ensure t
+  :init (add-to-list 'company-backends #'company-tabnine))
+
