@@ -65,3 +65,8 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 # connect up to nix
 if [ -e /home/jay/.nix-profile/etc/profile.d/nix.sh ]; then . /home/jay/.nix-profile/etc/profile.d/nix.sh; fi
+
+# opam configuration
+if [ -n "$ZSH_VERSION" ]; then
+    test -r $HOME/.opam/opam-init/init.zsh && . $HOME/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+fi
