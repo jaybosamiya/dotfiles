@@ -326,7 +326,8 @@ function duplicate-repo() {
 # Enable the cod completion daemon
 #
 # See https://github.com/dim-an/cod
-source <(cod init $$ zsh)
+# source <(cod init $$ zsh)
+which cod >/dev/null && source <(cod init $$ zsh) || true
 
 # Enable fish like auto-suggestions when available
 # Install via [sudo apt install zsh-autosuggestions]
