@@ -1,0 +1,102 @@
+#!/bin/bash
+#
+# History:
+#  - Original by @Ashark: https://github.com/Ashark/hliss/blob/master/vlc-hangouts
+#  - Modified by @adrianlzt: https://gist.github.com/adrianlzt/216aabb9568b162c92317f768d889c76
+#  - Modified by @jaybosamiya: this file
+
+# Script to share a portion of the screen in VLC to be used by
+# Chrome/Firefox to share the screen.
+
+# By default, it asks you to click on some monitor. The area of that monitor is what is going to be shared.
+# If you execute `sharescreen program` then it asks for particular program to be shared.
+
+# Set this variable to a non-empty value to make sure that cursor
+# shows up on the VLC screen. VLC does not record the cursor and we
+# need to use this ugly workaround in order for it to show up.
+ENABLE_EXTRAMAUS=
+
+# Confirm that we have all packages we need, and if not, make sure to install them.
+function ensure_apt_package() {
+    dpkg --get-selections | \
+        grep -e '^'"$1"'\(\s\|:\)' | \
+        grep -v deinstall >/dev/null || sudo apt install "$1"
+}
+ensure_apt_package vlc
+ensure_apt_package vlc-plugin-access-extra
+
+function test_existence_of_program() {
+    command -v "$1" >/dev/null || echo "Could not find $1 on \$PATH. Try $2."
+    exit 1
+}
+
+# Get position to work with
+unset x y w h
+if [[ $1 == "--help" ]] ; then
+    echo "$(basename "$0"): share portion of screen via vlc"
+    echo "    --help    This help"
+    echo "    --program   Choose a program"
+    echo "    --area      Choose an area"
+    echo "    --monitor   Choose a monitor [default]"
+    exit 0
+elif [[ $1 == "--program" ]] ; then
+    ensure_apt_package x11-utils
+    eval "$(xwininfo  |
+        sed -n -e 's/^ \+Absolute upper-left X: \+\([0-9]\+\).*/x=\1/p' \
+               -e 's/^ \+Absolute upper-left Y: \+\([0-9]\+\).*/y=\1/p' \
+               -e 's/^ \+Width: \+\([0-9]\+\).*/w=\1/p' \
+               -e 's/^ \+Height: \+\([0-9]\+\).*/h=\1/p' )"
+elif [[ $1 == "--area" ]] ; then
+    test_existence_of_program xrectsel "https://github.com/lolilolicon/xrectsel"
+    rect=$(xrectsel)
+    w=$(echo "$rect" | cut -d 'x' -f 1)
+    h=$(echo "$rect" | cut -d 'x' -f 2 | cut -d '+' -f 1)
+    x=$(echo "$rect" | cut -d 'x' -f 2 | cut -d '+' -f 2)
+    y=$(echo "$rect" | cut -d 'x' -f 2 | cut -d '+' -f 3)
+else # --monitor (default)
+    ensure_apt_package x11-xserver-utils
+    xrandr --listactivemonitors
+    read -r -p "Which monitor you want to share: " MON_NUMBER
+    MON_PARSE=$(xrandr --listactivemonitors | grep "$MON_NUMBER:" | cut -f4 -d' ')
+    h=$(echo "$MON_PARSE" | cut -f2 -d'/' | cut -f2 -d'x')
+    w=$(echo "$MON_PARSE" | cut -f1 -d'/')
+    x=$(echo "$MON_PARSE" | cut -f2 -d'+')
+    y=$(echo "$MON_PARSE" | cut -f3 -d'+')
+fi
+
+cvlc ${IFS# } \
+    --ignore-config ${IFS# I use pause-click plugin, but in this script I want it to be disabled} \
+    --no-qt-privacy-ask ${IFS# Suppress first-run dialog pop-up } \
+    ${IFS# --fullscreen  to maximize window, so no borders will be seen } \
+    ${IFS# --marq-marquee="VLC window"  Overlay text in VLC window for ability to recognize fullscreen vlc window} \
+    --meta-title "ShareMe" ${IFS# To simplify selecting vlc window in hangouts } \
+    ${IFS# --no-video-title For not confusing you while target window opens } \
+    --qt-minimal-view ${IFS# hide video control and window menu }\
+    --screen-fps=20 \
+    --screen-top="$y" \
+    --screen-left="$x" \
+    --screen-width="$w" \
+    --screen-height="$h" \
+    screen:// &> /dev/null &
+VLC_PID=$!
+
+# Set up a signal handler for Ctrl-C
+function kill_vlc() {
+    echo "Got a stop signal. Stopping."
+    kill $VLC_PID
+}
+trap kill_vlc SIGINT
+
+if [[ "$ENABLE_EXTRAMAUS" != "" ]]; then
+    test_existence_of_program extramaus \
+       "http://dodger-tools.sourceforge.net/cms/index.php?id=100000201"
+    extramaus &
+fi
+echo "The VLC window can now be shared. Press Ctrl+C to stop."
+while ps -p $VLC_PID > /dev/null; do
+    sleep 1
+done
+if [[ "$ENABLE_EXTRAMAUS" != "" ]]; then
+    killall extramaus &> /dev/null # kill extramaus after vlc was terminated
+fi
+echo "Finished"
