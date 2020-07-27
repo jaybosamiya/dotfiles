@@ -22,6 +22,10 @@ set history save on
 set history size -1
 set history filename /tmp/.gdb_history
 
+# Disable pagination. Prevents the annoying "press enter for more"
+# style stuff.
+set pagination off
+
 # Add glibc sources for malloc
 #
 #   Requires:
