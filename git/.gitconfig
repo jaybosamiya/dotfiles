@@ -22,3 +22,7 @@ email = jaybosamiya@gmail.com
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
+
+[alias]
+    hide = update-index --assume-unchanged
+    unhide = update-index --no-assume-unchanged
