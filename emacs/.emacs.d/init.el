@@ -1258,7 +1258,10 @@ a pulse"
   (setq rust-format-on-save t
         rust-format-show-buffer nil)
   (add-hook 'rust-mode-hook
-            (lambda () (setq indent-tabs-mode nil))))
+            (lambda ()
+              (setq indent-tabs-mode nil)
+              ;; Prevent rust from hijacking the nice fold-this mode
+              (define-key rust-mode-map (kbd "C-c C-f") nil))))
 (use-package cargo
   :ensure t
   :after rust-mode
