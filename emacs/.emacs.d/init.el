@@ -814,7 +814,8 @@ a pulse"
 (setq-default flyspell-issue-message-flag nil)
 
 ;; Opam, OCaml
-(require 'ocaml)
+(use-package ocaml
+  :mode ("\\.ml\\'" . merlin-mode))
 
 ;; Coq
 ;; Proof General
