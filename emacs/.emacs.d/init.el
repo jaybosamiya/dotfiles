@@ -1347,7 +1347,7 @@ a pulse"
 ;; version. Use `TabNine::disable_auto_update` to disable auto-update.
 ;;
 ;; See the FAQ for more such options: https://www.tabnine.com/faq
-(use-package company-tabnine
-  :ensure t
-  :init (add-to-list 'company-backends #'company-tabnine))
+;; (use-package company-tabnine
+;;   :ensure t
+;;   :init (add-to-list 'company-backends #'company-tabnine))
 
