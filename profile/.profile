@@ -37,9 +37,14 @@ if [[ "$HOST" == "eden" ]]; then
 
 elif [[ "$HOST" == "Valhalla" ]]; then
 
-    # Set up connection to vcxsrv since we are on WSL2
-    export DISPLAY=$(grep -oP "(?<=nameserver ).+" /etc/resolv.conf):0.0
-    export LIBGL_ALWAYS_INDIRECT=1
+    if [[ "$DISPLAY" == "" ]]; then
+	# Set up connection to vcxsrv since we are on WSL2
+        export DISPLAY=$(grep -oP "(?<=nameserver ).+" /etc/resolv.conf):0.0
+        export LIBGL_ALWAYS_INDIRECT=1
+    else
+	# We got a DISPLAY variable, likely from an incoming SSH connection. Honor that.
+	true
+    fi
 
 fi
 
