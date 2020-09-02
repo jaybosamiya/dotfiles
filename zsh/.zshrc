@@ -27,6 +27,9 @@ function rg() {
     fi
 }
 
+# Replace `cat` with `bat` when available
+if command -v bat >/dev/null; then alias cat=bat; fi
+
 function diff() {
     # Use delta (from `cargo install git-delta`) to better colorize
     # output, when at the terminal. Also, automatically enter into a
