@@ -1282,7 +1282,8 @@ a pulse"
   (add-hook 'racer-mode-hook #'eldoc-mode)
   (add-hook 'racer-mode-hook #'company-mode)
   ;; (define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
-  (setq company-tooltip-align-annotations t))
+  (setq company-tooltip-align-annotations t)
+  :bind ("C-'" . racer-find-definition-other-window))
 (use-package flycheck-rust
   :ensure t
   :after rust-mode
