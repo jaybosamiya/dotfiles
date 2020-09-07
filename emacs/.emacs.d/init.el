@@ -1364,3 +1364,8 @@ a pulse"
 (use-package expand-region
   :ensure t
   :bind ("C-=" . er/expand-region))
+
+;; Enable delete-selection-mode which allows behavior that is more
+;; consistent with other applications- selections are replaced when
+;; you type over them, rather than just inserting at point.
+(delete-selection-mode t)
