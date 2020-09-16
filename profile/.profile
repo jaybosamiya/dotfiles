@@ -79,3 +79,6 @@ fi
 # wasmtime configuration
 export WASMTIME_HOME="$HOME/.wasmtime"
 export PATH="$WASMTIME_HOME/bin:$PATH"
+
+# lean configuration -- https://leanprover-community.github.io/install/debian_details.html
+export PATH="$HOME/.elan/bin:$PATH"
