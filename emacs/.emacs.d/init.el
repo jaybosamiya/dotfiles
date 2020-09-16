@@ -1376,5 +1376,4 @@ a pulse"
   :config
   (lean-message-boxes-enable))
 (use-package company-lean
-  :ensure t
-  :bind ("S-SPC" . company-complete))
+  :ensure t)
