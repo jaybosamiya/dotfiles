@@ -1377,3 +1377,9 @@ a pulse"
   (lean-message-boxes-enable))
 (use-package company-lean
   :ensure t)
+
+;; Add automated performance mitigations for files with excessively
+;; long lines.
+(use-package so-long
+  :ensure t
+  :init (global-so-long-mode 1))
