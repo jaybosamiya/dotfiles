@@ -77,8 +77,19 @@ if [ -n "$ZSH_VERSION" ]; then
 fi
 
 # wasmtime configuration
-export WASMTIME_HOME="$HOME/.wasmtime"
-export PATH="$WASMTIME_HOME/bin:$PATH"
+if [ -d "$HOME/.wasmtime" ]; then
+    export WASMTIME_HOME="$HOME/.wasmtime"
+    export PATH="$WASMTIME_HOME/bin:$PATH"
+fi
 
 # lean configuration -- https://leanprover-community.github.io/install/debian_details.html
-export PATH="$HOME/.elan/bin:$PATH"
+if [ -d "$HOME/.elan" ]; then
+    export PATH="$HOME/.elan/bin:$PATH"
+fi
+
+# Wasmer configuration
+if [ -d "$HOME/.wasmer" ]; then
+    export WASMER_DIR="/home/jay/.wasmer"
+    [ -s "$WASMER_DIR/wasmer.sh" ] && source "$WASMER_DIR/wasmer.sh"
+fi
+
