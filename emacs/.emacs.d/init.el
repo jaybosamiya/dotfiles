@@ -1389,3 +1389,6 @@ a pulse"
   :ensure t
   :init
   (global-anzu-mode +1))
+
+;; TODO: Look into org-tree-slide
+;; TODO: Look into org-variable-pitch
