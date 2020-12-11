@@ -207,11 +207,6 @@
     (transient-append-suffix 'magit-log "i"
       '("w" "Worktree wipref" magit-wip-log-worktree))))
 
-;; Temporary workaround for the lisp-mode-symbol-regexp "bug" for
-;; magit. Either have to fix it and remove this, or maybe move to
-;; emacs 25?
-(defconst lisp-mode-symbol-regexp "\\(?:\\sw\\|\\s_\\|\\\\.\\)+")
-
 ;; Prevent magit transient window from popping up so damn fast!
 (setq transient-show-popup 0.5)
 
@@ -922,11 +917,6 @@ a pulse"
 (use-package ido-yes-or-no
   :ensure t
   :config (ido-yes-or-no-mode))
-
-;; Temporary workaround for the lisp-mode-symbol-regexp "bug" for
-;; magit. Either have to fix it and remove this, or maybe move to
-;; emacs 25?
-(defconst lisp-mode-symbol-regexp "\\(?:\\sw\\|\\s_\\|\\\\.\\)+")
 
 ;; Make large files less painful to use
 (use-package vlf
