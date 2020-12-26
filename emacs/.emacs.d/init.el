@@ -1342,8 +1342,8 @@ a pulse"
 ;; f0xtr0t/ directory, but it may need to be manually updated from
 ;; time to time. Also, have to figure out how to make it act nice with
 ;; use-package :D
-(require 'explain-pause-mode)
-(explain-pause-mode t)
+;; (require 'explain-pause-mode)
+;; (explain-pause-mode t)
 
 ;; Use tabnine for autocompletions.
 ;;
