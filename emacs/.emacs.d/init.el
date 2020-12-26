@@ -584,6 +584,9 @@
 ;;   :config
 ;;   (elpy-enable))
 
+;; Set default python shell to be python3
+(setq python-shell-interpreter "python3")
+
 ;; Use lsp-mode.
 ;;
 ;; For Python: Requires to have run the following in advance:
