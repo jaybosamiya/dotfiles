@@ -615,9 +615,12 @@
   :commands lsp-ui-mode
   :after (lsp-mode)
   :hook (lsp-mode-hook . lsp-ui-mode)
+  :bind (("C-?" . 'lsp-ui-doc-glance))
   :config
   ;; Make sure lsp prefers flycheck over flymake
-  (setq lsp-prefer-flymake nil))
+  (setq lsp-prefer-flymake nil)
+  ;; Disable the semi-annoying hover-to-see-docs view
+  (lsp-ui-doc-mode -1))
 
 ;; Connect things up to company via lsp.
 (use-package company-lsp
