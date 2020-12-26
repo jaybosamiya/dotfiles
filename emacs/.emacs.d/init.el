@@ -615,7 +615,8 @@
   :commands lsp-ui-mode
   :after (lsp-mode)
   :hook (lsp-mode-hook . lsp-ui-mode)
-  :bind (("C-?" . 'lsp-ui-doc-glance))
+  :bind (("C-?" . 'lsp-ui-doc-glance)
+         ("C-]" . 'lsp-ui-peek-find-references))
   :config
   ;; Make sure lsp prefers flycheck over flymake
   (setq lsp-prefer-flymake nil)
