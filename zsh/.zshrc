@@ -18,6 +18,7 @@ source $ZSH/oh-my-zsh.sh || git clone git://github.com/robbyrussell/oh-my-zsh.gi
 # Custom aliases
 alias n='nautilus . &!' # Opens nautilus and disowns it from current shell
 alias ag='ag --pager less'
+alias units='units -1v' # verbose single line output for GNU units
 
 function rg() {
     if [ -t 1 ]; then
