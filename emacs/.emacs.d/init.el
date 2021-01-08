@@ -584,6 +584,11 @@
 ;;   :config
 ;;   (elpy-enable))
 
+(use-package python
+  :init
+  ;; Set default python shell to be python3
+  (setq python-shell-interpreter "python3"))
+
 ;; Use lsp-mode.
 ;;
 ;; For Python: Requires to have run the following in advance:
@@ -610,9 +615,14 @@
   :commands lsp-ui-mode
   :after (lsp-mode)
   :hook (lsp-mode-hook . lsp-ui-mode)
-  :config
+  :bind (:map lsp-ui-mode-map
+         ("C-?" . 'lsp-ui-doc-glance)
+         ("C-]" . 'lsp-ui-peek-find-references))
+  :init
   ;; Make sure lsp prefers flycheck over flymake
-  (setq lsp-prefer-flymake nil))
+  (setq lsp-prefer-flymake nil)
+  ;; Disable the semi-annoying hover-to-see-docs view
+  (setq lsp-ui-doc-enable nil))
 
 ;; Connect things up to company via lsp.
 (use-package company-lsp
@@ -1273,7 +1283,17 @@ a pulse"
   (add-hook 'racer-mode-hook #'company-mode)
   ;; (define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
   (setq company-tooltip-align-annotations t)
-  :bind ("C-'" . racer-find-definition-other-window))
+  (setq racer-rust-src-path
+        ;; Workaround for changes to where std is stored until (see
+        ;; https://github.com/racer-rust/emacs-racer/pull/143)
+      (let* ((sysroot (string-trim
+                       (shell-command-to-string "rustc --print sysroot")))
+             (lib-path (concat sysroot "/lib/rustlib/src/rust/library"))
+              (src-path (concat sysroot "/lib/rustlib/src/rust/src")))
+        (or (when (file-exists-p lib-path) lib-path)
+            (when (file-exists-p src-path) src-path))))
+  :bind (:map racer-mode-map
+         ("C-'" . racer-find-definition-other-window)))
 (use-package flycheck-rust
   :ensure t
   :after rust-mode
@@ -1331,8 +1351,8 @@ a pulse"
 ;; f0xtr0t/ directory, but it may need to be manually updated from
 ;; time to time. Also, have to figure out how to make it act nice with
 ;; use-package :D
-(require 'explain-pause-mode)
-(explain-pause-mode t)
+;; (require 'explain-pause-mode)
+;; (explain-pause-mode t)
 
 ;; Use tabnine for autocompletions.
 ;;
