@@ -1225,6 +1225,7 @@ a pulse"
 ;; Make case-changing much better to work with
 (global-set-key (kbd "M-u") 'upcase-dwim)
 (global-set-key (kbd "M-l") 'downcase-dwim)
+(global-set-key (kbd "M-c") 'capitalize-dwim)
 
 ;; ;; Use language agnostic dumb-jump as a way to jump around for
 ;; ;; languages that don't have pre-built jumping.
