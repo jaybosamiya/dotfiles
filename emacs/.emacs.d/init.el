@@ -1030,6 +1030,7 @@ a pulse"
     (visual-fill-column-mode x)
     (visual-line-mode x)))
 (global-set-key (kbd "C-x v") 'toggle-visual)
+(global-set-key (kbd "<f5>") 'visual-line-mode)
 
 ;; Make sure to get markdown-mode
 (use-package markdown-mode

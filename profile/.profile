@@ -99,3 +99,26 @@ if [ -d "$HOME/.pyenv" ]; then
     export PATH="$PYENV_ROOT/bin:$PATH"
     eval "$(pyenv init --path)"
 fi
+
+# Set up auto change-dir
+#
+# Is on Windows Terminal folks' radar, and hopefully should be fixed
+# soon. Relevant issue: https://github.com/microsoft/terminal/issues/3158
+if [[ "$HOST" == "Valhalla" ]]; then
+    # Run only on zsh
+    if [ -n "$ZSH_VERSION" ]; then
+        # Run only on interactive shells
+        if [[ $- == *i* ]]; then
+            if [ -r "/dev/shm/.cwd-$USER" ]; then
+                cd "$(<"/dev/shm/.cwd-$USER")" || true
+            else
+                touch "/dev/shm/.cwd-$USER"
+                chmod 600 "/dev/shm/.cwd-$USER"
+            fi
+            __store_cwd () {
+                pwd > "/dev/shm/.cwd-$USER"
+            }
+            chpwd_functions+=(__store_cwd) # fine on zsh, but flycheck doesn't like it, so ignore the squigglies
+        fi
+    fi
+fi
