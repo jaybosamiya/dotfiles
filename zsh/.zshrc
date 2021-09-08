@@ -31,6 +31,14 @@ function rg() {
 # Replace `cat` with `bat` when available
 if command -v bat >/dev/null; then alias cat=bat; fi
 
+# Make it easier to read out what/where commands are after doing a
+# `which` on them
+function cwhich() {
+    ls -l $(which "$1");
+    file $(which "$1");
+    cat $(which "$1");
+}
+
 function diff() {
     # Use delta (from `cargo install git-delta`) to better colorize
     # output, when at the terminal. Also, automatically enter into a
