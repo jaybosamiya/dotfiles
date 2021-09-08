@@ -1281,6 +1281,9 @@ a pulse"
   (add-hook 'rust-mode-hook
             (lambda ()
               (setq indent-tabs-mode nil)
+              ;; Set comment wrapping M-q default to `max_width`
+              ;; default from rustfmt
+              (setq-local fill-column 100)
               ;; Prevent rust from hijacking the nice fold-this mode
               (define-key rust-mode-map (kbd "C-c C-f") nil))))
 (use-package cargo
