@@ -1282,6 +1282,7 @@ a pulse"
   (add-hook 'rust-mode-hook
             (lambda ()
               (setq indent-tabs-mode nil)
+              (setq split-height-threshold nil)
               ;; Set comment wrapping M-q default to `max_width`
               ;; default from rustfmt
               (setq-local fill-column 100)
