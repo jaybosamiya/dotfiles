@@ -31,6 +31,14 @@ function rg() {
     fi
 }
 
+function phd() {
+    if [ -t 1 ]; then
+        command phd --color=always "$@" | less -RFX
+    else
+        command phd "$@"
+    fi
+}
+
 # Replace `cat` with `bat` when available
 if command -v bat >/dev/null; then alias cat=bat; fi
 
