@@ -119,6 +119,13 @@ if [[ "$HOST" == "Valhalla" ]]; then
                 pwd > "/dev/shm/.cwd-$USER"
             }
             chpwd_functions+=(__store_cwd) # fine on zsh, but flycheck doesn't like it, so ignore the squigglies
+            function __no_store_cwd() {
+                # Remove store cwd from chpwd_functions
+                #
+                # TODO: Is this syntax OK to keep it an array, or does
+                # it end up becoming a string?
+                chpwd_functions=${chpwd_functions:#__store_cwd}
+            }
         fi
     fi
 fi
