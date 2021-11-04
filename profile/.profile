@@ -15,7 +15,7 @@ if [ -n "$BASH_VERSION" ]; then
     fi
 fi
 
-if [[ "$HOST" == "eden" ]]; then
+if [ "$HOST" = "eden" ]; then
 
     # everest related
     export EVEREST_SCONS_CACHE_DIR=/tmp/everest
@@ -35,9 +35,9 @@ if [[ "$HOST" == "eden" ]]; then
     #   Hitting only right shift means close paren
     pgrep xcape >/dev/null || xcape -t 100 -e 'Caps_Lock=Escape;Shift_L=Shift_L|parenleft;Shift_R=Shift_R|parenright'
 
-elif [[ "$HOST" == "Valhalla" ]]; then
+elif [ "$HOST" = "Valhalla" ]; then
 
-    if [[ "$DISPLAY" == "" ]]; then
+    if [ "$DISPLAY" = "" ]; then
 	# Set up connection to vcxsrv since we are on WSL2
         export DISPLAY=$(grep -oP "(?<=nameserver ).+" /etc/resolv.conf):0.0
         export LIBGL_ALWAYS_INDIRECT=1
@@ -73,7 +73,7 @@ if [ -e /home/jay/.nix-profile/etc/profile.d/nix.sh ]; then . /home/jay/.nix-pro
 
 # opam configuration
 if [ -n "$ZSH_VERSION" ]; then
-    test -r $HOME/.opam/opam-init/init.zsh && . $HOME/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+    test -r "$HOME/.opam/opam-init/init.zsh" && . $HOME/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 fi
 
 # wasmtime configuration
@@ -90,7 +90,7 @@ fi
 # Wasmer configuration
 if [ -d "$HOME/.wasmer" ]; then
     export WASMER_DIR="/home/jay/.wasmer"
-    [ -s "$WASMER_DIR/wasmer.sh" ] && source "$WASMER_DIR/wasmer.sh"
+    [ -s "$WASMER_DIR/wasmer.sh" ] && . "$WASMER_DIR/wasmer.sh"
 fi
 
 # pyenv configuration
@@ -104,7 +104,7 @@ fi
 #
 # Is on Windows Terminal folks' radar, and hopefully should be fixed
 # soon. Relevant issue: https://github.com/microsoft/terminal/issues/3158
-if [[ "$HOST" == "Valhalla" ]]; then
+if [ "$HOST" = "Valhalla" ]; then
     # Run only on zsh
     if [ -n "$ZSH_VERSION" ]; then
         # Run only on interactive shells
