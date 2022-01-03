@@ -1,9 +1,17 @@
+# Early direnv initialization, required due to how powerlevel10k's instant prompt
+# works. Since direnv may produce output in some directories, we need to do this
+# bit early, before the instant prompt is enabled.
+(( ${+commands[direnv]} )) && emulate zsh -c "$(direnv export zsh)"
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
+
+# Actually enable direnv
+(( ${+commands[direnv]} )) && emulate zsh -c "$(direnv hook zsh)"
 
 # Need to migrate some settings from old machine
 export ZSH=$HOME/.oh-my-zsh
