@@ -31,6 +31,27 @@ if [[ "$HOST" == "Valhalla" ]]; then
     alias screenperm='sudo /etc/init.d/screen-cleanup start' # Needed for WSL2 when `screen` gives the "Cannot make directory '/run/screen': Permission denied" error
 fi
 
+# A convenience function that is both `cat` and `ls`, based upon what is being looked at
+function c {
+    if [ "$1" = "-l" ]; then
+        local LSEXTRAARGS="-l"
+        shift
+    elif [ "$1" = "-al" ]; then
+        local LSEXTRAARGS="-al"
+        shift
+    fi
+    if [ -e "$1" ]; then
+        if [ -d "$1" ]; then
+            ls $LSEXTRAARGS "$1";
+        else
+            cat "$1";
+        fi
+    else
+        echo "$1 does not exist" 1>&2;
+        return 1
+    fi
+}
+
 function rg() {
     if [ -t 1 ]; then
         command rg -p "$@" | less -RFX
