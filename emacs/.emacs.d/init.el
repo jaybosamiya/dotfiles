@@ -48,7 +48,7 @@
  '(minimap-width-fraction 0.1)
  '(minimap-window-location 'right)
  '(package-selected-packages
-   '(avy anzu company-lean lean-mode expand-region company-tabnine comment-or-uncomment-sexp neuron-mode elmacro org-fragtog rg amx org-noter company-lsp flymake-shellcheck flycheck-popup-tip flycheck-pos-tip flycheck-rust racer cargo rust-mode graphviz-dot-mode urlenc bug-hunter fill-column-indicator sane-term default-text-scale dumb-jump lsp-ui lsp-mode suggest projectile doom-modeline vale-mode buffer-move magit-todos sublimity framemove ox-gfm zoom rainbow-identifiers flycheck-package package-lint rainbow-delimiters delight golden-ratio langtool rainbow-identifiers-mode wc-mode vagrant-tramp undohist solarized-theme restart-emacs powerline php-mode paredit ocp-indent markdown markdown-mode guru-mode elpy dockerfile-mode caml boogie-friends visual-fill-column ido-yes-or-no ag xcscope auctex fold-this eclim haskell-mode zygospore iedit ini-mode keyfreq vlf semantic-mode srefactor cl-lib zpresent org-present ox-reveal undo-tree minimap epresent))
+   '(just-mode avy anzu company-lean lean-mode expand-region company-tabnine comment-or-uncomment-sexp neuron-mode elmacro org-fragtog rg amx org-noter company-lsp flymake-shellcheck flycheck-popup-tip flycheck-pos-tip flycheck-rust racer cargo rust-mode graphviz-dot-mode urlenc bug-hunter fill-column-indicator sane-term default-text-scale dumb-jump lsp-ui lsp-mode suggest projectile doom-modeline vale-mode buffer-move magit-todos sublimity framemove ox-gfm zoom rainbow-identifiers flycheck-package package-lint rainbow-delimiters delight golden-ratio langtool rainbow-identifiers-mode wc-mode vagrant-tramp undohist solarized-theme restart-emacs powerline php-mode paredit ocp-indent markdown markdown-mode guru-mode elpy dockerfile-mode caml boogie-friends visual-fill-column ido-yes-or-no ag xcscope auctex fold-this eclim haskell-mode zygospore iedit ini-mode keyfreq vlf semantic-mode srefactor cl-lib zpresent org-present ox-reveal undo-tree minimap epresent))
  '(proof-electric-terminator-enable nil)
  '(safe-local-variable-values
    '((fstar-subp-prover-additional-args lambda nil
@@ -1428,6 +1428,9 @@ a pulse"
    ("M-J" . pop-global-mark)
    (:map isearch-mode-map
          ("M-j" . avy-isearch))))
+
+(use-package just-mode
+  :ensure t)
 
 ;; TODO: Look into org-tree-slide
 ;; TODO: Look into org-variable-pitch
