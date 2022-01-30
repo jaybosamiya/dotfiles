@@ -15,6 +15,9 @@ if [ -n "$BASH_VERSION" ]; then
     fi
 fi
 
+# Use vim as the default editor if an editor is called for
+export EDITOR="vim"
+
 if [ "$HOST" = "eden" ]; then
 
     # everest related
