@@ -399,12 +399,14 @@ which cod >/dev/null && source <(cod init $$ zsh) || true
 # prevent accidental information leakage.
 if [ -z "$ASCIINEMA_REC" ]; then
     test -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh && source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+    test -f ~/.nix-profile/share/zsh-autosuggestions/zsh-autosuggestions.zsh && source ~/.nix-profile/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 
 # Enable nice syntax highlighting if available
 # Install via [sudo apt install zsh-syntax-highlighting]
 # NOTE: This MUST be at the end of .zshrc
 test -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh && source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+test -f ~/.nix-profile/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh && source ~/.nix-profile/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
