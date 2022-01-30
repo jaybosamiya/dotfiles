@@ -71,6 +71,12 @@ export PATH="$HOME/.cabal/bin/:$PATH"
 
 export PATH="$HOME/.cargo/bin:$PATH"
 
+# connect up to anyenv (https://anyenv.github.io/)
+if [ -d ~/.anyenv/bin ]; then
+    export PATH="$HOME/.anyenv/bin:$PATH"
+    eval "$(anyenv init -)"
+fi
+
 # connect up to nix
 if [ -e /home/jay/.nix-profile/etc/profile.d/nix.sh ]; then . /home/jay/.nix-profile/etc/profile.d/nix.sh; fi
 
