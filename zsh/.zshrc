@@ -93,7 +93,17 @@ function diff() {
 alias music-dl='youtube-dl --audio-format=mp3 --extract-audio --metadata-from-title "%(artist)s - %(title)s"'
 alias twitch-dl="youtube-dl -o '%(id)s-%(title)s.%(ext)s'"
 
-alias ls='ls -h --color=tty' # Human readable file sizes, and color :)
+case "$OSTYPE" in
+  darwin*)
+    alias ls='ls -h -G' # Human readable file sizes, and color :)
+  ;;
+  linux*)
+    alias ls='ls -h --color=tty' # Human readable file sizes, and color :)
+  ;;
+  *)
+    echo "Unknown OS type $OSTYPE"e
+  ;;
+esac
 
 alias gdb='gdb -q'
 alias peda='gdb -q -ex peda'
