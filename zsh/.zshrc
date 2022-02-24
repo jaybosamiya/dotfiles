@@ -127,6 +127,16 @@ alias gef='gdb -q -ex gef'
 alias uniquify='awk '"'"'!_[$0]++'"'" # Equivalent to uniq, but preserves order
 
 alias dockerubuntu='docker run --rm -it -v "$(pwd):/connect" --cap-add=SYS_PTRACE ubuntu' # Runs a docker container in current spot, and connects it to /connect ; enables ptrace
+# limactl allows nice management of nerdctl docker-like instances
+# across different archs on a Mac.
+#
+# See the `lima` stow to have the right setup for the VMs.
+#
+# The `--cap-add=SYS_PTRACE` allows ptrace, thereby allowing GDB.  The
+# `--security-opt seccomp=unconfined` is to allow disabling ASLR
+# within GDB.
+alias limax86='limactl shell x86instance nerdctl run --rm -it --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -v "$(pwd):/connect"'
+alias limaarm='limactl shell default nerdctl run --rm -it --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -v "$(pwd):/connect"'
 
 alias fzf="fzf --layout=reverse-list --multi"
 
