@@ -24,7 +24,20 @@ plugins=(git command-not-found vagrant taskwarrior rust pass just)
 source $ZSH/oh-my-zsh.sh || git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 
 # Custom aliases
-alias n='nautilus . &!' # Opens nautilus and disowns it from current shell
+case ${HOST%%.*} in
+    eden)
+        alias n='nautilus . &!' # Open nautilus in current directory and disown from current shell
+        ;;
+    valhalla)
+        alias n='explorer.exe .'
+        ;;
+    arcadia)
+        alias n='open .'        # Open finder in current directory
+        ;;
+    *)
+        alias n='echo "Unknown machine. n is unbound."'
+        ;;
+esac
 alias ag='ag --pager less'
 alias units='units -1v' # verbose single line output for GNU units
 if [[ "$HOST" == "Valhalla" ]]; then
