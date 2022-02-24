@@ -78,7 +78,7 @@ if [ -d ~/.anyenv/bin ]; then
 fi
 
 # connect up to nix
-if [ -e /home/jay/.nix-profile/etc/profile.d/nix.sh ]; then . /home/jay/.nix-profile/etc/profile.d/nix.sh; fi
+if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then . $HOME/.nix-profile/etc/profile.d/nix.sh; fi
 
 # opam configuration
 if [ -n "$ZSH_VERSION" ]; then
