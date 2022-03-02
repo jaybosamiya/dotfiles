@@ -1477,5 +1477,8 @@ a pulse"
 (use-package just-mode
   :ensure t)
 
+(use-package nix-mode
+  :ensure t)
+
 ;; TODO: Look into org-tree-slide
 ;; TODO: Look into org-variable-pitch
