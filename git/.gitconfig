@@ -11,7 +11,7 @@ email = jaybosamiya@gmail.com
         hooksPath = ~/.gitconfig.d/hooks
 [filter "nevercommitfilter"]
 	smudge = cat
-	clean = sed '/NEVERCOMM[I]T/'d
+	clean = gnused '/NEVERCOMM[I]T/'d
 [diff]
         # The histogram diff algorithm, at least as per 2020
         # (https://link.springer.com/article/10.1007%2Fs10664-019-09772-z)
