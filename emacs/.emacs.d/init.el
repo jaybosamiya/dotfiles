@@ -144,6 +144,14 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
 ;; Make minibuffer history persist across sessions
 (savehist-mode 1)
 
+;; Emacs Start Up Profiler
+(use-package esup
+  :ensure t
+  :pin melpa
+  :init (setq
+         esup-depth 0
+         esup-user-init-file (file-truename "~/.emacs.d/init.el")))
+
 ;; Be able to easily edit the minor mode stuff that shows up in the modeline
 (use-package delight
   :ensure t
