@@ -970,10 +970,6 @@ a pulse"
 (windmove-default-keybindings 'meta)
 (setq framemove-hook-into-windmove t)
 
-;; Be able to use ag from emacs
-(use-package ag
-  :ensure t)
-
 ;; Be able to use rg from emacs
 (use-package rg
   :ensure t
