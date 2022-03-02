@@ -1106,11 +1106,11 @@ a pulse"
 ;;   M-x langtool-check-done
 ;; Requires https://www.languagetool.org/ to be installed into the
 ;; right location
-(use-package langtool
-  :config
-  (setq langtool-language-tool-jar
-	"/home/jay/.local/share/languagetool/languagetool-commandline.jar")
-  (setq langtool-default-language "en-US"))
+;; (use-package langtool
+;;   :config
+;;   (setq langtool-language-tool-jar
+;; 	"/home/jay/.local/share/languagetool/languagetool-commandline.jar")
+;;   (setq langtool-default-language "en-US"))
 
 ;; Allow mini-buffer to get quite large. Super useful for F*'s
 ;; evaluation to see what the hell really went on. Might decide to
