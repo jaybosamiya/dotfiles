@@ -987,7 +987,7 @@ a pulse"
 ;; Use IDO for yes-or-no-p and y-or-n-p
 (use-package ido-yes-or-no
   :ensure t
-  :config (ido-yes-or-no-mode))
+  :init (ido-yes-or-no-mode t))
 
 ;; Make large files less painful to use
 (use-package vlf
