@@ -1389,13 +1389,13 @@ a pulse"
 
 ;; Use `M-x org-noter` inside a PDF document to be able to write up
 ;; notes for it in a really nice way
-(use-package org-noter
-  :ensure t
-  :config
-  (add-hook 'pdf-view-mode-hook
-            (lambda () (local-set-key (kbd "i")
-                                      #'org-noter)))
-  (setq org-noter-always-create-frame nil))
+;; (use-package org-noter
+;;   :ensure t
+;;   :config
+;;   (add-hook 'pdf-view-mode-hook
+;;             (lambda () (local-set-key (kbd "i")
+;;                                       #'org-noter)))
+;;   (setq org-noter-always-create-frame nil))
 
 ;; elmacro is useful to convert a keyboard macro into elisp.
 ;; Use `M-x elmacro-show-last-macro`
