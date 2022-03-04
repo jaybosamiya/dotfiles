@@ -1453,12 +1453,12 @@ a pulse"
 (delete-selection-mode t)
 
 ;; Install lean-mode for LEAN prover programs
-(use-package lean-mode
-  :ensure t
-  :config
-  (lean-message-boxes-enable))
-(use-package company-lean
-  :ensure t)
+;; (use-package lean-mode
+;;   :ensure t
+;;   :config
+;;   (lean-message-boxes-enable))
+;; (use-package company-lean
+;;   :ensure t)
 
 ;; Add automated performance mitigations for files with excessively
 ;; long lines.
