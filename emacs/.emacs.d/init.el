@@ -646,6 +646,7 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
 ;;   (elpy-enable))
 
 (use-package python
+  :defer t
   :init
   ;; Set default python shell to be python3
   (setq python-shell-interpreter "python3"))
@@ -973,6 +974,7 @@ a pulse"
 ;; Be able to use rg from emacs
 (use-package rg
   :ensure t
+  :defer t
   :config
   (setq rg-executable "rg") ;; Use rg from the $PATH; allows
                             ;; working via TRAMP too!
@@ -998,6 +1000,7 @@ a pulse"
 
 ;; Make tramp uses the entire path it gets from the remote
 (use-package tramp
+  :defer t
   :config
   (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
 
@@ -1037,7 +1040,9 @@ a pulse"
 ;; Allow multi line editing.
 ;; Use using C-; when over a symbol
 (use-package iedit
-  :ensure t)
+  :ensure t
+  :defer t
+  :bind ("C-;" . iedit-mode))
 
 ;; Make C-x 1 (delete-other-windows) reversible
 (use-package zygospore
@@ -1313,6 +1318,7 @@ a pulse"
   (setq smerge-command-prefix (kbd "C-c v")))
 
 (use-package graphviz-dot-mode
+  :defer t
   :ensure t)
 
 (use-package urlenc
@@ -1321,6 +1327,7 @@ a pulse"
 ;; Rust configuration
 (use-package rust-mode
   :ensure t
+  :defer t
   :config
   (setq rust-format-on-save t
         rust-format-show-buffer nil)
