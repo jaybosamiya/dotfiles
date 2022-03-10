@@ -700,12 +700,12 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
   ;; Disable the semi-annoying hover-to-see-docs view
   (setq lsp-ui-doc-enable nil))
 
-;; Connect things up to company via lsp.
-(use-package company-lsp
-  :ensure t
-  :commands company-lsp
-  ;; :config (push 'company-lsp company-backends)
-  )
+;; ;; Connect things up to company via lsp.
+;; (use-package company-lsp
+;;   :ensure t
+;;   :commands company-lsp
+;;   ;; :config (push 'company-lsp company-backends)
+;;   )
 
 ;; Smoothen scrolling
 (setq scroll-margin 1
@@ -1383,10 +1383,10 @@ a pulse"
   :after rust-mode
   :hook (flycheck-mode . flycheck-rust-setup)
   :hook (rust-mode . flycheck-mode))
-(use-package flycheck-pos-tip
-  :ensure t
-  ;; :hook (rust-mode . flycheck-pos-tip-mode)
-)
+;; (use-package flycheck-pos-tip
+;;   :ensure t
+;;   ;; :hook (rust-mode . flycheck-pos-tip-mode)
+;; )
 (use-package flycheck-popup-tip
   :ensure t
   :hook (rust-mode . flycheck-popup-tip-mode)
