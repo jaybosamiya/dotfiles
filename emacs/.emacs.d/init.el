@@ -55,6 +55,10 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
           (when (featurep 'cocoa) (sleep-for 0.5))))
       ))
 
+
+;; Useful keybindings for maximizing or full-screening
+(global-set-key (kbd "M-<f10>") 'toggle-frame-maximized)
+(global-set-key (kbd "M-<f11>") 'toggle-frame-fullscreen)
 (eval-when-compile
   (or (require 'use-package nil t)
       (progn
