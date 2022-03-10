@@ -9,6 +9,11 @@
 (when (< emacs-major-version 27)
   (package-initialize))
 
+;; Allow loading customizations from the f0xtr0t directory
+(add-to-list 'load-path
+	     (concat user-emacs-directory
+		     (convert-standard-filename "f0xtr0t/")))
+
 ;; Remove annoying UI elements
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
@@ -187,12 +192,6 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
 ;; (if (server-running-p)
 ;;     (message "%s" "Server already started by someone else")
 ;;   (server-start))
-
-;; Allow loading customizations from the f0xtr0t directory
-(add-to-list 'load-path
-	     (concat user-emacs-directory
-		     (convert-standard-filename "f0xtr0t/")))
-
 
 ;; Set up IDO nicely
 (require 'ido)
