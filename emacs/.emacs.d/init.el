@@ -85,7 +85,7 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
  '(delete-selection-mode nil)
  '(display-time-mode t)
  '(flyspell-default-dictionary "english")
- '(font-use-system-font t)
+ '(font-use-system-font nil)
  '(global-auto-revert-mode t)
  '(global-display-line-numbers-mode t)
  '(ido-default-buffer-method 'selected-window)
@@ -103,7 +103,7 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
  '(minimap-width-fraction 0.1)
  '(minimap-window-location 'right)
  '(package-selected-packages
-   '(just-mode avy anzu company-lean lean-mode expand-region company-tabnine comment-or-uncomment-sexp neuron-mode elmacro org-fragtog rg amx org-noter company-lsp flymake-shellcheck flycheck-popup-tip flycheck-pos-tip flycheck-rust racer cargo rust-mode graphviz-dot-mode urlenc bug-hunter fill-column-indicator sane-term default-text-scale dumb-jump lsp-ui lsp-mode suggest projectile doom-modeline vale-mode buffer-move magit-todos sublimity framemove ox-gfm zoom rainbow-identifiers flycheck-package package-lint rainbow-delimiters delight golden-ratio langtool rainbow-identifiers-mode wc-mode vagrant-tramp undohist solarized-theme restart-emacs powerline php-mode paredit ocp-indent markdown markdown-mode guru-mode elpy dockerfile-mode caml boogie-friends visual-fill-column ido-yes-or-no ag xcscope auctex fold-this eclim haskell-mode zygospore iedit ini-mode keyfreq vlf semantic-mode srefactor cl-lib zpresent org-present ox-reveal undo-tree minimap epresent))
+   '(fstar-mode nix-mode esup shut-up just-mode avy anzu company-lean lean-mode expand-region company-tabnine comment-or-uncomment-sexp neuron-mode elmacro org-fragtog rg amx org-noter company-lsp flymake-shellcheck flycheck-popup-tip flycheck-pos-tip flycheck-rust racer cargo rust-mode graphviz-dot-mode urlenc bug-hunter fill-column-indicator sane-term default-text-scale dumb-jump lsp-ui lsp-mode suggest projectile doom-modeline vale-mode buffer-move magit-todos sublimity framemove ox-gfm zoom rainbow-identifiers flycheck-package package-lint rainbow-delimiters delight langtool rainbow-identifiers-mode wc-mode vagrant-tramp undohist solarized-theme restart-emacs powerline php-mode paredit ocp-indent markdown markdown-mode guru-mode elpy dockerfile-mode caml boogie-friends visual-fill-column ido-yes-or-no ag xcscope auctex fold-this eclim haskell-mode zygospore iedit ini-mode keyfreq vlf semantic-mode srefactor cl-lib zpresent org-present ox-reveal undo-tree minimap epresent))
  '(proof-electric-terminator-enable nil)
  '(safe-local-variable-values
    '((fstar-subp-prover-additional-args lambda nil
@@ -147,7 +147,7 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Source Code Pro" :foundry "adobe" :slant normal :weight normal :height 113 :width normal))))
+ '(default ((t (:inherit nil :extend nil :stipple nil :background "#2d3743" :foreground "#e1e1e0" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 110 :width normal :foundry "nil" :family "Iosevka Nerd Font Mono"))))
  '(doom-modeline-info ((t (:inherit bold))))
  '(ggtags-highlight ((t nil)))
  '(minimap-active-region-background ((t (:inverse-video t))))
