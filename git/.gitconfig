@@ -26,3 +26,5 @@ email = jaybosamiya@gmail.com
 [alias]
     hide = update-index --assume-unchanged
     unhide = update-index --no-assume-unchanged
+[init]
+	defaultBranch = main
