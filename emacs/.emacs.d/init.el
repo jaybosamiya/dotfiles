@@ -59,6 +59,14 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
 ;; Useful keybindings for maximizing or full-screening
 (global-set-key (kbd "M-<f10>") 'toggle-frame-maximized)
 (global-set-key (kbd "M-<f11>") 'toggle-frame-fullscreen)
+
+;; Make sure that ESUP provides correct output. Not necessary to keep
+;; enabled by default.
+(if nil
+    (let ((default-directory  "~/.emacs.d/elpa/"))
+      (normal-top-level-add-subdirs-to-load-path)))
+
+;; Ensure use-package exists
 (eval-when-compile
   (or (require 'use-package nil t)
       (progn
