@@ -14,18 +14,11 @@
 	     (concat user-emacs-directory
 		     (convert-standard-filename "f0xtr0t/")))
 
-;; Remove annoying UI elements
-(menu-bar-mode -1)
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
-
 ;; Require disable-able features right out of f0xtr0t/
+(require 'f0xtr0t-gui)
+(require 'f0xtr0t-global-keybinds)
 (require 'f0xtr0t-mac-os-specific)
 (require 'f0xtr0t-version-control)
-
-;; Useful keybindings for maximizing or full-screening
-(global-set-key (kbd "M-<f10>") 'toggle-frame-maximized)
-(global-set-key (kbd "M-<f11>") 'toggle-frame-fullscreen)
 
 ;; Make sure that ESUP provides correct output. Not necessary to keep
 ;; enabled by default.
@@ -122,9 +115,6 @@
  '(writegood-passive-voice-face ((t (:underline "PaleTurquoise4"))))
  '(writegood-weasels-face ((t (:underline (:color "yellow4" :style wave))))))
 
-;; Make minibuffer history persist across sessions
-(savehist-mode 1)
-
 ;; Emacs Start Up Profiler
 (use-package esup
   :ensure t
@@ -132,11 +122,6 @@
   :init (setq
          esup-depth 0
          esup-user-init-file (file-truename "~/.emacs.d/init.el")))
-
-;; Be able to easily edit the minor mode stuff that shows up in the modeline
-(use-package delight
-  :ensure t
-  :demand t)
 
 ;; Exec Path from Shell
 (use-package exec-path-from-shell
@@ -154,13 +139,6 @@
 ;; (if (server-running-p)
 ;;     (message "%s" "Server already started by someone else")
 ;;   (server-start))
-
-;; Set up IDO nicely
-(require 'ido)
-(ido-mode t)
-(require 'flx-ido)
-(flx-ido-mode t)
-(global-set-key (kbd "C-x C-d") #'ido-dired) ;; Map "C-x C-d" to do same as "C-x d" which is otherwise awkward.
 
 ;; Get some distraction free goodness :)
 (use-package olivetti
@@ -180,22 +158,10 @@
 	 ("C-c M-f" . fold-this-unfold-at-point)
 	 ("C-c M-F" . fold-this-unfold-all)))
 
-;; amx -- newer fork of smex which stopped development in 2015
-(use-package amx
-  :ensure t
-  :demand t
-  :bind (; Replace with amx
-	 ("M-x" . amx)
-	 ("M-X" . amx-major-mode-commands)
-	 ; and maintain old M-x via C-c M-x
-	 ("C-c M-x" . execute-extended-command)))
-
 ;; imenu-anywhere lets you jump between relevant parts of code easily
 ;; (use-package imenu-anywhere
 ;;   :ensure t
 ;;   :bind (("C-." . imenu-anywhere)))
-
-(display-time-mode 1)
 
 (use-package pdf-tools
   :ensure t
@@ -265,24 +231,6 @@
 
 (use-package htmlize
   :ensure t)
-
-(use-package which-key
-  :ensure t
-  :demand t
-  :delight
-  :config (which-key-mode))
-
-;; Prevent C-z from accidentally sending the window to background
-(global-unset-key (kbd "C-z"))
-
-;; Prevent F11 from accidentally trying to maximize the window
-(global-unset-key (kbd "<f11>"))
-
-;; Handle "Page Up" and "Page Down" better
-(global-set-key (kbd "<next>") 'scroll-up-line)
-(global-set-key (kbd "<prior>") 'scroll-down-line)
-(global-unset-key (kbd "C-<prior>"))
-(global-unset-key (kbd "C-<next>"))
 
 ;; (require 'latex-preview-pane)
 (use-package tex
@@ -506,44 +454,14 @@
 
 (add-to-list 'load-path "/home/jay/.local/share/emacs/site-lisp")
 
-;; Make F-12 clear all flycheck marks
-(global-set-key (kbd "<f12>") 'flycheck-clear)
-
 ;; Set up markdown editing
 (use-package markdown-mode
   :mode ("\\.md\\'" . markdown-mode)
   :config
   (setq markdown-command "pandoc"))
 
-;; Disable audible bell
-(setq ring-bell-function 'ignore)
-
 ;; Set up gdb to use the many-windows functionality
 (setq gdb-many-windows t)
-
-;; Turn on show-trailing-whitespace
-(setq-default show-trailing-whitespace t)
-
-;; Disable on some modes
-(dolist (hook '(term-mode-hook))
-  (add-hook hook '(lambda () (setq show-trailing-whitespace nil))))
-
-
-;; Be able to unfill paragraphs
-(require 'unfill)
-(global-set-key (kbd "M-Q") 'unfill-paragraph)
-
-;; Enable abbrev-mode globally
-;; (setq-default abbrev-mode t) ; Disabled
-;;; Useful shortcut: C-x a i g
-;;; Replaces previous word and sets up an abbrev
-
-;; Allow "C-x n n" to be done without that irritating warning
-(put 'narrow-to-region 'disabled nil)
-
-;; Set M-, to pop-tag-mark to work nicely with the M-. of ctags
-;; This clobbers tags-loop-continue however
-(global-set-key (kbd "M-,") 'pop-tag-mark)
 
 ;; Allow creation of ctags info from inside emacs itself :)
 (setq path-to-ctags "/usr/bin/ctags")
@@ -618,19 +536,6 @@
 ;;   ;; :config (push 'company-lsp company-backends)
 ;;   )
 
-;; Smoothen scrolling
-(setq scroll-margin 1
-      scroll-conservatively 0
-      scroll-up-aggressively 0.01
-      scroll-down-aggressively 0.01)
-(setq-default scroll-up-aggressively 0.01
-	      scroll-down-aggressively 0.01)
-;; (use-package smooth-scrolling ;; Doesn't seem to work well with F*
-;;   :ensure t
-;;   :config
-;;   (setq smooth-scroll-margin 1))
-;; (smooth-scrolling-mode 1)
-
 ;; Let emacs learn and set style from a C file
 (defun infer-indentation-style ()
   (interactive)
@@ -670,45 +575,6 @@
   :ensure t
   :delight
   :config (global-whitespace-cleanup-mode t))
-
-;; Display a nicer startup message :D
-(defun display-startup-echo-area-message ()
-  (message "Let the hacking begin!"))
-
-;; Make scratch buffer be a fundamental-mode buffer
-;; and give a better message (empty :D)
-(setq initial-major-mode 'fundamental-mode)
-(setq initial-scratch-message "")
-
-;; Do a pulse whenever jumping to a line
-(require 'pulse)
-(defun goto-line-and-pulse ()
-  "Equivalent to goto-line interactively except that it also does
-a pulse"
-  (interactive)
-  (let* ((line
-	  (read-number (format "Goto line: ")
-		       (list (line-number-at-pos)))))
-    (goto-line line)
-    (pulse-momentary-highlight-one-line (point))))
-(global-set-key (kbd "M-g M-g") 'goto-line-and-pulse)
-(global-set-key (kbd "M-g g") 'goto-line-and-pulse)
-
-;; Turn on line numbers for all buffers
-(if (version<= "26.0.50" emacs-version)
-    (global-display-line-numbers-mode) ;; use faster version when available
-  (global-linum-mode))
-
-;; Disable linum-mode for incompatible cases
-;;
-;; NOTE: olivetti-mode does not work well with linum, but we don't
-;; need to disable display-line-numbers-mode for it, so I've removed
-;; it from here.
-(dolist (hook '(pdf-view-mode-hook image-mode-hook))
-  (add-hook hook '(lambda ()
-                    (linum-mode 0)
-                    (when (version<= "26.0.50" emacs-version)
-                      (display-line-numbers-mode 0)))))
 
 ;; Handle escape sequence colorization properly for compilation-mode
 ;; See : https://emacs.stackexchange.com/a/38531
@@ -781,24 +647,6 @@ a pulse"
 (advice-add 'ispell-pdict-save :after
 	    #'flyspell-buffer-after-pdict-save)
 
-;; Set C-' to correct word using flyspell, and F9 to flyspell the
-;; entire buffer. C-F9 to disable flyspell.
-;; (global-set-key (kbd "C-'")
-;; 		'flyspell-correct-word-before-point)
-(defun flyspell-enable ()
-  (interactive)
-  (if (derived-mode-p 'prog-mode)
-      (flyspell-prog-mode)
-    (flyspell-mode t))
-  (flyspell-buffer)
-  (message "Turned on flyspell-mode"))
-(defun flyspell-disable ()
-  (interactive)
-  (flyspell-mode -1)
-  (message "Turned off flyspell-mode"))
-(global-set-key (kbd "<f9>") 'flyspell-enable)
-(global-set-key (kbd "C-<f9>") 'flyspell-disable)
-
 ;; Speed up flyspell by using no messages
 (setq-default flyspell-issue-message-flag nil)
 
@@ -817,45 +665,12 @@ a pulse"
 ;; (load-file (let ((coding-system-for-read 'utf-8))
 ;;                 (shell-command-to-string "agda-mode locate")))
 
-;; Theme flipper
-(setq
- theme-flipper-list '(misterioso solarized-light solarized-dark adwaita)
- theme-flipper-index 0)
-(defun theme-flip ()
-  (interactive)
-  (setq theme-flipper-index (+ 1 theme-flipper-index))
-  (when (>= theme-flipper-index (length theme-flipper-list))
-    (setq theme-flipper-index 0))
-  (let ((this-theme (nth-value theme-flipper-index theme-flipper-list)))
-    (load-theme this-theme t t)
-    (dolist (theme theme-flipper-list)
-      (when (not (eq theme this-theme))
-	(disable-theme theme)))
-    (enable-theme this-theme)))
-(global-set-key (kbd "C-<f12>") 'theme-flip)
-
 ;; Microsoft IVy
 ;; (use-package ivy-mode)
-
-;; Use a hippie-expand, instead of dabbrev-expand, which has
-;; dabbrev-expand as one of its tactics, so leads to a guaranteed
-;; superset of expansions
-(global-set-key (kbd "M-/") 'hippie-expand)
-
-;; Ensure that copying from another program and then running a kill
-;; command in emacs doesn't cause things to disappear from the
-;; clipboard
-(setq save-interprogram-paste-before-kill t)
-
-;; Make sure the mouse yanking pastes at point instead of at click
-(setq mouse-yank-at-point t)
 
 ;; Prevent stale elisp bytecode from shadowing more up-to-date source
 ;; files
 (setq load-prefer-newer t)
-
-;; Use ibuffer instead of list-buffer for C-x C-b
-(global-set-key (kbd "C-x C-b") 'ibuffer)
 
 ;; ;; Use ido-occur to be able to easily move around the buffer
 ;; (use-package ido-occur
@@ -863,9 +678,6 @@ a pulse"
 ;;   :bind (("C-o" . 'ido-occur)
 ;; 	 :map isearch-mode-map
 ;; 	 ("C-o" . 'ido-occur-from-isearch)))
-
-;; Bind "occur" to M-o instead of facemenu stuff
-(global-set-key (kbd "M-o") 'occur)
 
 ;; Be able to move around C/C++ projects easily using cscope.
 ;; Try C-c s SOMETHING in a C/C++ buffer.
@@ -890,12 +702,6 @@ a pulse"
   :config (semantic-mode 1)
   :bind ("M-RET" . 'srefactor-refactor-at-point))
 
-;; Be able to move between buffers more easily, using M-up, M-down,
-;; M-left, M-right.
-(require 'framemove)
-(windmove-default-keybindings 'meta)
-(setq framemove-hook-into-windmove t)
-
 ;; Be able to use rg from emacs
 (use-package rg
   :ensure t
@@ -906,11 +712,6 @@ a pulse"
   (setq rg-default-alias-fallback "everything")
   :bind (("M-s M-s" . 'rg-dwim)
 	 ("M-s s"   . 'rg-menu)))
-
-;; Use IDO for yes-or-no-p and y-or-n-p
-(use-package ido-yes-or-no
-  :ensure t
-  :init (ido-yes-or-no-mode t))
 
 ;; Make large files less painful to use
 (use-package vlf
@@ -961,18 +762,6 @@ a pulse"
 ;;   (progn
 ;;     (keyfreq-mode 1)
 ;;     (keyfreq-autosave-mode 1)))
-
-;; Allow multi line editing.
-;; Use using C-; when over a symbol
-(use-package iedit
-  :ensure t
-  :defer t
-  :bind ("C-;" . iedit-mode))
-
-;; Make C-x 1 (delete-other-windows) reversible
-(use-package zygospore
-  :ensure t
-  :bind ("C-x 1" . zygospore-toggle-delete-other-windows))
 
 ;; Java Support via Eclim (requires Eclipse)
 (use-package eclim
@@ -1063,9 +852,6 @@ a pulse"
 ;;   :config
 ;;   (zoom-mode 1))
 
-;; Prevent magit transient window from popping up so damn fast!
-(setq transient-show-popup 0.5)
-
 ;; ;; Be able to open nautilus with some nice keybindings
 ;; (defun open-nautilus-in-directory (dir)
 ;;   (interactive "D")
@@ -1123,8 +909,6 @@ a pulse"
 
 (add-to-list 'default-frame-alist '(cursor-color . "#ffffff"))
 
-(global-set-key (kbd "C-x 4 c") 'clone-indirect-buffer)
-
 (use-package vale-mode
   :ensure t
   :custom
@@ -1136,16 +920,6 @@ a pulse"
 ;; (setq desktop-restore-eager 3)
 ;; (push '(mouse-color . :never) frameset-filter-alist)
 ;; (midnight-mode 1) ;; Enable midnight mode to automatically purge old unvisited buffers at midnight.
-
-(use-package buffer-move
-  :ensure t
-  :bind
-  ("<M-S-up>" . buf-move-up)
-  ("<M-S-down>" . buf-move-down)
-  ("<M-S-left>" . buf-move-left)
-  ("<M-S-right>" . buf-move-right))
-
-(global-set-key (kbd "C-M-<f7>") 'normal-mode)
 
 (defun narrow-region-to-indirect-readonly-buffer (start end)
   "Narrow to selected region in an indirect readonly buffer"
@@ -1163,21 +937,6 @@ a pulse"
       (use-local-map (copy-keymap (car (current-active-maps))))
       (local-set-key (kbd "q") 'kill-this-buffer))))
 (global-set-key (kbd "C-<f7>") 'narrow-region-to-indirect-readonly-buffer)
-
-;; Always have column number mode on
-(column-number-mode 1)
-
-;; Add the doom modeline
-;; If fonts don't work, use "M-x all-the-icons-install-fonts"
-(use-package doom-modeline
-  :ensure t
-  :hook (after-init . doom-modeline-mode)
-  :custom-face (doom-modeline-info ((t (:inherit bold))))
-  :config
-  (setq doom-modeline-buffer-file-name-style 'buffer-name)
-  (setq doom-modeline-major-mode-icon nil)
-  (setq doom-modeline-buffer-encoding nil)
-  (setq doom-modeline-vcs-max-length 40))
 
 ;; Make emacs reload TAGS files automatically
 (setq tags-revert-without-query 1)
@@ -1198,23 +957,12 @@ a pulse"
   :ensure t
   :commands (suggest))
 
-;; Make case-changing much better to work with
-(global-set-key (kbd "M-u") 'upcase-dwim)
-(global-set-key (kbd "M-l") 'downcase-dwim)
-(global-set-key (kbd "M-c") 'capitalize-dwim)
-
 ;; ;; Use language agnostic dumb-jump as a way to jump around for
 ;; ;; languages that don't have pre-built jumping.
 ;; (use-package dumb-jump
 ;;   :ensure t
 ;;   :bind (("M-g ." . dumb-jump-go)
 ;;          ("M-g ," . dumb-jump-back)))
-
-;; Introduce C-M-= and C-M-- for changing the font size all across emacs.
-(use-package default-text-scale
-  :ensure t
-  :demand t
-  :config (default-text-scale-mode))
 
 (use-package sane-term
   :ensure t)
@@ -1335,12 +1083,6 @@ a pulse"
   :bind (("C-c C-z" . neuron-new-zettel)
          ("C-c z" . neuron-edit-zettel)))
 
-;; Allow commenting or uncommenting full sexps in one go, rather than
-;; having to do so individually by line.
-(use-package comment-or-uncomment-sexp
-  :ensure t
-  :bind ("C-M-;" . comment-or-uncomment-sexp))
-
 ;; Keep a profiler to keep track of what might be causing pauses.
 ;; Currently not in MELPA so I'm just keeping the file around in the
 ;; f0xtr0t/ directory, but it may need to be manually updated from
@@ -1363,12 +1105,6 @@ a pulse"
 ;; (use-package company-tabnine
 ;;   :ensure t
 ;;   :init (add-to-list 'company-backends #'company-tabnine))
-
-;; Add expand-region, which allows you to repeatedly press a key to
-;; select larger and larger semantic regions.
-(use-package expand-region
-  :ensure t
-  :bind ("C-=" . er/expand-region))
 
 ;; Enable delete-selection-mode which allows behavior that is more
 ;; consistent with other applications- selections are replaced when
