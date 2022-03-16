@@ -42,3 +42,5 @@ lima/.lima/x86instance/ha.sock
 lima/.lima/x86instance/ha.stderr.log
 lima/.lima/x86instance/ha.stdout.log
 lima/.lima/x86instance/serial.log
+
+lima/.lima/*/*.pid
