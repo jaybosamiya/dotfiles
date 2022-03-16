@@ -39,6 +39,15 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
           ;; behavior, on macOS (bug#28496).
           (when (featurep 'cocoa) (sleep-for 0.5))))
 
+      ;; Set up dired to use `gls` instead of `ls`. This helps fix the
+      ;; issue around `dired-use-ls-dired`; specifically, dired likes
+      ;; to use the `--dired` option with ls, which is only supported
+      ;; on GNU ls, and not on BSD ls. A fix for this is to just use
+      ;; lisp-implemented `ls` (described in the help for
+      ;; `dired-use-ls-dired`), or to tell it not to use `--dired`,
+      ;; but since we've got `gls` around, why not use it?
+      (setq insert-directory-program "gls")
+
 ;; End of MacOS specific stuff
       ))
 
