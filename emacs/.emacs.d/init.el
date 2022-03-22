@@ -128,6 +128,11 @@
   :ensure t
   :demand t
   :config
+  ;; Speed up by using non-interactive shell. This assumes that PATH
+  ;; modifications are being done correctly via `.profile` and not via
+  ;; editing `.zshrc`/`.bashrc` and such.
+  (setq exec-path-from-shell-arguments
+        (remove "-i" exec-path-from-shell-arguments))
   (exec-path-from-shell-initialize))
 
 ;; Be able to restart emacs from within emacs
