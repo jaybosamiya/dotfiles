@@ -155,4 +155,13 @@ a pulse"
   :demand t
   :config (default-text-scale-mode))
 
+;; Set the default height-split threshold to a larger value (default
+;; otherwise is 80) so that horizontal splits are preferred more
+;; strongly over vertical splits, when a split in a non-specific
+;; direction is requested.
+;;
+;; TODO: Consider setting this to `nil` to completely disallow
+;; vertical splits.
+(setq-default split-height-threshold 120)
+
 (provide 'f0xtr0t-gui)
