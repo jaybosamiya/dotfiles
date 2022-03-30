@@ -51,5 +51,17 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
 ;; End of MacOS specific stuff
       ))
 
+;;;;;; Notes on setup for other programs on MacOS
+;;
+;;;; SyncTex support for Skim
+;;
+;; Make sure `emacsclient` is on the PATH
+;;
+;;    /usr/local/bin/emacsclient -> /Applications/Emacs.app/Contents/MacOS/bin/emacsclient
+;;
+;; and synctex is enabled in Skim with default Emacs settings.
+;; Cmd-Shift-Click should then just work to jump from Skim to Emacs.
+;;
+;; TODO: Add support for forward search from emacs to skim
 
 (provide 'f0xtr0t-mac-os-specific)
