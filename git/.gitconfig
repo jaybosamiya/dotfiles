@@ -28,3 +28,7 @@ email = jaybosamiya@gmail.com
     unhide = update-index --no-assume-unchanged
 [init]
 	defaultBranch = main
+[url "ssh://git@github.com/"]
+	insteadOf = sshttps://www.github.com/
+[url "ssh://git@github.com/"]
+	insteadOf = sshttps://github.com/
