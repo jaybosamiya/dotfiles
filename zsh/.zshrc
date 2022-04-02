@@ -28,7 +28,7 @@ case ${HOST%%.*} in
     eden)
         alias n='nautilus . &!' # Open nautilus in current directory and disown from current shell
         ;;
-    valhalla)
+    Valhalla)
         alias n='explorer.exe .'
         ;;
     arcadia)
