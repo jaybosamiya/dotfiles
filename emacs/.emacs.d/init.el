@@ -28,6 +28,7 @@
 (require 'f0xtr0t-version-control)
 (require 'f0xtr0t-orgmode)
 (require 'f0xtr0t-large-files)
+;; (require 'f0xtr0t-lang-ocaml)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -575,10 +576,6 @@
 
 ;; Speed up flyspell by using no messages
 (setq-default flyspell-issue-message-flag nil)
-
-;; Opam, OCaml
-(use-package ocaml
-  :mode ("\\.ml\\'" . merlin-mode))
 
 ;; Coq
 ;; Proof General
