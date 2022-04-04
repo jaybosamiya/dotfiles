@@ -15,6 +15,14 @@ if [ -n "$BASH_VERSION" ]; then
     fi
 fi
 
+# if running zsh
+if [ -n "$ZSH_VERSION" ]; then
+    # include iterm2 shell integration if it exists
+    if [ -f "$HOME/.iterm2_shell_integration.zsh" ]; then
+        . "$HOME/.iterm2_shell_integration.zsh"
+    fi
+fi
+
 # Use vim as the default editor if an editor is called for
 export EDITOR="vim"
 
