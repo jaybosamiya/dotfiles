@@ -1,7 +1,13 @@
 ;; Remove annoying UI elements
-(menu-bar-mode -1)
+;;
+;; By setting this as variable(s), rather than invoking the mode with
+;; `-1` as argument, we effectively suppress creation even before the
+;; GUI frames show up, thereby speeding up startup
+;;
+;; TODO: Maybe this should move to early-init?
+(setq tool-bar-mode nil
+      menu-bar-mode nil)
 (scroll-bar-mode -1)
-(tool-bar-mode -1)
 
 ;; Make minibuffer history persist across sessions
 (savehist-mode 1)

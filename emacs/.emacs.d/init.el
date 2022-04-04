@@ -498,6 +498,7 @@
 ;; Do whitespace cleanup iff the file was opened with clean whitespace
 (use-package whitespace-cleanup-mode
   :ensure t
+  :defer 5
   :delight
   :config (global-whitespace-cleanup-mode t))
 
