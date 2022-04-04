@@ -22,7 +22,7 @@
 	(message "On a new system. Just installed use-package!"))))
 
 ;; Require disable-able features right out of f0xtr0t/
-(require 'f0xtr0t-gui)
+(require 'f0xtr0t-gui) ;; This one must be the first of the `f0xtr0t-` loads
 (require 'f0xtr0t-global-keybinds)
 (require 'f0xtr0t-mac-os-specific)
 (require 'f0xtr0t-version-control)
