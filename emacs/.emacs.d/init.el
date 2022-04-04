@@ -3,17 +3,10 @@
              '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives
 	     '("org" . "https://orgmode.org/elpa/") t)
-(when (< emacs-major-version 24)
-  ;; For important compatibility libraries like cl-lib
-  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
-(when (< emacs-major-version 27)
+(when (or (version< emacs-version "27.0")
+          ;; esup-child shows up this early only if `esup` is invoked
+          (featurep 'esup-child))
   (package-initialize))
-
-;; Make sure that ESUP provides correct output. Not necessary to keep
-;; enabled by default.
-(if nil
-    (let ((default-directory  "~/.emacs.d/elpa/"))
-      (normal-top-level-add-subdirs-to-load-path)))
 
 ;; Allow loading customizations from the f0xtr0t directory
 (add-to-list 'load-path
