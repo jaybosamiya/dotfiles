@@ -489,8 +489,11 @@
 
 ;; Make sure packages stay updated; but prompt before each update
 ;; Runs approximately once every 7 days
-(require 'auto-package-update)
-(setq auto-package-update-prompt-before-update t)
+(use-package auto-package-update
+  :ensure t
+  :init (setq auto-package-update-prompt-before-update t)
+  :defer 30
+  :config (auto-package-update-maybe))
 
 ;; Do whitespace cleanup iff the file was opened with clean whitespace
 (use-package whitespace-cleanup-mode
