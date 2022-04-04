@@ -9,6 +9,12 @@
 (when (< emacs-major-version 27)
   (package-initialize))
 
+;; Make sure that ESUP provides correct output. Not necessary to keep
+;; enabled by default.
+(if nil
+    (let ((default-directory  "~/.emacs.d/elpa/"))
+      (normal-top-level-add-subdirs-to-load-path)))
+
 ;; Allow loading customizations from the f0xtr0t directory
 (add-to-list 'load-path
 	     (concat user-emacs-directory
@@ -28,12 +34,6 @@
 (require 'f0xtr0t-mac-os-specific)
 (require 'f0xtr0t-version-control)
 (require 'f0xtr0t-orgmode)
-
-;; Make sure that ESUP provides correct output. Not necessary to keep
-;; enabled by default.
-(if nil
-    (let ((default-directory  "~/.emacs.d/elpa/"))
-      (normal-top-level-add-subdirs-to-load-path)))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
