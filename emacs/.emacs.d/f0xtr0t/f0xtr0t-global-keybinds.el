@@ -106,5 +106,22 @@
   :ensure t
   :bind ("C-=" . er/expand-region))
 
+;; fold-this
+(use-package fold-this
+  :ensure t
+  :demand t
+  :bind (("C-c C-f" . fold-this-all)
+         ("C-c C-S-f" . fold-this)
+         ("C-c M-f" . fold-this-unfold-at-point)
+         ("C-c M-F" . fold-this-unfold-all)))
+
+;; Get some distraction free goodness :)
+(use-package olivetti
+  :ensure t
+  :bind ("C-<f11>" . olivetti-mode)
+  :config
+  (progn
+    (setq olivetti-hide-mode-line t)
+    (setq-default olivetti-body-width 116)))
 
 (provide 'f0xtr0t-global-keybinds)

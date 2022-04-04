@@ -27,6 +27,7 @@
 (require 'f0xtr0t-mac-os-specific)
 (require 'f0xtr0t-version-control)
 (require 'f0xtr0t-orgmode)
+(require 'f0xtr0t-large-files)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -138,24 +139,6 @@
 ;; (if (server-running-p)
 ;;     (message "%s" "Server already started by someone else")
 ;;   (server-start))
-
-;; Get some distraction free goodness :)
-(use-package olivetti
-  :ensure t
-  :bind ("C-<f11>" . olivetti-mode)
-  :config
-  (progn
-    (setq olivetti-hide-mode-line t)
-    (setq-default olivetti-body-width 116)))
-
-;; fold-this
-(use-package fold-this
-  :ensure t
-  :demand t
-  :bind (("C-c C-f" . fold-this-all)
-	 ("C-c C-S-f" . fold-this)
-	 ("C-c M-f" . fold-this-unfold-at-point)
-	 ("C-c M-F" . fold-this-unfold-all)))
 
 ;; imenu-anywhere lets you jump between relevant parts of code easily
 ;; (use-package imenu-anywhere
@@ -652,17 +635,6 @@
   :bind (("M-s M-s" . 'rg-dwim)
 	 ("M-s s"   . 'rg-menu)))
 
-;; Make large files less painful to use
-(use-package vlf
-  :ensure t
-  :config
-  (progn
-    (require 'vlf-setup)
-    (add-hook 'vlf-mode-hook
-	      #'(lambda ()
-		  (require 'vlf-follow)
-		  (vlf-start-follow 0.01)))))
-
 ;; Make tramp uses the entire path it gets from the remote
 (use-package tramp
   :defer t
@@ -1045,11 +1017,6 @@
 ;;   :ensure t
 ;;   :init (add-to-list 'company-backends #'company-tabnine))
 
-;; Enable delete-selection-mode which allows behavior that is more
-;; consistent with other applications- selections are replaced when
-;; you type over them, rather than just inserting at point.
-(delete-selection-mode t)
-
 ;; Install lean-mode for LEAN prover programs
 ;; (use-package lean-mode
 ;;   :ensure t
@@ -1057,18 +1024,6 @@
 ;;   (lean-message-boxes-enable))
 ;; (use-package company-lean
 ;;   :ensure t)
-
-;; Add automated performance mitigations for files with excessively
-;; long lines.
-(use-package so-long
-  :ensure t
-  :init (global-so-long-mode 1))
-
-;; Add search counters to the modeline
-(use-package anzu
-  :ensure t
-  :init
-  (global-anzu-mode +1))
 
 ;; Add fast and easy jumping to places using Avy
 (use-package avy

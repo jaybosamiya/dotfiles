@@ -164,4 +164,15 @@ a pulse"
 ;; vertical splits.
 (setq-default split-height-threshold 120)
 
+;; Enable delete-selection-mode which allows behavior that is more
+;; consistent with other applications- selections are replaced when
+;; you type over them, rather than just inserting at point.
+(delete-selection-mode t)
+
+;; Add search counters to the modeline
+(use-package anzu
+  :ensure t
+  :init
+  (global-anzu-mode +1))
+
 (provide 'f0xtr0t-gui)
