@@ -109,7 +109,7 @@ a pulse"
   (setq theme-flipper-index (+ 1 theme-flipper-index))
   (when (>= theme-flipper-index (length theme-flipper-list))
     (setq theme-flipper-index 0))
-  (let ((this-theme (nth-value theme-flipper-index theme-flipper-list)))
+  (let ((this-theme (cl-nth-value theme-flipper-index theme-flipper-list)))
     (load-theme this-theme t t)
     (dolist (theme theme-flipper-list)
       (when (not (eq theme this-theme))
