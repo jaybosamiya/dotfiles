@@ -1,0 +1,12 @@
+#! /bin/bash
+
+set -o pipefail
+set -e
+set -x
+
+# Enable Touch-ID for `sudo`
+if grep 'pam_tid.so' /etc/pam.d/sudo >/dev/null; then
+  echo "Already touch-id";
+else
+  awk 'NR==2{$0="auth sufficient pam_tid.so"RS$0}{print $0}' /etc/pam.d/sudo | sudo sponge /etc/pam.d/sudo;
+fi
