@@ -181,4 +181,11 @@ a pulse"
   :init
   (global-anzu-mode +1))
 
+;; Add indentation guides to make code easier to read
+(use-package highlight-indent-guides
+  :ensure t
+  :hook prog-mode
+  :init (setq highlight-indent-guides-method 'bitmap
+              highlight-indent-guides-responsive 'top))
+
 (provide 'f0xtr0t-gui)
