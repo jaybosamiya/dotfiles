@@ -184,7 +184,7 @@ a pulse"
 ;; Add indentation guides to make code easier to read
 (use-package highlight-indent-guides
   :ensure t
-  :hook prog-mode
+  :hook (prog-mode . highlight-indent-guides-mode)
   :init (setq highlight-indent-guides-method 'bitmap
               highlight-indent-guides-responsive 'top))
 
