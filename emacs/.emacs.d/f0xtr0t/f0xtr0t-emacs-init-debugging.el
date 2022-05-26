@@ -19,5 +19,8 @@ further code."
          esup-depth 0
          esup-user-init-file (file-truename "~/.emacs.d/init.el")))
 
+;; Be able to restart emacs from within emacs
+(use-package restart-emacs
+  :ensure t)
 
 (provide 'f0xtr0t-emacs-init-debugging)

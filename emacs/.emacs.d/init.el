@@ -52,10 +52,6 @@
         (remove "-i" exec-path-from-shell-arguments))
   (exec-path-from-shell-initialize))
 
-;; Be able to restart emacs from within emacs
-(use-package restart-emacs
-  :ensure t)
-
 ;; ;; Start off emacs server, so that `emacsclient` can be used
 ;; (load "server")
 ;; (if (server-running-p)
