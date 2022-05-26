@@ -23,4 +23,10 @@ further code."
 (use-package restart-emacs
   :ensure t)
 
+;; Make it easy to find issues in the init file.
+;;
+;; Use `M-x bug-hunter-init-file RET i`
+(use-package bug-hunter
+  :ensure t)
+
 (provide 'f0xtr0t-emacs-init-debugging)
