@@ -896,7 +896,7 @@
 (use-package nix-mode
   :ensure t
   :defer t
-  :mode ("\\.dg\\'" . nix-mode))
+  :mode ("\\.nix\\'" . nix-mode))
 
 ;; TODO: Look into org-tree-slide
 ;; TODO: Look into org-variable-pitch
