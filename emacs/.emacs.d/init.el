@@ -23,6 +23,7 @@
 
 ;; Require disable-able features right out of f0xtr0t/
 (require 'f0xtr0t-gui) ;; This one must be the first of the `f0xtr0t-` loads
+(require 'f0xtr0t-emacs-init-debugging)
 (require 'f0xtr0t-global-keybinds)
 (require 'f0xtr0t-mac-os-specific)
 (require 'f0xtr0t-version-control)
@@ -36,14 +37,6 @@
                    user-emacs-directory
                    "f0xtr0t/f0xtr0t-custom-set-variables.el"))
 (load custom-file)
-
-;; Emacs Start Up Profiler
-(use-package esup
-  :ensure t
-  :pin melpa
-  :init (setq
-         esup-depth 0
-         esup-user-init-file (file-truename "~/.emacs.d/init.el")))
 
 ;; Exec Path from Shell
 (use-package exec-path-from-shell
