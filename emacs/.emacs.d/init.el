@@ -632,21 +632,6 @@
 ;;   :config
 ;;   (zoom-mode 1))
 
-;; ;; Be able to open nautilus with some nice keybindings
-;; (defun open-nautilus-in-directory (dir)
-;;   (interactive "D")
-;;   (let ((dir (expand-file-name dir)))
-;;     (start-process "nautilus" nil "nautilus" dir)))
-;; (global-set-key (kbd "C-x C-d") 'open-nautilus-in-directory)
-
-;; Be able to open gnome-terminal with some nice keybindings
-(setenv "SHELL" "/usr/bin/zsh")
-(defun open-gnome-terminal-in-directory (dir)
-  (interactive "D")
-  (let ((dir (expand-file-name dir)))
-    (start-process "gnome-terminal" nil "dbus-launch" "gnome-terminal" dir)))
-(global-set-key (kbd "C-x C-t") 'open-gnome-terminal-in-directory)
-
 ;; enable recent files mode.
 ;; (recentf-mode t)
 

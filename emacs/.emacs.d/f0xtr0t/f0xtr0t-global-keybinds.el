@@ -124,4 +124,20 @@
     (setq olivetti-hide-mode-line t)
     (setq-default olivetti-body-width 116)))
 
+;; ;; Be able to open nautilus with some nice keybindings
+;; (defun open-nautilus-in-directory (dir)
+;;   (interactive "D")
+;;   (let ((dir (expand-file-name dir)))
+;;     (start-process "nautilus" nil "nautilus" dir)))
+;; (global-set-key (kbd "C-x C-d") 'open-nautilus-in-directory)
+
+;; Be able to open external terminal with some nice keybindings
+(defun open-external-terminal-in-directory (dir)
+  (interactive "D")
+  (let ((dir (expand-file-name dir)))
+    (if (string-equal system-type "darwin")
+        (message "TODO: Connect to iterm")
+      (start-process "gnome-terminal" nil "dbus-launch" "gnome-terminal" dir))))
+(global-set-key (kbd "C-x C-t") 'open-external-terminal-in-directory)
+
 (provide 'f0xtr0t-global-keybinds)
