@@ -27,7 +27,6 @@
  '(ido-ubiquitous-mode t)
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
- '(magit-diff-refine-hunk t)
  '(menu-bar-mode nil)
  '(minimap-dedicated-window nil)
  '(minimap-hide-fringes t)

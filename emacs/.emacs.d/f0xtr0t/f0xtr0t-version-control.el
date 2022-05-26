@@ -18,6 +18,9 @@
   ;; Disable Emacs's normal VCS stuff, since I'm never using it, and
   ;; am using only Magit instead.
   (setq vc-handled-backends nil)
+  ;; Make sure that diffs are easy to read, by showing
+  ;; word-granularity differences.
+  (setq magit-diff-refine-hunk t)
   ;; Set up stuff for magit wip -- See magit-wip below.
   (when f0xtr0t-magit-wip-mode-enabled
     (setq magit-wip-merge-branch t)
