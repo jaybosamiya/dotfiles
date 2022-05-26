@@ -43,6 +43,8 @@
   :ensure t
   :demand t
   :config
+  ;; Use zsh as the shell to get the path from
+  (setq exec-path-from-shell-shell-name "zsh")
   ;; Speed up by using non-interactive shell. This assumes that PATH
   ;; modifications are being done correctly via `.profile` and not via
   ;; editing `.zshrc`/`.bashrc` and such.
