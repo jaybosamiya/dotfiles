@@ -293,9 +293,6 @@
 	      ))
   ) ;; end of (use-package fstar-mode)
 
-
-(add-to-list 'load-path "/home/jay/.local/share/emacs/site-lisp")
-
 ;; Set up markdown editing
 (use-package markdown-mode
   :mode ("\\.md\\'" . markdown-mode)
