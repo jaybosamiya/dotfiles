@@ -1,7 +1,9 @@
 *~
 **/#*#
+
 emacs/.emacs.d/session.*
 emacs/.emacs.d/eshell/
+emacs/.emacs.d/.emacs.desktop
 emacs/.emacs.d/.emacs.desktop.lock
 emacs/.emacs.d/history
 emacs/.emacs.d/transient/
@@ -17,6 +19,7 @@ emacs/.emacs.d/amx-items
 emacs/.emacs.d/elpa
 emacs/.emacs.d/.last-package-update-day
 emacs/.emacs.d/.lsp-session-v1
+
 gdb/.local/pwn/peda
 gdb/.local/pwn/pwndbg
 gdb/.local/pwn/Pwngdb

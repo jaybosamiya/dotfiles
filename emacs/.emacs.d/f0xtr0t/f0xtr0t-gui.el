@@ -188,4 +188,10 @@ a pulse"
   :init (setq highlight-indent-guides-method 'bitmap
               highlight-indent-guides-responsive 'top))
 
+;; Save and restore emacs sessions upon restart
+;;
+;; Use `emacs --no-desktop` to startup without previously saved
+;; desktop, and `M-x desktop-clear` to actually clear it.
+(desktop-save-mode 1)
+
 (provide 'f0xtr0t-gui)
