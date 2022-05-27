@@ -31,6 +31,7 @@
 (require 'f0xtr0t-large-files)
 ;; (require 'f0xtr0t-lang-ocaml)
 ;; (require 'f0xtr0t-lang-dafny)
+(require 'f0xtr0t-lang-config-files)
 
 ;; Ensure that customization infromation edited through "Custom" has a
 ;; separate place to go into.
