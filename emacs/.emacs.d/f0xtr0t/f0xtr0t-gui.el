@@ -192,6 +192,29 @@ a pulse"
 ;;
 ;; Use `emacs --no-desktop` to startup without previously saved
 ;; desktop, and `M-x desktop-clear` to actually clear it.
-(desktop-save-mode 1)
+(use-package desktop
+  :demand t ;; Ensure that this package is not deferred
+  :init
+  ;; Restore these many buffers eagerly. Remaining are
+  ;; restored lazily. Helps speed things up a bit.
+  (setq desktop-restore-eager 5)
+  :config
+  (desktop-save-mode 1))
+
+;; Clear out any buffers that have not been used for a few days
+;;
+;; Use `(cancel-timer midnight-timer)` to disable midnight mode.
+(use-package midnight
+  :demand t ;; Ensure that this package is not deferred
+  :init
+  ;; Clear out any buffer not used for a full week.
+  (setq clean-buffer-list-delay-general 7)
+  ;; Since the machine may not be up at midnight itself, try
+  ;; to do a clean every few hours. This should hopefully be
+  ;; frequent enough to clear out old buffers, but not too
+  ;; frequent to cause annoyances.
+  (setq midnight-period (* 6 60 60))
+  :config
+  (midnight-mode 1))
 
 (provide 'f0xtr0t-gui)
