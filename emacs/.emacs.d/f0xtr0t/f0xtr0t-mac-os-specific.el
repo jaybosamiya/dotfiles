@@ -48,6 +48,18 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
       ;; but since we've got `gls` around, why not use it?
       (setq insert-directory-program "gls")
 
+      ;; Enable `menu-bar-mode`; this fixes an issue with Emacs Mac
+      ;; Port which causes Emacs to behave as if it is on all virtual
+      ;; desktops unless menu-bar-mode is enabled. On MacOS, keeping
+      ;; the menu-bar enabled doesn't affect the appearance, and
+      ;; instead affects system-wide full screen behavior, and desktop
+      ;; spaces behavior. (see
+      ;; https://emacs.stackexchange.com/a/28296/16118)
+      ;;
+      ;; NOTE: After introducing this, maybe removing the
+      ;; `toggle-frame-fullscreen` hack above might work?
+      (menu-bar-mode 1)
+
 ;; End of MacOS specific stuff
       ))
 
