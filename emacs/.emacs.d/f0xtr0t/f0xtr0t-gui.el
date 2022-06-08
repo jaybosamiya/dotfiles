@@ -61,7 +61,10 @@
 
 ;; Display a nicer startup message :D
 (defun display-startup-echo-area-message ()
-  (message "Let the hacking begin!"))
+  (if f0xtr0t-desktop-was-not-loaded-due-to-owner
+      (message "Let the hacking begin! [auto session load disabled---locked by %d]"
+               f0xtr0t-desktop-was-not-loaded-due-to-owner)
+    (message "Let the hacking begin!")))
 
 ;; Make scratch buffer be a fundamental-mode buffer
 ;; and give a better message (empty :D)
@@ -198,6 +201,17 @@ a pulse"
   ;; Restore these many buffers eagerly. Remaining are
   ;; restored lazily. Helps speed things up a bit.
   (setq desktop-restore-eager 5)
+  ;; If the desktop is already in use (i.e., locked), don't
+  ;; automatically load the desktop. Instead, let the user know that
+  ;; it was not used.
+  (setq desktop-load-locked-desktop nil)
+  (setq f0xtr0t-desktop-was-not-loaded-due-to-owner nil)
+  (add-hook 'desktop-not-loaded-hook
+            (defun f0xtr0t-desktop-not-loaded ()
+              (setq f0xtr0t-desktop-was-not-loaded-due-to-owner (desktop-owner))))
+  ;; Automatically save the desktop session if not used for a few
+  ;; seconds.
+  (setq desktop-auto-save-timeout 30)
   :config
   (desktop-save-mode 1))
 
