@@ -1,0 +1,3 @@
+.mode box --wrap 75 --wordwrap off --noquote
+.headers on
+
