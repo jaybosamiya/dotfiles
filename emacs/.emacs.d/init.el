@@ -28,6 +28,7 @@
 (require 'f0xtr0t-mac-os-specific)
 (require 'f0xtr0t-version-control)
 (require 'f0xtr0t-orgmode)
+(require 'f0xtr0t-lang-common)
 (require 'f0xtr0t-large-files)
 ;; (require 'f0xtr0t-lang-ocaml)
 ;; (require 'f0xtr0t-lang-dafny)
