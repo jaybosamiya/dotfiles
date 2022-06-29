@@ -319,8 +319,10 @@
 ;; Runs approximately once every 7 days
 (use-package auto-package-update
   :ensure t
-  :init (setq auto-package-update-prompt-before-update t)
-  :defer 30
+  :init (setq auto-package-update-prompt-before-update t
+              auto-package-update-show-preview t
+              auto-package-update-interval 7)
+  :defer 300
   :config (auto-package-update-maybe))
 
 ;; Do whitespace cleanup iff the file was opened with clean whitespace
