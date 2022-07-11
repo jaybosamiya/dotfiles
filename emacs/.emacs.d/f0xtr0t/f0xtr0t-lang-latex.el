@@ -6,6 +6,9 @@
 
 (add-hook 'TeX-mode-hook
           '(lambda ()
+             ;; Enable the emacs server so that synctex can work (eg,
+             ;; in skim: shift+cmd+click)
+             (server-mode t)
              (TeX-fold-mode 1)
              (visual-line-mode)
              ;; (define-key LaTeX-mode-map (kbd "M-p")
