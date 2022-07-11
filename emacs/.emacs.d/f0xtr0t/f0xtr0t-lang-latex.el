@@ -32,14 +32,18 @@
                ;; Reassign `TeX-command-master` to `C-c C-S-c` since
                ;; it still might be useful to have around
                'TeX-command-master)
-             (highlight-regexp "\\\\comment{[^}]*}" 'superscript)
+             (highlight-regexp "\\\\comment\\(\\[[^]]*\\]\\)?{[^}]*}" 'superscript)
              (highlight-regexp "\\\\comment" 'hi-blue)
              (highlight-regexp "\\\\jay{[^}]*}" 'superscript)
              (highlight-regexp "\\\\jay" 'hi-blue)
-             (highlight-regexp "\\\\todo{[^}]*}" 'superscript)
+             (highlight-regexp "\\\\todo\\(\\[[^]]*\\]\\)?{[^}]*}" 'superscript)
              (highlight-regexp "\\\\todo" 'hi-blue)
              (highlight-regexp "\\\\citationneeded{[^}]*}" 'superscript)
              (highlight-regexp "\\\\citationneeded" 'hi-blue)
+             (highlight-regexp "\\\\pdfcomment\\(\\[[^]]*\\]\\)?{[^}]*}" 'superscript)
+             (highlight-regexp "\\\\pdfcomment" 'hi-blue)
+             (highlight-regexp "\\\\pdfmarkupcomment\\(\\[[^]]*\\]\\)?{[^}]*}{[^}]*}" 'superscript)
+             (highlight-regexp "\\\\pdfmarkupcomment" 'hi-blue)
              )
           )
 
