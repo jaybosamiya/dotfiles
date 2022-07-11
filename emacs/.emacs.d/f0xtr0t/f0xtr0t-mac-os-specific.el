@@ -58,7 +58,9 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
       ;;
       ;; NOTE: After introducing this, maybe removing the
       ;; `toggle-frame-fullscreen` hack above might work?
-      (menu-bar-mode 1)
+      (add-hook 'emacs-startup-hook
+                (lambda ()
+                  (menu-bar-mode 1)))
 
 ;; End of MacOS specific stuff
       ))
