@@ -184,7 +184,11 @@ function xaurora-start() {
 alias temax='emacs -nw'
 alias cemax='emacsclient'
 function e() {
-    emacs "$@" &!
+    if [ $# = 0 ]; then
+        emacs . &!
+    else
+        emacs "$@" &!
+    fi
 }
 function ef() {
     X="$(fzf)"
