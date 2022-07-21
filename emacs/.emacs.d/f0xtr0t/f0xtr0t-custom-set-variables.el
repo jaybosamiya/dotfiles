@@ -83,6 +83,7 @@
  '(default ((t (:inherit nil :extend nil :stipple nil :background "#2d3743" :foreground "#e1e1e0" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 110 :width normal :foundry "nil" :family "Iosevka Nerd Font Mono"))))
  '(doom-modeline-info ((t (:inherit bold))))
  '(ggtags-highlight ((t nil)))
+ '(lsp-rust-analyzer-inlay-face ((t (:weight light :inherit (font-lock-comment-face)))))
  '(minimap-active-region-background ((t (:inverse-video t))))
  '(writegood-duplicates-face ((t (:underline (:color "DodgerBlue1" :style wave)))))
  '(writegood-passive-voice-face ((t (:underline "PaleTurquoise4"))))
