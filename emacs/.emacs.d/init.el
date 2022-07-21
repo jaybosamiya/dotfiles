@@ -34,7 +34,8 @@
 ;; (require 'f0xtr0t-lang-dafny)
 (require 'f0xtr0t-lang-config-files)
 (require 'f0xtr0t-lang-latex)
-(require 'f0xtr0t-lang-rust-nonlsp)
+;; (require 'f0xtr0t-lang-rust-nonlsp)
+(require 'f0xtr0t-lang-rust-lsp)
 
 ;; Ensure that customization infromation edited through "Custom" has a
 ;; separate place to go into.
@@ -255,14 +256,19 @@
   :commands lsp
   :init (setq lsp-keymap-prefix "C-c l")
   :hook ((python-mode . lsp)
-         (lsp-mode . lsp-enable-which-key-integration))
+         (lsp-mode . lsp-enable-which-key-integration)
+         (lsp-mode . lsp-ui-mode))
   :config
+  (setq lsp-eldoc-render-all t
+        lsp-idle-delay 0.6)
   ;; Use flake8 instead of pycodestyle+pyflakes+...
   (setq lsp-pyls-plugins-pyflakes-enabled nil
         lsp-pyls-plugins-pylint-enabled nil
         lsp-pyls-plugins-mccabe-enabled nil
         lsp-pyls-plugins-pycodestyle-enabled nil
         lsp-pyls-plugins-flake8-enabled t)
+  ;; Disable the headerline waste of space
+  (setq lsp-headerline-breadcrumb-enable nil)
   ;; Disable the annoying symbol highlighting behavior
   (setq lsp-enable-symbol-highlighting nil))
 
@@ -279,7 +285,14 @@
   ;; Make sure lsp prefers flycheck over flymake
   (setq lsp-prefer-flymake nil)
   ;; Disable the semi-annoying hover-to-see-docs view
-  (setq lsp-ui-doc-enable nil))
+  (setq lsp-ui-doc-enable nil)
+
+  (setq lsp-headerline-breadcrumb-enable nil)
+  (setq lsp-ui-peek-always-show t)
+  (setq lsp-ui-sideline-show-hover nil)
+  (setq lsp-ui-sideline-show-code-actions nil)
+  (setq lsp-eldoc-enable-hover t)
+)
 
 ;; ;; Connect things up to company via lsp.
 ;; (use-package company-lsp
