@@ -93,6 +93,8 @@
 (global-set-key (kbd "M-l") 'downcase-dwim)
 (global-set-key (kbd "M-c") 'capitalize-dwim)
 
+(global-set-key (kbd "C-'") 'xref-find-definitions-other-window)
+
 ;; Allow commenting or uncommenting full sexps in one go, rather than
 ;; having to do so individually by line.
 (use-package comment-or-uncomment-sexp
