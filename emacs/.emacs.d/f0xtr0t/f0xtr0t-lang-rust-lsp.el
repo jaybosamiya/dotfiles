@@ -14,6 +14,12 @@
               ("C-c C-c Q" . lsp-workspace-shutdown)
               ("C-c C-c s" . lsp-rust-analyzer-status)
               )
+  :custom-face
+  (lsp-rust-analyzer-inlay-face
+   ;; Default is just `font-lock-comment-face` which can be confusing
+   ;; with actual comments. Consider if there is a different style
+   ;; that might work better?
+   ((t (:weight light :inherit (font-lock-comment-face)))))
   :config
   ;; (setq lsp-eldoc-hook nil)
   (setq lsp-enable-symbol-highlighting nil)
