@@ -24,7 +24,17 @@
   (setq lsp-eldoc-hook nil)
   (setq lsp-enable-symbol-highlighting nil)
   (setq lsp-signature-auto-activate nil)
-  (setq rustic-format-on-save t)
+
+  (setq rustic-format-on-save t
+        ;; Due to a variety of reasons, the rustfmt folks don't want
+        ;; to move away from `--edition 2015` by default. I _could_
+        ;; introduce a `rustfmt.toml` to every project that specifies
+        ;; the edition, but that is annoying. Personally, I have never
+        ;; used the 2015 edition, and also the formatting settings
+        ;; between 2018 and 2021 are practically the same, so let's
+        ;; just use 2021 everywhere, until I figure out a clean way to
+        ;; get the edition from the nearest `Cargo.toml`.
+        rustic-rustfmt-args "--edition 2021")
 
   ;; ;; what to use when checking on-save. "check" is default
   ;; (setq lsp-rust-analyzer-cargo-watch-command "clippy")
