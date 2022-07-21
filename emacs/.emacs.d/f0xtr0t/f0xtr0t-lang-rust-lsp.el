@@ -21,7 +21,7 @@
    ;; that might work better?
    ((t (:weight light :inherit (font-lock-comment-face)))))
   :config
-  ;; (setq lsp-eldoc-hook nil)
+  (setq lsp-eldoc-hook nil)
   (setq lsp-enable-symbol-highlighting nil)
   (setq lsp-signature-auto-activate nil)
   (setq rustic-format-on-save t)
