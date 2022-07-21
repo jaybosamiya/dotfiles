@@ -19,6 +19,20 @@
   :after rust-mode
   :hook (rust-mode . cargo-minor-mode))
 
+;; Requires `racer`
+;;
+;; Can be installed via
+;; ```
+;; rustup toolchain install nightly-2022-04-06
+;; rustup component add rustc-dev --toolchain=nightly-2022-04-06
+;; cargo +nightly-2022-04-06 install racer
+;; ```
+;;
+;; If that fails, check
+;; https://github.com/racer-rust/racer/blob/master/rust-toolchain.toml
+;; for the expected toolchain
+;;
+;; But yeah, probably move on to the LSP-based connection
 (use-package racer
   :ensure t
   :after rust-mode
@@ -46,6 +60,7 @@
   :hook (flycheck-mode . flycheck-rust-setup)
   :hook (rust-mode . flycheck-mode))
 
+;;;; Superceded mostly by `flycheck-popup-tip-mode`
 ;; (use-package flycheck-pos-tip
 ;;   :ensure t
 ;;   ;; :hook (rust-mode . flycheck-pos-tip-mode)
@@ -54,6 +69,8 @@
 (use-package flycheck-popup-tip
   :ensure t
   :hook (rust-mode . flycheck-popup-tip-mode)
-)
+  )
+
+;; TODO: Maybe move the flycheck modifications out of here?
 
 (provide 'f0xtr0t-lang-rust-nonlsp)
