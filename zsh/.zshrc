@@ -275,10 +275,6 @@ function waitmake() {
     done
 }
 
-function latexwaitmake() {
-    yes q | waitmake
-}
-
 function pdfsmaller() {
     case $1 in
 	vlow)
@@ -307,11 +303,6 @@ function pdfsmaller() {
     esac
     gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/${SET} -dNOPAUSE -dQUIET -dBATCH -sOutputFile=${3} ${2}
 }
-
-function dlist() { pushd ~/this-sem/Research/dlist/ind/ }
-function caps() { pushd ~/this-sem/Research/CAPS-project/ }
-
-function rc() { emacs ~/.zshrc && source ~/.zshrc }
 
 alias t='task'
 alias ta='task add'
@@ -365,21 +356,6 @@ function tempdir() {
     fi
 }
 
-# # ntfy integration
-# eval "$(ntfy shell-integration)"
-# mobile-send () {
-#     k="$@[*]";
-#     k=$(if [ -z "$k" ]; then echo "ping"; else echo "$k"; fi);
-#     ntfy -b insta send "$k";
-# }
-# mobile-when-finished () {
-#     k="${history[$HISTCMD]}";
-#     k="${k//; mobile-when-finished/}";
-#     k="${k//;mobile-when-finished/}";
-#     k="${k//&& mobile-when-finished}";
-#     k="${k//&&mobile-when-finished}";
-#     mobile-send "$k";
-# }
 
 xbox-bluetooth () {
     echo 1 | sudo tee /sys/module/bluetooth/parameters/disable_ertm
