@@ -190,16 +190,6 @@ alias manually-installed-to-auto='sudo apt-mark auto'
 alias record-term='asciinema rec --yes -i 1 --title'
 # TODO: Also look into termtosvg
 
-alias haven='ssh haven'
-alias proxyhaven='echo "Port 10000. Ctrl+C to stop proxy" && ssh -D 10000 -C -q -N haven'
-alias diavola='ssh jayb@diavola.andrew.cmu.edu'
-alias vsekardesk='ssh jayb@vsekardesk.ece.cmu.edu'
-
-alias aurora='ssh jayb@aurorar8-0d73.wv.cc.cmu.edu'
-alias xaurora='xpra attach ssh:jayb@aurorar8-0d73.wv.cc.cmu.edu:13'
-function xaurora-start() {
-    xpra start ssh:jayb@aurorar8-0d73.wv.cc.cmu.edu --start="$1"
-}
 
 alias temax='emacs -nw'
 alias cemax='emacsclient'
