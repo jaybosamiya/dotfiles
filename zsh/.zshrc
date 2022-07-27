@@ -190,24 +190,17 @@ alias manually-installed-to-auto='sudo apt-mark auto'
 alias record-term='asciinema rec --yes -i 1 --title'
 # TODO: Also look into termtosvg
 
-
-alias temax='emacs -nw'
-alias cemax='emacsclient'
 function e() {
     if [ $# = 0 ]; then
         emacs . &!
+    elif [ "$1" = "-nw" ]; then
+        echo "Don't run 'e -nw'. It'll send it into the background lol."
+        return 1
     else
         emacs "$@" &!
     fi
 }
-function ef() {
-    X="$(fzf)"
-    if [ -n "$X" ]; then
-	e "$X"
-    else
-	false
-    fi
-}
+
 export ALTERNATE_EDITOR='emacs' # Opens emacs if no emacs server is
 				# already started
 
