@@ -115,8 +115,49 @@ case "$OSTYPE" in
     alias ls='ls -h --color=tty' # Human readable file sizes, and color :)
   ;;
   *)
-    echo "Unknown OS type $OSTYPE"e
+    echo "Unknown OS type $OSTYPE"
   ;;
+esac
+
+case "$OSTYPE" in
+    darwin*)
+        function enable_coredumps() {
+            if [ -x "$1" ]; then
+                if touch "/cores/tmp" && rm "/cores/tmp"; then
+                    local TMP_ENTITLEMENTS="$(mktemp -d)"
+                    /usr/libexec/PlistBuddy -c "Add :com.apple.security.get-task-allow bool true" "$TMP_ENTITLEMENTS/tmp.entitlements" >/dev/null
+                    # Perform ad-hoc signing (not using any specific
+                    # identity; this is quite restrictive, see man
+                    # page for `codesign`, but prob good enough)
+                    codesign --sign - --force  --entitlements "$TMP_ENTITLEMENTS/tmp.entitlements" "$1" >/dev/null 2>&1
+                    rm -f "$TMP_ENTITLEMENTS/tmp.entitlements"
+                    rmdir "$TMP_ENTITLEMENTS"
+                    ulimit -c unlimited
+                    echo "[i] Core dumping for '$1' enabled. Cores will be dumped to /cores/."
+                    echo ""
+                    echo "    Reminder: clean out that directory semi-regularly, since cores can be massive."
+                else
+                    echo "[!] Insufficient permissions on /cores. Fix by running:" 1>&2
+                    echo "" 1>&2
+                    echo "         sudo chmod 1777 /cores" 1>&2
+                    echo "" 1>&2
+                    echo "[i] To reset back to default, use 0755" 1>&2
+                    return 1
+                fi
+            else
+                echo "Usage: enable_coredumps {executable}" 1>&2
+                return 1
+            fi
+        }
+        ;;
+    linux*)
+        function enable_coredumps() {
+            ulimit -c unlimited
+        }
+        ;;
+    *)
+        echo "Unknown OS type $OSTYPE"
+        ;;
 esac
 
 alias gdb='gdb -q'
