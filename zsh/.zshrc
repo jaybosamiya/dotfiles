@@ -195,7 +195,18 @@ function e() {
         emacs . &!
     elif [ "$1" = "-nw" ]; then
         echo "Don't run 'e -nw'. It'll send it into the background lol."
-        return 1
+        local choice
+        if read -q "choice?Press y to open it in foreground: "; then
+            if [ $# = 1 ]; then
+                emacs -nw .
+            else
+                emacs "$@"
+            fi
+        else
+            echo "" 1>&2
+            echo "Got '$choice'. Not doing anything..." 1>&2
+            return 1
+        fi
     else
         emacs "$@" &!
     fi
