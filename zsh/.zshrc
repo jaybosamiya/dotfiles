@@ -304,31 +304,39 @@ function pdfsmaller() {
     gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/${SET} -dNOPAUSE -dQUIET -dBATCH -sOutputFile=${3} ${2}
 }
 
-alias t='task'
-alias ta='task add'
-alias tm='task modify'
-alias tn='task next'
-alias ts='task start'
-function _tt() {
-    task ready 2>/dev/null | \
-        awk '$1~/^[0-9]+$/{$1="TODO[" $1 "]"; $2=""; print $0}' | \
-	rev | awk '{$1=""; print $0}' | rev
-    # TODO: Use the JSON export and write a nicer output
-}
-function tt() {
-    _tt || echo "No tasks"
-}
-function td() {
-    task done "$@" && tt
-}
-alias tph='task modify scheduled:"$(date -Iseconds --date='"'"'next hour'"'"')"'
-function tpt() {
-    task modify "$2" scheduled:"$(date -Iseconds --date=$1)"
-}
-alias tpd='task modify scheduled:tomorrow'
-function tpw() {
-    task modify "$1" scheduled:"$(date -Iseconds --date='next week')"
-}
+if command -v task >/dev/null; then
+    alias t='task'
+    alias ta='task add'
+    alias tm='task modify'
+    alias tn='task next'
+    alias ts='task start'
+    function _tt() {
+        task ready 2>/dev/null | \
+            awk '$1~/^[0-9]+$/{$1="TODO[" $1 "]"; $2=""; print $0}' | \
+	    rev | awk '{$1=""; print $0}' | rev
+        # TODO: Use the JSON export and write a nicer output
+    }
+    function tt() {
+        _tt || echo "No tasks"
+    }
+    function td() {
+        task done "$@" && tt
+    }
+    alias tph='task modify scheduled:"$(date -Iseconds --date='"'"'next hour'"'"')"'
+    function tpt() {
+        task modify "$2" scheduled:"$(date -Iseconds --date=$1)"
+    }
+    alias tpd='task modify scheduled:tomorrow'
+    function tpw() {
+        task modify "$1" scheduled:"$(date -Iseconds --date='next week')"
+    }
+    # Show the next set up of tasks upon zsh load, if they exist; but
+    # don't display of recording
+    if [ -z "$ASCIINEMA_REC" ]; then
+        _tt
+        true # Prevent failure if no task exists
+    fi
+fi
 
 function gitignore() {
     curl -L -s --output .gitignore https://www.gitignore.io/api/c++,vim,ocaml,latex,emacs,python,sublimetext,visualstudio,visualstudiocode,linux,mac,windows
@@ -355,14 +363,6 @@ function tempdir() {
 	tempdirnew
     fi
 }
-
-
-# Show the next set up of tasks upon zsh load, if they exist; but
-# don't display of recording
-if [ -z "$ASCIINEMA_REC" ]; then
-    _tt
-    true # Prevent failure if no task exists
-fi
 
 # Colorized wdiff
 function cwdiff() {
