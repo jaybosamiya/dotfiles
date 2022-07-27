@@ -20,7 +20,7 @@ if [[ -f ~/.p10k.zsh ]]; then
 else
     ZSH_THEME="robbyrussell"
 fi
-plugins=(git command-not-found vagrant taskwarrior rust pass just)
+plugins=(git command-not-found rust pass just)
 source $ZSH/oh-my-zsh.sh || git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 if command -v nix-index >/dev/null; then source ~/.nix-command-not-found.sh || echo "Might want to stow nix-command-not-found for niceties"; fi
 
