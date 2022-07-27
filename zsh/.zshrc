@@ -94,16 +94,18 @@ function cwhich() {
     cat $(which "$1");
 }
 
-function diff() {
-    # Use delta (from `cargo install git-delta`) to better colorize
-    # output, when at the terminal. Also, automatically enter into a
-    # pager if needed (done by delta).
-    if [ -t 1 ]; then
-        command diff -u "$@" | delta
-    else
-        command diff -u "$@"
-    fi
-}
+if command -v delta >/dev/null; then
+    function diff() {
+        # Use delta (from `cargo install git-delta`) to better colorize
+        # output, when at the terminal. Also, automatically enter into a
+        # pager if needed (done by delta).
+        if [ -t 1 ]; then
+            command diff -u "$@" | delta
+        else
+            command diff -u "$@"
+        fi
+    }
+fi
 
 alias music-dl='youtube-dl --audio-format=mp3 --extract-audio --metadata-from-title "%(artist)s - %(title)s"'
 alias twitch-dl="youtube-dl -o '%(id)s-%(title)s.%(ext)s'"
