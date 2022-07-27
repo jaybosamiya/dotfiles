@@ -207,9 +207,17 @@ export ALTERNATE_EDITOR='emacs' # Opens emacs if no emacs server is
 alias ncdu='ncdu -rx' # Make ncdu safe (no delete) and fast (don't
 		      # cross FS boundary)
 
-alias clip='xclip -selection clipboard'
-
-alias top='htop'
+case "$OSTYPE" in
+    darwin*)
+        alias clip='pbcopy'
+        ;;
+    linux*)
+        alias clip='xclip -selection clipboard'
+        ;;
+    *)
+        echo "Unknown OS type $OSTYPE"
+        ;;
+esac
 
 alias fetch-recursive-website='wget --recursive --no-parent -e robots=off'
 
