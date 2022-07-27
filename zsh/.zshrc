@@ -357,10 +357,6 @@ function tempdir() {
 }
 
 
-xbox-bluetooth () {
-    echo 1 | sudo tee /sys/module/bluetooth/parameters/disable_ertm
-}
-
 # Show the next set up of tasks upon zsh load, if they exist; but
 # don't display of recording
 if [ -z "$ASCIINEMA_REC" ]; then
