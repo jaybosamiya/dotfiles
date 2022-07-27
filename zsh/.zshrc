@@ -39,8 +39,9 @@ case ${HOST%%.*} in
         alias n='echo "Unknown machine. n is unbound."'
         ;;
 esac
-alias ag='ag --pager less'
+
 alias units='units -1v' # verbose single line output for GNU units
+
 if [[ "$HOST" == "Valhalla" ]]; then
     alias screenperm='sudo /etc/init.d/screen-cleanup start' # Needed for WSL2 when `screen` gives the "Cannot make directory '/run/screen': Permission denied" error
 fi
