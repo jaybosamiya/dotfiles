@@ -1,8 +1,6 @@
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives
-	     '("org" . "https://orgmode.org/elpa/") t)
 (when (or (version< emacs-version "27.0")
           ;; esup-child shows up this early only if `esup` is invoked
           (featurep 'esup-child))
