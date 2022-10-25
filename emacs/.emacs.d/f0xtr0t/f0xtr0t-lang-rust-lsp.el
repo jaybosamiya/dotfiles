@@ -46,6 +46,13 @@
         lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil
         lsp-rust-analyzer-display-closure-return-type-hints t
         lsp-rust-analyzer-display-parameter-hints nil
-        lsp-rust-analyzer-display-reborrow-hints nil))
+        lsp-rust-analyzer-display-reborrow-hints nil)
+
+  :hook (rust-mode . (lambda ()
+                       (setq indent-tabs-mode nil)
+                       (setq split-height-threshold nil)
+                       ;; Set comment wrapping M-q default to `max_width`
+                       ;; default from rustfmt
+                       (setq-local fill-column 100))))
 
 (provide 'f0xtr0t-lang-rust-lsp)
