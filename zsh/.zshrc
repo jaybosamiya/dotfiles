@@ -279,11 +279,31 @@ function dockermakefile() {
 }
 
 function waitmake() {
-    while true; do
-	inotifywait -e modify -r .
-	make "$@"
-	sleep 0.1
-    done
+    case ${HOST%%.*} in
+        eden|Valhalla)
+            function waitmake() {
+                while true; do
+	            inotifywait -e modify -r .
+	            make "$@"
+	            sleep 0.1
+                done
+            }
+            waitmake "$@"
+            ;;
+        arcadia)
+            function waitmake() {
+                while true; do
+                    fswatch --one-event --exclude '\.#.*' --recursive .
+                    make "$@"
+                    sleep 0.1
+                done
+            }
+            waitmake "$@"
+            ;;
+        *)
+            echo 'Unknown machine. "waitmake" is unbound.'
+            ;;
+    esac
 }
 
 function pdfsmaller() {
