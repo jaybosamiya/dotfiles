@@ -817,3 +817,31 @@
 
 ;; TODO: Look into org-tree-slide
 ;; TODO: Look into org-variable-pitch
+
+(defun replace-smart-chars-in-region (beg end)
+  "Replace 'smart quotes' and such in the region with
+ascii quotes."
+  (interactive "r")
+  (format-replace-strings
+   '(("\x201C" . "\"")
+     ("\x201D" . "\"")
+     ("\x2018" . "'")
+     ("\x2019" . "'"))
+   nil beg end))
+(defun replace-smart-chars-in-buffer ()
+  "Replace 'smart quotes' and such in the buffer with
+ascii quotes."
+  (interactive)
+  (replace-smart-chars-in-region (point-min) (point-max)))
+(defun replace-smart-chars-dwim ()
+  "Replace 'smart quotes' and such in the region or buffer with
+ascii quotes."
+  (interactive)
+  (save-excursion
+    (if (region-active-p)
+        (progn
+          (replace-smart-chars-in-region (region-beginning) (region-end))
+          (message "Replaced smart chars in region."))
+      (progn
+        (replace-smart-chars-in-buffer)
+        (message "Replaced smart chars in buffer.")))))
