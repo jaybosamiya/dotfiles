@@ -19,6 +19,7 @@ emacs/.emacs.d/amx-items
 emacs/.emacs.d/elpa
 emacs/.emacs.d/.last-package-update-day
 emacs/.emacs.d/.lsp-session-v1
+emacs/.emacs.d/projects
 
 gdb/.local/pwn/peda
 gdb/.local/pwn/pwndbg
