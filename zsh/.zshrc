@@ -293,7 +293,8 @@ function waitmake() {
         arcadia)
             function waitmake() {
                 while true; do
-                    fswatch --one-event --exclude '\.#.*' --recursive .
+                    fswatch --one-event --exclude '\.#.*' --exclude '.*~' --recursive .
+                    sleep 0.1   # Give time to kill via Ctrl-C
                     make "$@"
                     sleep 0.1
                 done
