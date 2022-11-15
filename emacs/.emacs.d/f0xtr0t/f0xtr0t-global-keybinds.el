@@ -143,4 +143,15 @@
       (start-process "gnome-terminal" nil "dbus-launch" "gnome-terminal" dir))))
 (global-set-key (kbd "C-x C-t") 'open-external-terminal-in-directory)
 
+;; Add fast and easy jumping to places using Avy
+(use-package avy
+  :ensure t
+  :config
+  (setq avy-single-candidate-jump nil)
+  :bind
+  (("M-j" . avy-goto-char-timer)
+   ("M-J" . pop-global-mark)
+   (:map isearch-mode-map
+         ("M-j" . avy-isearch))))
+
 (provide 'f0xtr0t-global-keybinds)

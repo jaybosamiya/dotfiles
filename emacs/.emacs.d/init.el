@@ -34,6 +34,7 @@
 (require 'f0xtr0t-lang-latex)
 ;; (require 'f0xtr0t-lang-rust-nonlsp)
 (require 'f0xtr0t-lang-rust-lsp)
+(require 'f0xtr0t-lang-fstar)
 
 ;; Ensure that customization infromation edited through "Custom" has a
 ;; separate place to go into.
@@ -62,11 +63,6 @@
 ;;     (message "%s" "Server already started by someone else")
 ;;   (server-start))
 
-;; imenu-anywhere lets you jump between relevant parts of code easily
-;; (use-package imenu-anywhere
-;;   :ensure t
-;;   :bind (("C-." . imenu-anywhere)))
-
 (use-package pdf-tools
   :ensure t
   :defer t
@@ -75,18 +71,6 @@
 
 (use-package htmlize
   :ensure t)
-
-;; Turn on global auto completion
-(use-package company
-  :ensure t
-  :delight
-  :hook (after-init . global-company-mode)
-  :config
-  (setq company-require-match nil) ;; Allow easily quitting out of completions
-  :bind (("M-<SPC>" . company-complete)) ;; Requires disabling M-SPC
-                                         ;; from Gnome (replaced with
-                                         ;; Super-SPC there)
-  )
 
 ;; ;; Set up SLIME for common add
 ;; (lisp-hook 'lisp-mode-hook (lambda ()
@@ -99,136 +83,11 @@
 ;; ; of the settings above, apart from the inferior-lisp-program one even
 ;; ; work
 
-(use-package imenu-anywhere
-  :ensure t)
-
-(defun push-marker-stack-and-imenu-anywhere ()
-  (interactive)
-  (xref-push-marker-stack)
-  (imenu-anywhere))
-
-;; Set up F* integration
-(use-package fstar-mode
-  :mode (("\\.fst\\'" . fstar-mode)
-         ("\\.fsti\\'" . fstar-mode))
-  :config
-  (setq fstar-executable "fstar.exe")
-  (setq fstar-smt-executable "z3")
-  (setq fstar-subp-prover-args
-        (lambda ()
-          `(
-	    "--use_hints" ;; "--record_hints"
-	    ;; "--detail_hint_replay"
-	    ;; "--include" "/home/jay/everest/kremlin/kremlib"
-	    "--cache_checked_modules"
-            ,@(when (string-match-p (regexp-opt '("hacl-star/vale" "Vale.")) (buffer-file-name))
-                '(
-                  "--trivial_pre_for_unannotated_effectful_fns" "false"
-                  "--warn_error" "+241@247-272"
-                  "--z3cliopt" "smt.arith.nl=false"
-                  "--z3cliopt" "smt.QI.EAGER_THRESHOLD=100"
-                  "--z3cliopt" "smt.CASE_SPLIT=3"
-                  "--use_extracted_interfaces" "true"
-                  "--max_fuel" "1"
-                  "--max_ifuel" "1"
-                  "--initial_ifuel" "0"
-                  "--smtencoding.elim_box" "true"
-                  "--smtencoding.l_arith_repr" "native"
-		  "--smtencoding.nl_arith_repr" "wrapped")))))
-  (defun my-fstar-compute-prover-args-using-make ()
-    "Construct arguments to pass to F* by calling make."
-    (with-demoted-errors "Error when constructing arg string: %S"
-      (let* ((fname (file-name-nondirectory buffer-file-name))
-	     (target (concat fname "-in"))
-	     (argstr (shell-command-to-string (concat "make --quiet " target " 2>/dev/null"))))
-        (split-string argstr))))
-  (setq fstar-subp-prover-additional-args #'my-fstar-compute-prover-args-using-make)
-  (defun fstar-set-to-release-paths ()
-    (interactive)
-    (setq fstar-prefix-path "/opt/fstar-release/")
-    (setq fstar-executable (concat fstar-prefix-path "bin/fstar.exe"))
-    (setq fstar-smt-executable (concat fstar-prefix-path "bin/z3")))
-  (require 'fstar-rewrite)
-  (defun fstar-indent-buffer ()
-    (interactive)
-    (if fstar-indent-buffer-must-run
-        (save-excursion
-	  (mark-whole-buffer)
-	  (fstar-indent-region (region-beginning)
-			       (region-end))) ()))
-  (defun toggle-fstar-indent-buffer ()
-    (interactive)
-    (setq fstar-indent-buffer-must-run
-	  (not fstar-indent-buffer-must-run))
-    (message (if fstar-indent-buffer-must-run "Now on" "Now off")))
-  (setq fstar-indent-buffer-must-run nil)
-  (require 'ocp-indent)
-  (defun ocp-indent-buffer ()
-    (interactive)
-    (if ocp-indent-buffer-must-run
-        (save-excursion
-	  (mark-whole-buffer)
-	  (ocp-indent-region (region-beginning)
-			     (region-end))) ()))
-  (defun toggle-ocp-indent-buffer ()
-    (interactive)
-    (setq ocp-indent-buffer-must-run
-	  (not ocp-indent-buffer-must-run))
-    (message (if ocp-indent-buffer-must-run "Now on" "Now off")))
-  (setq ocp-indent-buffer-must-run nil)
-  (defun killall-z3 ()
-    (interactive)
-    (call-process "killall" nil nil nil "z3"))
-  (defun fstar-show-admits-and-assumes (&optional prefix)
-    (interactive "P")
-    (if prefix
-        (occur "admit\\|assume\\|TODO\\|WARN\\|FIXME\\|XXX\\|UNSOUND\\|REVIEW\\|WAT\\|NEVERCO[M]MIT")
-      (occur "admit\\|assume")))
-  (defun fstar-confirm-before-kill (&optional arg)
-    (interactive "P")
-    (when (y-or-n-p "Are you sure you want to kill the F* process? ")
-      (fstar-subp-kill-one-or-many arg)))
-  (add-hook 'fstar-mode-hook
-	    (lambda ()
-	      (superword-mode 1)
-                                        ; (auto-fill-mode)
-	      (ocp-setup-indent)
-	      ;; (add-hook 'fstar-newline-hook
-	      ;; 	      (lambda (ignored-arg) (fstar-indent-line)) nil t)
-	      (add-hook 'before-save-hook 'ocp-indent-buffer nil t)
-	      (local-set-key (kbd "C-c C-k") 'killall-z3)
-	      (local-set-key (kbd "C-'") 'fstar-jump-to-definition-other-window)
-	      (local-set-key (kbd "M-'") 'fstar-jump-to-related-error-other-window)
-	      (local-set-key (kbd "M-,") 'xref-pop-marker-stack) ; works nicely with M-.
-	      (local-set-key (kbd "<f5>") 'fstar-show-admits-and-assumes)
-              (local-set-key (kbd "C-c C-x") 'fstar-confirm-before-kill)
-	      ))
-  ) ;; end of (use-package fstar-mode)
-
 ;; Set up markdown editing
 (use-package markdown-mode
   :mode ("\\.md\\'" . markdown-mode)
   :config
   (setq markdown-command "pandoc"))
-
-;; Set up gdb to use the many-windows functionality
-(setq gdb-many-windows t)
-
-;; Allow creation of ctags info from inside emacs itself :)
-(setq path-to-ctags "/usr/bin/ctags")
-(defun create-tags (dir-name)
-  "Create tags file."
-  (interactive "DDirectory: ")
-  (shell-command
-   (format "%s -f TAGS -e -R '%s'" path-to-ctags (file-truename (directory-file-name dir-name)))))
-
-;; To use gtags, must have run `apt install global exuberant-ctags`
-;; first
-(use-package ggtags
-  :ensure t
-  :hook ((c-mode c++-mode java-mode) . ggtags-mode)
-  :custom-face (ggtags-highlight ((t nil)))
-  :init (setq ggtags-enable-navigation-keys nil))
 
 ;; ------ CURRENTLY DISABLED ------ Using lsp-mode instead.
 ;; ;; Elpy for Python. Requires to have run "pip install jedi flake8
@@ -298,35 +157,6 @@
 ;;   :commands company-lsp
 ;;   ;; :config (push 'company-lsp company-backends)
 ;;   )
-
-;; Let emacs learn and set style from a C file
-(defun infer-indentation-style ()
-  (interactive)
-  ;; if our source file uses tabs, we use tabs, if spaces spaces, and
-  ;; if neither, we use the current indent-tabs-mode
-  (let ((space-count (how-many "^  " (point-min) (point-max)))
-        (tab-count (how-many "^\t" (point-min) (point-max))))
-    (if (> space-count tab-count) (setq indent-tabs-mode nil))
-    (if (> tab-count space-count) (setq indent-tabs-mode t)))
-  (message "Inferred indentation"))
-(defun c-guess-and-set-style ()		; TODO: Check file size and
-					; ask for permission if too
-					; large, to speed things up
-					; for large files.
-  (interactive)
-  (let
-    ((stylename (concat "guessed-style-" (file-name-base))))
-  (c-guess-buffer-no-install)
-  (c-guess-install stylename)
-  (c-set-style stylename)
-  (message (concat "Installed and set " stylename))))
-(add-hook 'c-mode-common-hook
-	  (lambda ()
-	    (infer-indentation-style)
-	    ;; (c-guess-and-set-style)
-	    ;; ;; Disabled guessing by default, to speed up file
-	    ;; ;; opens for large files.
-	    ))
 
 ;; Make sure packages stay updated; but prompt before each update
 ;; Runs approximately once every 7 days
@@ -444,29 +274,6 @@
 ;;   :bind (("C-o" . 'ido-occur)
 ;; 	 :map isearch-mode-map
 ;; 	 ("C-o" . 'ido-occur-from-isearch)))
-
-;; Be able to move around C/C++ projects easily using cscope.
-;; Try C-c s SOMETHING in a C/C++ buffer.
-(use-package xcscope
-  :ensure t
-  :defer t
-  :config
-  (require 'cc-mode)
-  (cscope-setup)
-  :hook (c-mode . cscope-minor-mode)
-  :bind (:map c-mode-map
-	 ("C-c C-s" . 'cscope-display-buffer)))
-
-(use-package semantic
-  :ensure t
-  :defer t
-  :hook (c-mode . semantic-mode))
-
-(use-package srefactor
-  :ensure t
-  :defer t
-  :config (semantic-mode 1)
-  :bind ("M-RET" . 'srefactor-refactor-at-point))
 
 ;; Be able to use rg from emacs
 (use-package rg
@@ -684,13 +491,6 @@
 ;; ;; Bring in F# mode
 ;; (use-package fsharp-mode)
 
-;; Use projectile for easily moving around in projects
-(use-package projectile
-  :ensure t
-  :bind-keymap ("C-c p" . projectile-command-map)
-  :bind
-  ("C-o" . projectile-multi-occur)) ;; Replaces open-line
-
 ;; Use the "suggest" package to easily find lisp functions via
 ;; input-output pairs.
 (use-package suggest
@@ -797,57 +597,5 @@
 ;; (use-package company-lean
 ;;   :ensure t)
 
-;; Add fast and easy jumping to places using Avy
-(use-package avy
-  :ensure t
-  :config
-  (setq avy-single-candidate-jump nil)
-  :bind
-  (("M-j" . avy-goto-char-timer)
-   ("M-J" . pop-global-mark)
-   (:map isearch-mode-map
-         ("M-j" . avy-isearch))))
-
-(use-package just-mode
-  :ensure t)
-
-(use-package nix-mode
-  :ensure t
-  :defer t
-  :mode ("\\.nix\\'" . nix-mode))
-
 ;; TODO: Look into org-tree-slide
 ;; TODO: Look into org-variable-pitch
-
-(defun replace-smart-chars-in-region (beg end)
-  "Replace 'smart quotes' and such in the region with
-ascii quotes."
-  (interactive "r")
-  (format-replace-strings
-   '(("\x201C" . "\"")
-     ("\x201D" . "\"")
-     ("\x2018" . "'")
-     ("\x2019" . "'"))
-   nil beg end))
-(defun replace-smart-chars-in-buffer ()
-  "Replace 'smart quotes' and such in the buffer with
-ascii quotes."
-  (interactive)
-  (replace-smart-chars-in-region (point-min) (point-max)))
-(defun replace-smart-chars-dwim ()
-  "Replace 'smart quotes' and such in the region or buffer with
-ascii quotes."
-  (interactive)
-  (save-excursion
-    (if (region-active-p)
-        (progn
-          (replace-smart-chars-in-region (region-beginning) (region-end))
-          (message "Replaced smart chars in region."))
-      (progn
-        (replace-smart-chars-in-buffer)
-        (message "Replaced smart chars in buffer.")))))
-
-;; Much nicer format-on-save mode
-(use-package apheleia
-  :ensure t
-  :init (apheleia-global-mode +1))
