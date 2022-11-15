@@ -25,20 +25,15 @@ source $ZSH/oh-my-zsh.sh || git clone git://github.com/robbyrussell/oh-my-zsh.gi
 if command -v nix-index >/dev/null; then source ~/.nix-command-not-found.sh || echo "Might want to stow nix-command-not-found for niceties"; fi
 
 # Custom aliases
-case ${HOST%%.*} in
-    eden)
-        alias n='nautilus . &!' # Open nautilus in current directory and disown from current shell
-        ;;
-    Valhalla)
-        alias n='explorer.exe .'
-        ;;
-    arcadia)
-        alias n='open .'        # Open finder in current directory
-        ;;
-    *)
-        alias n='echo "Unknown machine. n is unbound."'
-        ;;
-esac
+function n {
+    case ${HOST%%.*} in
+        eden) function n { nautilus . &! } ;;
+        Valhalla) function n { explorer.exe . } ;;
+        arcadia) function n { open . } ;;
+        *) function n { echo "Unknown machine. n is unbound." } ;;
+    esac
+    n "$@"
+}
 
 alias units='units -1v' # verbose single line output for GNU units
 
@@ -230,10 +225,6 @@ case "$OSTYPE" in
         ;;
 esac
 
-alias fetch-recursive-website='wget --recursive --no-parent -e robots=off'
-
-alias screensaver='cmatrix -abs'
-
 alias axel='axel -a -n 10'
 
 # Make things easy to copy over into markdown/slack :)
@@ -242,6 +233,7 @@ function shcopy() {
 
 \`\`\`
 $ '
+    bash
 }
 
 function comment_aux() {
@@ -251,21 +243,13 @@ function comment_aux() {
     fi
     figlet "$2" | awk '{print "'$1'" $0 "'$3'"}'
 }
-function comment_c() {
-    comment_aux '// ' "$(echo "$@")" ''
-}
-function comment_cpp() {
-    comment_aux '/* ' "$(echo "$@")" ' */'
-}
-function comment_ocaml() {
-    comment_aux '(* ' "$(echo "$@")" ' *)'
-}
-function comment_shell() {
-    comment_aux '# ' "$(echo "$@")" ''
-}
+function comment_c() { comment_aux '// ' "$(echo "$@")" '' }
+function comment_cpp() { comment_aux '/* ' "$(echo "$@")" ' */' }
+function comment_ocaml() { comment_aux '(* ' "$(echo "$@")" ' *)' }
+function comment_shell() { comment_aux '# ' "$(echo "$@")" '' }
 
 function public-ip() {
-    curl https://ipinfo.io/ip
+    curl https://f0xtr0t.xyz/ip
 }
 
 function latexmakefile() {
