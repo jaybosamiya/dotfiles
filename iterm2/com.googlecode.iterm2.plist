@@ -2,18 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>AddNewTabAtEndOfTabs</key>
+	<false/>
 	<key>AlternateMouseScroll</key>
 	<true/>
-	<key>AppleAntiAliasingThreshold</key>
-	<integer>1</integer>
-	<key>ApplePressAndHoldEnabled</key>
-	<false/>
-	<key>AppleScrollAnimationEnabled</key>
-	<integer>0</integer>
-	<key>AppleSmoothFixedFontsSizeThreshold</key>
-	<integer>1</integer>
-	<key>AppleWindowTabbingMode</key>
-	<string>manual</string>
+	<key>BracketedPasteMode</key>
+	<true/>
 	<key>Default Bookmark Guid</key>
 	<string>3689C6FE-19FF-458F-A537-55FC39FEC74E</string>
 	<key>DimBackgroundWindows</key>
@@ -22,12 +16,16 @@
 	<true/>
 	<key>GlobalKeyMap</key>
 	<dict>
-		<key>0x19-0x60000</key>
+		<key>0x19-0x60000-0x0</key>
 		<dict>
 			<key>Action</key>
-			<integer>39</integer>
+			<integer>2</integer>
+			<key>Label</key>
+			<string></string>
 			<key>Text</key>
 			<string></string>
+			<key>Version</key>
+			<integer>0</integer>
 		</dict>
 		<key>0x43-0x60000-0x8</key>
 		<dict>
@@ -63,12 +61,16 @@ Alternate Screen</string>
 			<key>Version</key>
 			<integer>1</integer>
 		</dict>
-		<key>0x9-0x40000</key>
+		<key>0x9-0x40000-0x0</key>
 		<dict>
 			<key>Action</key>
-			<integer>32</integer>
+			<integer>0</integer>
+			<key>Label</key>
+			<string></string>
 			<key>Text</key>
 			<string></string>
+			<key>Version</key>
+			<integer>0</integer>
 		</dict>
 		<key>0xf700-0x300000</key>
 		<dict>
@@ -1590,6 +1592,12 @@ Alternate Screen</string>
 	<key>OpenNoWindowsAtStartup</key>
 	<true/>
 	<key>PMPrintingExpandedStateForPrint2</key>
+	<false/>
+	<key>PasteSpecialRegex</key>
+	<string></string>
+	<key>PasteSpecialSubstitution</key>
+	<string></string>
+	<key>PasteSpecialUseRegexSubstitution</key>
 	<false/>
 	<key>PointerActions</key>
 	<dict>
