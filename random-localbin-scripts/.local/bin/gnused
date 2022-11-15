@@ -8,7 +8,7 @@ case ${HOST%%.*} in
 		gsed "$@"
 		;;
 	*)
-		echo "Uknown machine, gnused is unbound" 1>&2
+		echo "Unknown machine, gnused is unbound" 1>&2
 		exit 1
 		;;
 esac
