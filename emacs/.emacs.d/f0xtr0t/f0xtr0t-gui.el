@@ -20,7 +20,8 @@
 ;; Set up IDO nicely
 (require 'ido)
 (ido-mode t)
-(require 'flx-ido)
+(use-package flx-ido
+  :ensure t)
 (flx-ido-mode t)
 (global-set-key (kbd "C-x C-d") #'ido-dired) ;; Map "C-x C-d" to do same as "C-x d" which is otherwise awkward.
 

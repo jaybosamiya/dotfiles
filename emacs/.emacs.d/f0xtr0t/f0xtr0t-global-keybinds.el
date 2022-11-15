@@ -28,8 +28,9 @@
          ("C-c M-x" . execute-extended-command)))
 
 ;; Be able to unfill paragraphs
-(require 'unfill)
-(global-set-key (kbd "M-Q") 'unfill-paragraph)
+(use-package unfill
+  :ensure t
+  :bind ("M-Q" . unfill-paragraph))
 
 ;; Enable abbrev-mode globally
 ;; (setq-default abbrev-mode t) ; Disabled

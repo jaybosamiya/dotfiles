@@ -401,7 +401,8 @@
 
 ;; Help writing correct text. TODO: Figure out how to make it trigger
 ;; only in "pure text" buffers
-(require 'writegood-mode)
+(use-package writegood-mode
+  :ensure t)
 (add-hook 'text-mode-hook
 	  (lambda ()
 	    (flyspell-mode t)
