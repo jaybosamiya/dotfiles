@@ -846,3 +846,8 @@ ascii quotes."
       (progn
         (replace-smart-chars-in-buffer)
         (message "Replaced smart chars in buffer.")))))
+
+;; Much nicer format-on-save mode
+(use-package apheleia
+  :ensure t
+  :init (apheleia-global-mode +1))
