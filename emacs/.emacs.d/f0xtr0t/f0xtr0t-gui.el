@@ -147,6 +147,10 @@ a pulse"
 ;; Always have column number mode on
 (column-number-mode 1)
 
+;; Set up fonts for doom-modeline
+(use-package all-the-icons
+  :ensure t)
+
 ;; Add the doom modeline
 ;; If fonts don't work, use "M-x all-the-icons-install-fonts"
 (use-package doom-modeline
