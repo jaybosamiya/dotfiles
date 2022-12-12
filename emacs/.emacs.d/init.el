@@ -35,6 +35,7 @@
 ;; (require 'f0xtr0t-lang-rust-nonlsp)
 (require 'f0xtr0t-lang-rust-lsp)
 (require 'f0xtr0t-lang-fstar)
+(require 'f0xtr0t-lang-php)
 
 ;; Ensure that customization infromation edited through "Custom" has a
 ;; separate place to go into.
