@@ -1,0 +1,28 @@
+#! /usr/bin/env python3
+
+from string import ascii_letters, digits
+import os
+
+chalname = input('Challenge name? ').strip().lower().replace(' ', '_')
+chalname = ''.join(x if x in ascii_letters or x in digits else '_' for x in chalname)
+
+os.mkdir(chalname)
+os.mkdir(chalname + '/files')
+
+while True:
+	files = input('URL to relevant files? (empty to stop) ').strip()
+	if len(files) == 0:
+		break
+
+	os.system(f'curl --output-dir {chalname}/files --remote-name {files}')
+
+print('Now jumping into dumping into the README (EOF to stop)')
+os.system(f'cat > {chalname}/files/README-challenge-description.md')
+
+print('Cleaning up and moving stuff around')
+os.system(f'rename "s/\?.*//" {chalname}/files/*')
+
+os.system(f'cp -r {chalname}/files {chalname}/solv')
+
+print('DONE. Now just run')
+print(f' cd {chalname}/solv')
