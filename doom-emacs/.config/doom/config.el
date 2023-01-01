@@ -119,6 +119,11 @@
  [C-next] #'scroll-up-command
  [prior] #'scroll-down-line
  [C-prior] #'scroll-down-command
+
+ ;; Global keybinding to instantly jump to the definition, but open in another
+ ;; window. TODO: Is there an alternative to this that is more DoomEmacs
+ ;; specific? "M-." is assigned to #'lookup/definition which seems a lot nicer,
+ ;; so probably there is a version for other-window?
  "C-'" #'xref-find-definitions-other-window
 
  ;; Set up amx keybindings for better M-x, completely replacing out any usage of
