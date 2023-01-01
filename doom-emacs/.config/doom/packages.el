@@ -4,6 +4,8 @@
 ;; Disable vertical IDO, since I don't like it. Personal pereference.
 (package! ido-vertical-mode :disable t)
 
+(package! amx)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; To install a package with Doom you must declare them here and run 'doom sync'

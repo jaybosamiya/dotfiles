@@ -91,12 +91,22 @@
   ;; Use the default M-<left>, M-<right>,... bindings to move across the screen.
   (windmove-default-keybindings 'meta))
 
+(use-package! amx
+  :config
+  (setq amx-save-file (concat doom-cache-dir "amx-items")))
+
 (map!
  ;; ;; Bring home/end in sync with C-a and C-e
  ;; [home]     #'doom/backward-to-bol-or-indent
  ;; [end]      #'doom/forward-to-last-non-comment-or-eol
 
  "C-'" #'xref-find-definitions-other-window
+
+ ;; Set up amx keybindings for better M-x, completely replacing out any usage of
+ ;; previous `M-x' and `M-X' with the amx variants.
+ (:after amx
+         [remap execute-extended-command] #'amx
+         [remap execute-extended-command-for-buffer] #'amx-major-mode-commands)
 
  ;; Set up Rust-specific keybindings I am used to
  (:after rustic
