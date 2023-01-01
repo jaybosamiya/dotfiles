@@ -193,6 +193,12 @@
                     "C-c C-c Q" #'lsp-workspace-shutdown
                     "C-c C-c s" #'lsp-rust-analyzer-status)))
 
+;; Disable doom-emacs's default behavior of smartparens being enabled. It
+;; appears we can't completely remove/disable the package, but instead need to
+;; do this. See
+;; https://github.com/doomemacs/doomemacs/blob/35865ef5e89442e3809b8095199977053dd4210f/docs/faq.org#how-to-disable-smartparensautomatic-parentheses-completion
+(remove-hook 'doom-first-buffer-hook #'smartparens-global-mode)
+
 ;; FIXME:
 ;;
 ;; 1. `persp-mode' doesn't play nicely with `uniquify' and thus the `workspaces'
