@@ -130,6 +130,12 @@
   ;; Disable the annoying symbol highlighting behavior
   (setq lsp-enable-symbol-highlighting nil))
 
+(use-package lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-pyright)
+                          (lsp-deferred)))) ;; TODO: Make this cleaner?
+
 ;; Nice UI features :)
 (use-package lsp-ui
   :ensure t
