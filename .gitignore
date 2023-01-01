@@ -20,6 +20,7 @@ emacs/.emacs.d/elpa
 emacs/.emacs.d/.last-package-update-day
 emacs/.emacs.d/.lsp-session-v1
 emacs/.emacs.d/projects
+emacs/.emacs.d/eln-cache/
 
 gdb/.local/pwn/peda
 gdb/.local/pwn/pwndbg
