@@ -178,6 +178,8 @@ alias dockerubuntu='docker run --rm -it -v "$(pwd):/connect" --cap-add=SYS_PTRAC
 alias limax86='limactl shell x86instance nerdctl run --rm -it --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -v "$(pwd):/connect"'
 alias limaarm='limactl shell default nerdctl run --rm -it --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -v "$(pwd):/connect"'
 
+alias m4b-tool='docker run -it --rm -u $(id -u):$(id -g) -v "$(pwd)":/mnt m4b-tool'
+
 alias fzf="fzf --layout=reverse-list --multi"
 
 alias manually-installed-to-auto='sudo apt-mark auto'
