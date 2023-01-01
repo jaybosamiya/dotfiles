@@ -96,10 +96,11 @@
  ;; [home]     #'doom/backward-to-bol-or-indent
  ;; [end]      #'doom/forward-to-last-non-comment-or-eol
 
+ "C-'" #'xref-find-definitions-other-window
+
  ;; Set up Rust-specific keybindings I am used to
  (:after rustic
          (:map rustic-mode-map
-              "C-'" #'xref-find-definitions-other-window
               "M-'" #'lsp-find-references ;; replaces `abbrev-prefix-mark`
               "C-c C-c C-a" #'lsp-execute-code-action
               "C-c C-c r" #'lsp-rename ;; replaces `rustic-cargo-rm`
