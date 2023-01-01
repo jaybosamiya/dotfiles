@@ -9,6 +9,7 @@ email = jaybosamiya@gmail.com
 	excludesfile = ~/.gitignore_global
 	attributesfile = ~/.gitattributes
         hooksPath = ~/.gitconfig.d/hooks
+	compression = 9
 [filter "nevercommitfilter"]
 	smudge = cat
 	clean = gnused '/NEVERCOMM[I]T/'d
