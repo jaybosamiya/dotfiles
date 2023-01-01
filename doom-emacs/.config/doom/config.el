@@ -192,3 +192,11 @@
                     "C-c C-c q" #'lsp-workspace-restart
                     "C-c C-c Q" #'lsp-workspace-shutdown
                     "C-c C-c s" #'lsp-rust-analyzer-status)))
+
+;; FIXME:
+;;
+;; 1. `persp-mode' doesn't play nicely with `uniquify' and thus the `workspaces'
+;;    doom module sets the `uniquify-buffer-name-style' to `nil'. However, this
+;;    means if we visit two files with the same name, we end up with the ugly
+;;    <1>, <2>, ... garbage, rather than the much nicer defaults that we should
+;;    have.
