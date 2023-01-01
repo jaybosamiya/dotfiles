@@ -95,6 +95,18 @@
   :config
   (setq amx-save-file (concat doom-cache-dir "amx-items")))
 
+;; Set up `C-;' to mean `iedit-mode'. This replaces out the default company
+;; complete keybinding. We need to make sure to clear it out before setting up
+;; the iedit keybinding for the same, which is why we need to do this
+;; song-and-dance about unmapping and setting up the remapping on time.
+;;
+;; TODO: Is there a way to do this more easily?
+(map!
+ (:map global-map
+       "C-;" nil
+       (:after iedit "C-;" #'iedit-mode)))
+(use-package! iedit)
+
 (map!
  ;; ;; Bring home/end in sync with C-a and C-e
  ;; [home]     #'doom/backward-to-bol-or-indent
