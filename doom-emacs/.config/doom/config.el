@@ -199,6 +199,12 @@
 ;; https://github.com/doomemacs/doomemacs/blob/35865ef5e89442e3809b8095199977053dd4210f/docs/faq.org#how-to-disable-smartparensautomatic-parentheses-completion
 (remove-hook 'doom-first-buffer-hook #'smartparens-global-mode)
 
+;; Introduce C-M-= and C-M-- for changing the font size all across emacs.
+(use-package! default-text-scale
+  :bind (("C-M-=" . default-text-scale-increase)
+         ("C-M--" . default-text-scale-decrease)
+         ("C-M-0" . default-text-scale-reset)))
+
 ;; FIXME:
 ;;
 ;; 1. `persp-mode' doesn't play nicely with `uniquify' and thus the `workspaces'
