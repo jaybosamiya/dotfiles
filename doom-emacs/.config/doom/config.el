@@ -83,6 +83,14 @@
 ;; Tab should indent the line independent of wherever you are on it.
 (setq tab-always-indent t)
 
+;; Ensure that copying from another program and then running a kill
+;; command in emacs doesn't cause things to disappear from the
+;; clipboard
+(setq save-interprogram-paste-before-kill t)
+
+;; Make sure the mouse yanking pastes at point instead of at click
+(setq mouse-yank-at-point t)
+
 ;; Disable the annoying symbol-highlighting that LSP does by default
 (setq-hook! lsp-mode
   lsp-enable-symbol-highlighting nil)
