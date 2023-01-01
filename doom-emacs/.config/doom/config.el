@@ -80,20 +80,27 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Tab should indent the line independent of wherever you are on it.
 (setq tab-always-indent t)
 
+;; Disable the annoying symbol-highlighting that LSP does by default
 (setq-hook! lsp-mode
-  ;; Disable the annoying symbol-highlighting that LSP does by default
   lsp-enable-symbol-highlighting nil)
 
+;; Use the default M-<left>, M-<right>,... bindings to move across the screen.
 (use-package! windmove
   :init
-  ;; Use the default M-<left>, M-<right>,... bindings to move across the screen.
   (windmove-default-keybindings 'meta))
 
+;; Use a better alternative M-x, completely replacing out any usage of
+ ;; previous M-x and M-X with the amx variants.
 (use-package! amx
   :config
   (setq amx-save-file (concat doom-cache-dir "amx-items")))
+(map!
+ (:after amx
+         [remap execute-extended-command] #'amx
+         [remap execute-extended-command-for-buffer] #'amx-major-mode-commands))
 
 ;; Make C-x 1 (delete-other-windows) reversible
 (use-package! zygospore
@@ -104,76 +111,64 @@
 (use-package! iedit
   :bind ("C-;" . iedit-mode))
 
+;; Allow fast and convenient traveling from one location to another on the
+;; screen using avy.
 (use-package! avy
-  :config
-  (setq
-   avy-all-windows t
-   avy-all-windows-alt nil
-   avy-background t
-   avy-single-candidate-jump nil)
-  :bind
-  (("M-j" . avy-goto-char-timer)
-   ("M-J" . pop-global-mark)
-   (:map isearch-mode-map
-         ("M-j" . avy-isearch))))
+  :config (setq avy-all-windows t
+                avy-all-windows-alt nil
+                avy-background t
+                avy-single-candidate-jump nil)
+  :bind (("M-j" . avy-goto-char-timer)
+         ("M-J" . pop-global-mark)
+         (:map isearch-mode-map
+               ("M-j" . avy-isearch))))
 
-(map!
- ;; ;; Bring home/end in sync with C-a and C-e
- ;; [home]     #'doom/backward-to-bol-or-indent
- ;; [end]      #'doom/forward-to-last-non-comment-or-eol
+;; ;; Bring home/end in sync with C-a and C-e
+;; (map! [home] #'doom/backward-to-bol-or-indent
+;;       [end]  #'doom/forward-to-last-non-comment-or-eol)
 
- ;; Handle page up/down the way I like it instead (move only by lines), and
- ;; remove the scroll left/right behavior, replacing it with the original
- ;; up/down.
- [next] #'scroll-up-line
- [C-next] #'scroll-up-command
- [prior] #'scroll-down-line
- [C-prior] #'scroll-down-command
+;; Handle page up/down the way I like it instead (move only by lines), and
+;; remove the scroll left/right behavior, replacing it with the original
+;; up/down.
+(map! [next] #'scroll-up-line
+      [C-next] #'scroll-up-command
+      [prior] #'scroll-down-line
+      [C-prior] #'scroll-down-command)
 
- ;; Global keybinding to instantly jump to the definition, but open in another
- ;; window. TODO: Is there an alternative to this that is more DoomEmacs
- ;; specific? "M-." is assigned to #'lookup/definition which seems a lot nicer,
- ;; so probably there is a version for other-window?
- "C-'" #'xref-find-definitions-other-window
+;; Global keybinding to instantly jump to the definition, but open in another
+;; window. TODO: Is there an alternative to this that is more DoomEmacs
+;; specific? "M-." is assigned to #'lookup/definition which seems a lot nicer,
+;; so probably there is a version for other-window?
+(map! "C-'" #'xref-find-definitions-other-window)
 
- ;; Perform the inverse of M-q
- (:after unfill "M-Q" #'unfill-paragraph)
+;; Perform the inverse of M-q
+(use-package! unfill :bind ("M-Q" . unfill-paragraph))
 
- ;; Toggle spelling. TODO: When enabled, maybe we should trigger
- ;; `flyspell-buffer'?
- (:after flyspell "<f9>" #'flyspell-mode)
+;; Toggle spelling. TODO: When enabled, maybe we should trigger
+;; `flyspell-buffer'?
+(map! (:after flyspell "<f9>" #'flyspell-mode))
 
- ;; Use a hippie-expand, instead of dabbrev-expand, which has
- ;; dabbrev-expand as one of its tactics, so leads to a guaranteed
- ;; superset of expansions
- "M-/" #'hippie-expand
+;; Use a hippie-expand, instead of dabbrev-expand, which has
+;; dabbrev-expand as one of its tactics, so leads to a guaranteed
+;; superset of expansions
+(map! "M-/" #'hippie-expand)
 
- ;; Much more sensible default case commands, working via DWIM rather than via
- ;; word only.
- "M-u" #'upcase-dwim
- "M-l" #'downcase-dwim
- "M-c" #'capitalize-dwim
+;; Much more sensible default case commands, working via DWIM rather than via
+;; word only.
+(map! "M-u" #'upcase-dwim
+      "M-l" #'downcase-dwim
+      "M-c" #'capitalize-dwim)
 
- ;; Get some of that distract-free goodness :)
- ;;
- ;; Previously, I used to use olivetti-mode, but this actually seems nicer.
- "C-<f11>" #'+zen/toggle
+;; Get some of that distract-free goodness :) Previously, I used to use
+;; olivetti-mode, but this actually seems nicer.
+(map! "C-<f11>" #'+zen/toggle)
 
- ;; Set up amx keybindings for better M-x, completely replacing out any usage of
- ;; previous `M-x' and `M-X' with the amx variants.
- (:after amx
-         [remap execute-extended-command] #'amx
-         [remap execute-extended-command-for-buffer] #'amx-major-mode-commands)
-
- ;; Set up Rust-specific keybindings I am used to
- (:after rustic
-         (:map rustic-mode-map
-              "M-'" #'lsp-find-references ;; replaces `abbrev-prefix-mark`
-              "C-c C-c C-a" #'lsp-execute-code-action
-              "C-c C-c r" #'lsp-rename ;; replaces `rustic-cargo-rm`
-              "C-c C-c q" #'lsp-workspace-restart
-              "C-c C-c Q" #'lsp-workspace-shutdown
-              "C-c C-c s" #'lsp-rust-analyzer-status
-              )
-         )
- )
+;; Set up Rust-specific keybindings I am used to
+(map! (:after rustic
+              (:map rustic-mode-map
+                    "M-'" #'lsp-find-references ;; replaces `abbrev-prefix-mark`
+                    "C-c C-c C-a" #'lsp-execute-code-action
+                    "C-c C-c r" #'lsp-rename ;; replaces `rustic-cargo-rm`
+                    "C-c C-c q" #'lsp-workspace-restart
+                    "C-c C-c Q" #'lsp-workspace-shutdown
+                    "C-c C-c s" #'lsp-rust-analyzer-status)))
