@@ -117,6 +117,11 @@ if [ -d "$HOME/.pyenv" ]; then
     eval "$(pyenv init --path)"
 fi
 
+# doom-emacs configuration
+if [ -d "$HOME/.emacs.d/bin" ]; then
+    export PATH="$HOME/.emacs.d/bin:$PATH"
+fi
+
 # Set up auto change-dir
 #
 # Is on Windows Terminal folks' radar, and hopefully should be fixed
