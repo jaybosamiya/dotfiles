@@ -129,6 +129,15 @@
  ;; Perform the inverse of M-q
  (:after unfill "M-Q" #'unfill-paragraph)
 
+ ;; Toggle spelling. TODO: When enabled, maybe we should trigger
+ ;; `flyspell-buffer'?
+ (:after flyspell "<f9>" #'flyspell-mode)
+
+ ;; Use a hippie-expand, instead of dabbrev-expand, which has
+ ;; dabbrev-expand as one of its tactics, so leads to a guaranteed
+ ;; superset of expansions
+ "M-/" #'hippie-expand
+
  ;; Set up amx keybindings for better M-x, completely replacing out any usage of
  ;; previous `M-x' and `M-X' with the amx variants.
  (:after amx
