@@ -205,6 +205,10 @@
          ("C-M--" . default-text-scale-decrease)
          ("C-M-0" . default-text-scale-reset)))
 
+;; Add search counters to the modeline
+(use-package! anzu
+  :init (global-anzu-mode +1))
+
 ;; FIXME:
 ;;
 ;; 1. `persp-mode' doesn't play nicely with `uniquify' and thus the `workspaces'
