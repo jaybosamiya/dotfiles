@@ -141,6 +141,11 @@
  "M-l" #'downcase-dwim
  "M-c" #'capitalize-dwim
 
+ ;; Get some of that distract-free goodness :)
+ ;;
+ ;; Previously, I used to use olivetti-mode, but this actually seems nicer.
+ "C-<f11>" #'+zen/toggle
+
  ;; Set up amx keybindings for better M-x, completely replacing out any usage of
  ;; previous `M-x' and `M-X' with the amx variants.
  (:after amx
