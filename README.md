@@ -6,11 +6,9 @@ Simply `stow $PKGNAME` to add all dotfiles for PKGNAME
 
 ## Emacs config
 
-Hand-rolled custom Emacs config (my main daily driver) works simply
-via `stow emacs`, while on the other hand, I am testing out Doom
-Emacs, which requires a tiny bit more effort to quickly set up.
-
-### Doom Emacs
+My custom hand-rolled config works with `stow emacs`, but I am currently in the
+process of testing out (or indeed switching to) Doom Emacs. That takes a tiny
+bit more effort to set up:
 
 ```sh
 stow doom-emacs
@@ -19,6 +17,5 @@ git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.emacs.d
 ~/.emacs.d/bin/doom doctor
 ```
 
-Whenever changes are made to `~/.doom.d`, run `doom sync` and restart Emacs.
-
-`doom upgrade` to update Doom itself.
+Whenever changes are made to `~/.doom.d`, run `doom sync` and restart Emacs
+(`C-c q r`). Run `doom upgrade` to update Doom itself.
