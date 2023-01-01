@@ -15,6 +15,9 @@
 ;; Disable the default built-in doom snippets
 (package! doom-snippets :ignore t)
 
+(package! framemove)
+(package! buffer-move)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; To install a package with Doom you must declare them here and run 'doom sync'

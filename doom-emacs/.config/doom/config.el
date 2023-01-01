@@ -91,6 +91,18 @@
 (use-package! windmove
   :init
   (windmove-default-keybindings 'meta))
+(use-package! framemove
+  ;; Wait for 5 idle seconds before loading framemove. We usually don't need it
+  ;; immediately, and for whatever reason, loading it immediately seems to cause
+  ;; weirdness that triggers a warning/error.
+  :defer 5
+  :init (setq framemove-hook-into-windmove t))
+(use-package! buffer-move
+  :bind (("<M-S-up>" . buf-move-up)
+         ("<M-S-down>" . buf-move-down)
+         ("<M-S-left>" . buf-move-left)
+         ("<M-S-right>" . buf-move-right)))
+
 
 ;; Use a better alternative M-x, completely replacing out any usage of
  ;; previous M-x and M-X with the amx variants.
