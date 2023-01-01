@@ -104,6 +104,19 @@
 (use-package! iedit
   :bind ("C-;" . iedit-mode))
 
+(use-package! avy
+  :config
+  (setq
+   avy-all-windows t
+   avy-all-windows-alt nil
+   avy-background t
+   avy-single-candidate-jump nil)
+  :bind
+  (("M-j" . avy-goto-char-timer)
+   ("M-J" . pop-global-mark)
+   (:map isearch-mode-map
+         ("M-j" . avy-isearch))))
+
 (map!
  ;; ;; Bring home/end in sync with C-a and C-e
  ;; [home]     #'doom/backward-to-bol-or-indent
