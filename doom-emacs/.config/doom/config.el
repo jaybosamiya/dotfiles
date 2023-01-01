@@ -209,6 +209,16 @@
 (use-package! anzu
   :init (global-anzu-mode +1))
 
+;; Use the awesome ripgrep, along with its awesome Emacs package
+(use-package! rg
+  :ensure t
+  :config (setq
+           ;; Use rg from the $PATH; allows working via TRAMP too!
+           rg-executable "rg"
+           rg-default-alias-fallback "everything")
+  :bind (("M-s M-s" . 'rg-dwim)
+         ("M-s s"   . 'rg-menu)))
+
 ;; FIXME:
 ;;
 ;; 1. `persp-mode' doesn't play nicely with `uniquify' and thus the `workspaces'
