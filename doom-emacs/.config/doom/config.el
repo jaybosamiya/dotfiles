@@ -126,6 +126,9 @@
  ;; so probably there is a version for other-window?
  "C-'" #'xref-find-definitions-other-window
 
+ ;; Perform the inverse of M-q
+ (:after unfill "M-Q" #'unfill-paragraph)
+
  ;; Set up amx keybindings for better M-x, completely replacing out any usage of
  ;; previous `M-x' and `M-X' with the amx variants.
  (:after amx
