@@ -112,6 +112,13 @@
  ;; [home]     #'doom/backward-to-bol-or-indent
  ;; [end]      #'doom/forward-to-last-non-comment-or-eol
 
+ ;; Handle page up/down the way I like it instead (move only by lines), and
+ ;; remove the scroll left/right behavior, replacing it with the original
+ ;; up/down.
+ [next] #'scroll-up-line
+ [C-next] #'scroll-up-command
+ [prior] #'scroll-down-line
+ [C-prior] #'scroll-down-command
  "C-'" #'xref-find-definitions-other-window
 
  ;; Set up amx keybindings for better M-x, completely replacing out any usage of
