@@ -80,6 +80,8 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(setq tab-always-indent t)
+
 (setq-hook! lsp-mode
   ;; Disable the annoying symbol-highlighting that LSP does by default
   lsp-enable-symbol-highlighting nil)
