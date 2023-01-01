@@ -86,3 +86,22 @@
   :init
   ;; Use the default M-<left>, M-<right>,... bindings to move across the screen.
   (windmove-default-keybindings 'meta))
+
+(map!
+ ;; ;; Bring home/end in sync with C-a and C-e
+ ;; [home]     #'doom/backward-to-bol-or-indent
+ ;; [end]      #'doom/forward-to-last-non-comment-or-eol
+
+ ;; Set up Rust-specific keybindings I am used to
+ (:after rustic
+         (:map rustic-mode-map
+              "C-'" #'xref-find-definitions-other-window
+              "M-'" #'lsp-find-references ;; replaces `abbrev-prefix-mark`
+              "C-c C-c C-a" #'lsp-execute-code-action
+              "C-c C-c r" #'lsp-rename ;; replaces `rustic-cargo-rm`
+              "C-c C-c q" #'lsp-workspace-restart
+              "C-c C-c Q" #'lsp-workspace-shutdown
+              "C-c C-c s" #'lsp-rust-analyzer-status
+              )
+         )
+ )
