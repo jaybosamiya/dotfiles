@@ -75,3 +75,14 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq-hook! lsp-mode
+  ;; Disable the annoying symbol-highlighting that LSP does by default
+  lsp-enable-symbol-highlighting nil)
+
+(use-package! windmove
+  :init
+  ;; Use the default M-<left>, M-<right>,... bindings to move across the screen.
+  (windmove-default-keybindings 'meta))
