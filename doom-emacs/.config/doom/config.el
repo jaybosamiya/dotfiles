@@ -80,6 +80,9 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Don't stay in the comment when a newline is hit within a comment
+(setq +default-want-RET-continue-comments nil)
+
 ;; Tab should indent the line independent of wherever you are on it.
 (setq tab-always-indent t)
 
