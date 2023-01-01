@@ -95,6 +95,10 @@
   :config
   (setq amx-save-file (concat doom-cache-dir "amx-items")))
 
+;; Make C-x 1 (delete-other-windows) reversible
+(use-package! zygospore
+  :bind ("C-x 1" . zygospore-toggle-delete-other-windows))
+
 ;; Set up `C-;' to mean `iedit-mode'. This replaces out the default company
 ;; complete keybinding. We need to make sure to clear it out before setting up
 ;; the iedit keybinding for the same, which is why we need to do this
@@ -137,6 +141,12 @@
  ;; dabbrev-expand as one of its tactics, so leads to a guaranteed
  ;; superset of expansions
  "M-/" #'hippie-expand
+
+ ;; Much more sensible default case commands, working via DWIM rather than via
+ ;; word only.
+ "M-u" #'upcase-dwim
+ "M-l" #'downcase-dwim
+ "M-c" #'capitalize-dwim
 
  ;; Set up amx keybindings for better M-x, completely replacing out any usage of
  ;; previous `M-x' and `M-X' with the amx variants.
