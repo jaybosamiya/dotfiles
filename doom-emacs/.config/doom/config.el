@@ -99,7 +99,12 @@
   ;; tab-width (and doing other shenanigans when in smartparens mode, but since we
   ;; have smartparens disabled, that bit is not particularly important; just the
   ;; tab-width deletion that is really annoying).
-  (advice-remove #'delete-backward-char #'+default--delete-backward-char-a))
+  (advice-remove #'delete-backward-char #'+default--delete-backward-char-a)
+  ;; Rather than the annoying "immediately upon hitting tilde" change that
+  ;; happens in IDO due to doom's `ido' package setting up a binding for tilde,
+  ;; switch back to IDO's defaults for it, which is "do nothing" and then the
+  ;; "/" causes it to actually apply the "$HOME" as expected.
+  (map! (:after ido (:map ido-file-completion-map "~" nil))))
 
 ;; Sensible defaults, that I believe should be enabled no matter what.
 (progn
