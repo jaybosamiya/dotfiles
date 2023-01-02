@@ -226,6 +226,12 @@
   :bind (("M-s M-s" . 'rg-dwim)
          ("M-s s"   . 'rg-menu)))
 
+;; Switch to default backspace behavior, rather than deleting upto previous
+;; tab-width (and doing other shenanigans when in smartparens mode, but since we
+;; have smartparens disabled, that bit is not particularly important; just the
+;; tab-width deletion that is really annoying).
+(advice-remove #'delete-backward-char #'+default--delete-backward-char-a)
+
 ;; FIXME:
 ;;
 ;; 1. `persp-mode' doesn't play nicely with `uniquify' and thus the `workspaces'
