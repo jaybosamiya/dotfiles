@@ -146,9 +146,13 @@
          (:map isearch-mode-map
                ("M-j" . avy-isearch))))
 
-;; ;; Bring home/end in sync with C-a and C-e
-;; (map! [home] #'doom/backward-to-bol-or-indent
-;;       [end]  #'doom/forward-to-last-non-comment-or-eol)
+;; Switch C-a and C-e to Emacs defaults, while setting home/end to DoomEmacs's
+;; default C-a and C-e.
+(map! "C-a" nil "C-e" nil)
+(map! "C-a" #'move-beginning-of-line
+      "C-e" #'move-end-of-line
+      [home] #'doom/backward-to-bol-or-indent
+      [end] #'doom/forward-to-last-non-comment-or-eol)
 
 ;; Handle page up/down the way I like it instead (move only by lines), and
 ;; remove the scroll left/right behavior, replacing it with the original
