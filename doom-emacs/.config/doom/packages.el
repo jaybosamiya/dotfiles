@@ -22,6 +22,10 @@
 
 (package! rg)
 
+;; Use the "suggest" package to easily find elisp functions via pairs of inputs
+;; and outputs.
+(package! suggest)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; To install a package with Doom you must declare them here and run 'doom sync'
