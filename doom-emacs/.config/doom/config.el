@@ -216,7 +216,25 @@
                    (serv-history-list (open-home-on-server--read history-path))
                    (serv-name (ido-completing-read "Server: " serv-history-list)))
               (open-home-on-server--write history-path (cons serv-name (remove serv-name serv-history-list)))
-              (dired (concat "/sshx:" serv-name ":~"))))))
+              (dired (concat "/sshx:" serv-name ":~")))))
+  ;; Conveniently grab the selected part of the file into a separate indirect
+  ;; read-only buffer.
+  (map! "C-<f7>"
+        (defun narrow-region-to-indirect-readonly-buffer (start end)
+          "Narrow to selected region in an indirect readonly buffer"
+          (interactive "r")
+          (deactivate-mark)
+          (let ((buf (clone-indirect-buffer
+                      (concat (buffer-name) "-" (int-to-string start) "-" (int-to-string end))
+                      nil
+                      t)))
+            (switch-to-buffer buf nil t)
+            (with-current-buffer buf
+              (setq-local buffer-read-only t)
+              (set-window-dedicated-p nil t)
+              (narrow-to-region start end)
+              (use-local-map (copy-keymap (car (current-active-maps))))
+              (local-set-key (kbd "q") 'kill-this-buffer))))))
 
 ;; Set up for LSP mode across all languages.
 (progn
