@@ -36,6 +36,16 @@
 ;;   it back. Relevant portion, search for `ido-file-completion-map' in
 ;;   `ido/config.el'
 ;;
+;; + `doom-snippets' appears to break stuff if you don't have it enabled
+;;   initially, before ignoring it in `./packages.el`. Weirdly, completely
+;;   clearing out `~/.emacs.d` and reinstalling Doom Emacs seems to have done
+;;   the trick though.
+;;
+;; + Migrate my Rust configuration over
+;;
+;; + (Maybe) Enable line numbers everywhere, rather than just the selective
+;;   places it tends to right now
+;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
