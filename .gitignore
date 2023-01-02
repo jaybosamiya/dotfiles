@@ -1,6 +1,8 @@
 *~
 **/#*#
 
+doom-emacs/.config/doom/flycheck_config.el
+
 emacs/.emacs.d/session.*
 emacs/.emacs.d/eshell/
 emacs/.emacs.d/.emacs.desktop
