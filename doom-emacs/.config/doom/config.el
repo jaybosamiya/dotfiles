@@ -185,6 +185,10 @@
   ;; Currently it happens after waiting 3 seconds anyways, so maybe not crucial
   ;; to fix too soon?
   (map! (:after flyspell "<f9>" #'flyspell-mode))
+  ;; Be able to instantly clear any flycheck errors. Useful when looking at code
+  ;; that otherwise triggers too many flycheck warnings.
+  (map! "<f12>" #'flycheck-clear
+        "C-<f12>" #'flycheck-mode)
   ;; Use a hippie-expand, instead of dabbrev-expand, which has
   ;; dabbrev-expand as one of its tactics, so leads to a guaranteed
   ;; superset of expansions
