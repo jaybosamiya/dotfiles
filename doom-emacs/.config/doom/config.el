@@ -186,7 +186,6 @@
   (map! "C-<f11>" #'+zen/toggle)
   ;; Use the awesome ripgrep, along with its awesome Emacs package
   (use-package! rg
-    :ensure t
     :config (setq
              ;; Use rg from the $PATH; allows working via TRAMP too!
              rg-executable "rg"
