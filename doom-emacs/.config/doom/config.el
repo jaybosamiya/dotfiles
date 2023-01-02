@@ -41,8 +41,6 @@
 ;;   clearing out `~/.emacs.d` and reinstalling Doom Emacs seems to have done
 ;;   the trick though.
 ;;
-;; + Migrate my Rust configuration over
-;;
 ;; + (Maybe) Enable line numbers everywhere, rather than just the selective
 ;;   places it tends to right now
 ;;
@@ -218,7 +216,37 @@
                       "C-c C-c r" #'lsp-rename ;; replaces `rustic-cargo-rm`
                       "C-c C-c q" #'lsp-workspace-restart
                       "C-c C-c Q" #'lsp-workspace-shutdown
-                      "C-c C-c s" #'lsp-rust-analyzer-status))))
+                      "C-c C-c s" #'lsp-rust-analyzer-status)))
+  ;; Enable format-on-save
+  (setq rustic-format-on-save t
+        ;; Due to a variety of reasons, the rustfmt folks don't want
+        ;; to move away from `--edition 2015` by default. I _could_
+        ;; introduce a `rustfmt.toml` to every project that specifies
+        ;; the edition, but that is annoying. Personally, I have never
+        ;; used the 2015 edition, and also the formatting settings
+        ;; between 2018 and 2021 are practically the same, so let's
+        ;; just use 2021 everywhere, until I figure out a clean way to
+        ;; get the edition from the nearest `Cargo.toml`.
+        rustic-rustfmt-args "--edition 2021")
+  ;; Enable/disable specific hints
+  (setq lsp-rust-analyzer-server-display-inlay-hints t
+        lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial"
+        lsp-rust-analyzer-display-chaining-hints t
+        lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil
+        lsp-rust-analyzer-display-closure-return-type-hints t
+        lsp-rust-analyzer-display-parameter-hints nil
+        lsp-rust-analyzer-display-reborrow-hints nil)
+  ;; Set up a custom inlay face, to distinguish inlays from comments
+  (custom-set-faces! '(lsp-rust-analyzer-inlay-face
+                       ;; Default is just `font-lock-comment-face` which can be confusing
+                       ;; with actual comments. Consider if there is a different style
+                       ;; that might work better?
+                       :inherit font-lock-comment-face
+                       :weight light))
+  ;; Set comment wrapping M-q default to `max_width` default from rustfmt.
+  ;; Consider looking into if there is a clean way to get this from rustfmt.
+  (add-hook 'rust-mode-hook (defun --improve-rust-comment-wrapping-default ()
+                             (setq-local fill-column 100))))
 
 ;; ;; Org-mode
 ;; (progn
