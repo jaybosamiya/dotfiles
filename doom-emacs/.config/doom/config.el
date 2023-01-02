@@ -196,8 +196,27 @@
   (use-package! default-text-scale
     :bind (("C-M-=" . default-text-scale-increase)
            ("C-M--" . default-text-scale-decrease)
-           ("C-M-0" . default-text-scale-reset))))
-
+           ("C-M-0" . default-text-scale-reset)))
+  ;; Be able to easily jump over to my servers
+  (map! "<f6>"
+        (defun open-home-on-server ()
+            "Opens up the home directory on a server"
+            (interactive)
+            (defun open-home-on-server--write (file data)
+              (with-temp-file file
+                (prin1 data (current-buffer))))
+            (defun open-home-on-server--read (file)
+              (if (file-exists-p file)
+                  (with-temp-buffer
+                    (insert-file-contents file)
+                    (goto-char (point-min))
+                    (read (current-buffer)))
+                nil))
+            (let* ((history-path "~/.emacs.d/.local/servers_accessed.txt")
+                   (serv-history-list (open-home-on-server--read history-path))
+                   (serv-name (ido-completing-read "Server: " serv-history-list)))
+              (open-home-on-server--write history-path (cons serv-name (remove serv-name serv-history-list)))
+              (dired (concat "/sshx:" serv-name ":~"))))))
 
 ;; Set up for LSP mode across all languages.
 (progn
