@@ -44,6 +44,19 @@
 ;; + (Maybe) Enable line numbers everywhere, rather than just the selective
 ;;   places it tends to right now
 ;;
+;; + Look over my older MacOS-specific customizations, and see how many, if any,
+;;   need to be translated and moved here.
+;;
+;; + Migrate my old TeX/LaTeX/AucTeX config.
+;;
+;; + Migrate my old Python config.
+;;
+;; + Migrate my old Org config.
+;;
+;; + Migrate my old magit config.
+;;
+;; + Consider introducing elmacro?
+;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
