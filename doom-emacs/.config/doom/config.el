@@ -238,4 +238,9 @@
 ;;    doom module sets the `uniquify-buffer-name-style' to `nil'. However, this
 ;;    means if we visit two files with the same name, we end up with the ugly
 ;;    <1>, <2>, ... garbage, rather than the much nicer defaults that we should
-;;    have.
+;;    have. Also, `persp-mode' means that `C-x b' doesn't work as nicely as I'd
+;;    like (in particular, buffers like `*scratch*' and `*Messages*' and such
+;;    just completely disappear). So yeah overall, I've just disabled
+;;    `persp-mode' by disabling `workspaces' module. However, this also means
+;;    all the nicety around reloading sessions is gone. Might be nice to figure
+;;    out how to get that back.
