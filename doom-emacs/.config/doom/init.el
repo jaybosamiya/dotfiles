@@ -191,4 +191,4 @@
 
        :config
        ;;literate
-       (default +bindings +smartparens))
+       (default +bindings +smartparens +no-OS-specific-bindings))

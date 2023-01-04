@@ -44,9 +44,6 @@
 ;; + (Maybe) Enable line numbers everywhere, rather than just the selective
 ;;   places it tends to right now
 ;;
-;; + Look over my older MacOS-specific customizations, and see how many, if any,
-;;   need to be translated and moved here.
-;;
 ;; + Migrate my old TeX/LaTeX/AucTeX config.
 ;;
 ;; + Migrate my old Python config.
@@ -63,6 +60,80 @@
 ;; Identification, used in some situations like Emacs/GPG/...
 (setq user-full-name "Jay Bosamiya"
       user-mail-address "doomemacsconfig@jaybosamiya.com")
+
+;; MacOS specific overrides
+;;
+;; Hopefully at some point
+;; https://github.com/jaybosamiya/doomemacs/tree/allow-disabling-os-specific-keybindings
+;; will be merged (https://github.com/doomemacs/doomemacs/pull/7027), which
+;; allows disabling all the MacOS-specific keybindings that `default` adds
+;; otherwise. Until that point, on MacOS, I need to stay on my fork of
+;; doomemacs for this config to really be usable.
+(when IS-MAC
+  ;; mac-* variables are used by the special emacs-mac build of Emacs by
+  ;; Yamamoto Mitsuharu, while other builds use ns-*.
+  (setq mac-command-modifier      'meta
+        ns-command-modifier       'meta
+        mac-option-modifier       'super
+        ns-option-modifier        'super
+        mac-control-modifier      'control
+        ns-control-modifier       'control
+        ;; Free up the right option for character composition
+        mac-right-option-modifier 'none
+        ns-right-option-modifier  'none)
+
+  ;; MacOS-specific keybindings to make faster movements match with rest of
+  ;; system. Ctrl-Movements however unfortunately are captured by the OS and end
+  ;; up not being passed to Emacs. Weirdly though, setting up the Super-*
+  ;; versions of these seems to give back control over the Ctrl-* versions.
+  (map! "s-<right>" #'right-word
+        "s-<left>" #'left-word
+        "s-<up>" #'backward-paragraph
+        "s-<down>" #'forward-paragraph
+        "s-<backspace>" #'backward-kill-word)
+
+  ;; Unset left/right two-finger swipes, otherwise Emacs on MacOS
+  ;; decides to switch buffers when you do it which is quite unsettling.
+  (map! "<swipe-left>" nil
+        "<swipe-right>" nil)
+
+  ;; Enable font ligatures on MacOS
+  (mac-auto-operator-composition-mode t)
+
+  ;; Add a convenience variant of `toggle-frame-fullscreen` that takes into
+  ;; account the notch on the Mac
+  (map! "M-<f11>"
+        (defun toggle-frame-fullscreen-accounting-for-notch (&optional frame)
+          "Toggle fullscreen state of FRAME.
+Modified from original code in frame.el, replacing 'fullboth with 'fullscreen
+because otherwise on MacOS, it expands too far and overflows into the notch."
+          (interactive)
+          (let ((fullscreen (frame-parameter frame 'fullscreen)))
+            (if (memq fullscreen '(fullscreen fullboth))
+                (let ((fullscreen-restore (frame-parameter frame 'fullscreen-restore)))
+                  (if (memq fullscreen-restore '(maximized fullheight fullwidth))
+                      (set-frame-parameter frame 'fullscreen fullscreen-restore)
+                    (set-frame-parameter frame 'fullscreen nil)))
+              (modify-frame-parameters
+               frame `((fullscreen . fullscreen) (fullscreen-restore . ,fullscreen))))
+            ;; Manipulating a frame without waiting for the fullscreen
+            ;; animation to complete can cause a crash, or other unexpected
+            ;; behavior, on macOS (bug#28496).
+            (when (featurep 'cocoa) (sleep-for 0.5)))))
+
+  ;; Notes on setup for other programs on MacOS:
+  ;;
+  ;;   SyncTex support for Skim
+  ;;
+  ;;     Make sure `emacsclient` is on the PATH
+  ;;
+  ;;        /usr/local/bin/emacsclient -> /Applications/Emacs.app/Contents/MacOS/bin/emacsclient
+  ;;
+  ;;     and synctex is enabled in Skim with default Emacs settings.
+  ;;     Cmd-Shift-Click should then just work to jump from Skim to Emacs.
+  ;;
+  ;;     TODO: Add support for forward search from emacs to skim
+  )
 
 ;; Visual niceties
 (progn
