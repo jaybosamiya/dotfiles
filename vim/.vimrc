@@ -24,3 +24,6 @@ set incsearch          " Incremental search
 :noremap <C-e> <End>
 :inoremap <C-a> <Home>
 :inoremap <C-e> <End>
+
+" Enable hybrid line numbers (absolute and relative)
+:set number relativenumber
