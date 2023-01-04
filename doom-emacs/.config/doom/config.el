@@ -81,7 +81,10 @@
         ;; Free up the right option for character composition
         mac-right-option-modifier 'none
         ns-right-option-modifier  'none)
-
+  ;; Doom Emacs seems to disable smooth scrolling due to "perf reasons" or some
+  ;; such. I haven't found performance problems, so why not re-enable smooth
+  ;; scrolling. :)
+  (setq mac-mouse-wheel-smooth-scroll t)
   ;; MacOS-specific keybindings to make faster movements match with rest of
   ;; system. Ctrl-Movements however unfortunately are captured by the OS and end
   ;; up not being passed to Emacs. Weirdly though, setting up the Super-*
@@ -91,15 +94,12 @@
         "s-<up>" #'backward-paragraph
         "s-<down>" #'forward-paragraph
         "s-<backspace>" #'backward-kill-word)
-
   ;; Unset left/right two-finger swipes, otherwise Emacs on MacOS
   ;; decides to switch buffers when you do it which is quite unsettling.
   (map! "<swipe-left>" nil
         "<swipe-right>" nil)
-
   ;; Enable font ligatures on MacOS
   (mac-auto-operator-composition-mode t)
-
   ;; Add a convenience variant of `toggle-frame-fullscreen` that takes into
   ;; account the notch on the Mac
   (map! "M-<f11>"
