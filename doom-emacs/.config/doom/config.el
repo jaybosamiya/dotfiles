@@ -285,6 +285,9 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
     :bind (("C-M-=" . default-text-scale-increase)
            ("C-M--" . default-text-scale-decrease)
            ("C-M-0" . default-text-scale-reset)))
+  ;; Use dired even for `C-x C-d` (otherwise `ido-list-directory') which is easy
+  ;; to accidentally hit when trying to do `C-x d`.
+  (map! (:after ido "C-x C-d" #'ido-dired))
   ;; Be able to easily jump over to my servers
   (map! "<f6>"
         (defun open-home-on-server ()
