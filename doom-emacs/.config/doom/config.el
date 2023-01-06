@@ -308,6 +308,9 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
                    (serv-name (ido-completing-read "Server: " serv-history-list)))
               (open-home-on-server--write history-path (cons serv-name (remove serv-name serv-history-list)))
               (dired (concat "/sshx:" serv-name ":~")))))
+  ;; Allow `C-x n n` without the irritating warning about it being an advanced
+  ;; command that confuses folks.
+  (put 'narrow-to-region 'disabled nil)
   ;; Conveniently grab the selected part of the file into a separate indirect
   ;; read-only buffer.
   (map! "C-<f7>"
