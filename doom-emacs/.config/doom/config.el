@@ -416,6 +416,9 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
 ;; Improve horizontal scrolling behavior, preventing the buffer from scrolling
 ;; right any further than the longest line would let it, using code from
 ;; https://andreyorst.gitlab.io/posts/2022-07-20-limiting-horizontal-scroll-in-emacs/
+;;
+;; Additionally, it adds an advice to `M-q` to automatically make it scroll
+;; horizontally again.
 (progn
   (defun truncated-lines-p ()
     "Non-nil if any line is longer than `window-width' + `window-hscroll'.
@@ -461,4 +464,9 @@ Based on `so-long-detected-long-line-p'."
   (define-advice scroll-left (:before-while (&rest _) prevent-overscroll)
     (and truncate-lines
          (not (memq major-mode '(vterm-mode term-mode)))
-         (truncated-lines-p))))
+         (truncated-lines-p)))
+  (define-advice fill-paragraph (:after (&rest _) scroll-back)
+    ;; `scroll-right' moves us to the left edge of the screen, the argument is
+    ;; number of columns; it'll never over-scroll, so we just pick a
+    ;; sufficiently large number, and that'll force it to get to the left edge.
+    (scroll-right 100000)))
