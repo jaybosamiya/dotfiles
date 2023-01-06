@@ -330,6 +330,15 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
               (use-local-map (copy-keymap (car (current-active-maps))))
               (local-set-key (kbd "q") 'kill-this-buffer))))))
 
+;; Enable hi-lock-mode globally, since it is ridiculously useful to be able to
+;; do custom highlighting within a single file, to keep track of (say)
+;; variables. Also super useful for reverse-engineering.
+;;
+;; All the keybindings show up within the namespace `C-x w`, with the most
+;; useful ones being `C-x w h` and `C-x w r` to highlight and reset. `C-x w b`
+;; to persist them to the file (adds comments to the file).
+(global-hi-lock-mode 1)
+
 ;; Set up for LSP mode across all languages.
 (progn
   ;; Disable the annoying symbol-highlighting that LSP does by default
