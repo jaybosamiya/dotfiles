@@ -54,6 +54,8 @@
 ;;
 ;; + Consider introducing elmacro?
 ;;
+;; + Fix show-paren highlighting behavior. Search for `show-paren-match' below.
+;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -157,7 +159,16 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
   (setq display-line-numbers-type t)
   ;; Add search counters to the modeline
   (use-package! anzu
-    :init (global-anzu-mode +1)))
+    :init (global-anzu-mode +1))
+  ;; Set up more subtle visuals for matching parentheses, by simply
+  ;; maximum-bolding them.
+  ;;
+  ;; TODO: Figure out why this doesn't seem to work when a new Emacs instance
+  ;; begins. Likely some hook I need to wait for?
+  (after! paren
+    (set-face-background 'show-paren-match (face-background 'default))
+    (set-face-foreground 'show-paren-match nil)
+    (set-face-attribute 'show-paren-match nil :weight 'black)))
 
 ;; Disabling things from Doom Emacs, where I prefer Vanilla Emacs instead.
 (progn
@@ -195,7 +206,9 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
   ;; clipboard
   (setq save-interprogram-paste-before-kill t)
   ;; Make sure the mouse yanking pastes at point instead of at click
-  (setq mouse-yank-at-point t))
+  (setq mouse-yank-at-point t)
+  ;; Don't highlight parentheses when immediately inside an open/close pair.
+  (after! paren (setq show-paren-when-point-inside-paren nil)))
 
 ;; Useful (and imho, somewhat essential) global keybindings
 (progn
