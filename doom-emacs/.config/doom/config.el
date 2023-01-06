@@ -342,15 +342,17 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
 ;; respectively. Not quite sure why both versions exist.
 (progn
   (global-hi-lock-mode 1)
-  (map! "C-x w W" (defun highlight-region (start end)
+  (map! "C-x w w" (defun highlight-region (start end)
                     "Highlight the currently selected region"
                     (interactive "r")
                     (deactivate-mark)
                     (highlight-regexp
                      (regexp-quote (buffer-substring start end))
                      (hi-lock-read-face-name)))
-        "C-x w w" (defun highlight-region-symbol (start end)
+        "C-x w s" (defun highlight-region-symbol (start end)
                     "Highlight the currently selected symbol"
+                    ;; TODO: Improve this behavior to automatically pick up the
+                    ;; symbol without needing to manually specify it.
                     (interactive "r")
                     (deactivate-mark)
                     (highlight-regexp
