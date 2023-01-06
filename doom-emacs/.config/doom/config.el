@@ -337,7 +337,25 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
 ;; All the keybindings show up within the namespace `C-x w`, with the most
 ;; useful ones being `C-x w h` and `C-x w r` to highlight and reset. `C-x w b`
 ;; to persist them to the file (adds comments to the file).
-(global-hi-lock-mode 1)
+;;
+;; Note: alternatively `M-s h r`, `M-s h u`, and `M-s h w` are equivalent,
+;; respectively. Not quite sure why both versions exist.
+(progn
+  (global-hi-lock-mode 1)
+  (map! "C-x w W" (defun highlight-region (start end)
+                    "Highlight the currently selected region"
+                    (interactive "r")
+                    (deactivate-mark)
+                    (highlight-regexp
+                     (regexp-quote (buffer-substring start end))
+                     (hi-lock-read-face-name)))
+        "C-x w w" (defun highlight-region-symbol (start end)
+                    "Highlight the currently selected symbol"
+                    (interactive "r")
+                    (deactivate-mark)
+                    (highlight-regexp
+                     (concat "\\_<" (regexp-quote (buffer-substring start end)) "\\_>")
+                     (hi-lock-read-face-name)))))
 
 ;; Set up for LSP mode across all languages.
 (progn
