@@ -188,6 +188,8 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
   ;; do this. See
   ;; https://github.com/doomemacs/doomemacs/blob/35865ef5e89442e3809b8095199977053dd4210f/docs/faq.org#how-to-disable-smartparensautomatic-parentheses-completion
   (remove-hook 'doom-first-buffer-hook #'smartparens-global-mode)
+  ;; Disable doom-emacs's default behavior of omitting files in dired.
+  (remove-hook 'dired-mode-hook #'dired-omit-mode)
   ;; Switch to default backspace behavior, rather than deleting upto previous
   ;; tab-width (and doing other shenanigans when in smartparens mode, but since we
   ;; have smartparens disabled, that bit is not particularly important; just the
