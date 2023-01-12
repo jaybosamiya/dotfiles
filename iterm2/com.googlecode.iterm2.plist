@@ -181,6 +181,10 @@ Alternate Screen</string>
 	</dict>
 	<key>HapticFeedbackForEsc</key>
 	<false/>
+	<key>HideFromDockAndAppSwitcher</key>
+	<true/>
+	<key>HideMenuBarInFullscreen</key>
+	<false/>
 	<key>HotkeyMigratedFromSingleToMulti</key>
 	<true/>
 	<key>Mark Alert Action</key>
@@ -1656,6 +1660,8 @@ Alternate Screen</string>
 	<integer>0</integer>
 	<key>TimeBetweenTips</key>
 	<real>604800</real>
+	<key>UIElementRequiresHotkeys</key>
+	<true/>
 	<key>VisualIndicatorForEsc</key>
 	<false/>
 	<key>disableMetalWhenUnplugged</key>
