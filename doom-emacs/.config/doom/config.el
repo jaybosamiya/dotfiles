@@ -245,6 +245,18 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
   ;; complete keybinding.
   (use-package! iedit
     :bind ("C-;" . iedit-mode))
+  ;; Add a convenience command that saves verbatim, without running any hooks
+  ;; that might modify the buffer (such as reformatting). Inspired by
+  ;; https://stackoverflow.com/questions/14913398/in-emacs-how-do-i-save-without-running-save-hooks
+  (map! "C-x C-S-s"
+        (defun save-buffer-while-read-only ()
+          "Save file \"as is\", temporarily toggling it into read-only mode if necessary."
+          (interactive)
+          (if buffer-read-only
+              (save-buffer)
+            (read-only-mode 1)
+            (save-buffer)
+            (read-only-mode 0))))
   ;; Allow fast and convenient traveling from one location to another on the
   ;; screen using avy.
   (use-package! avy
