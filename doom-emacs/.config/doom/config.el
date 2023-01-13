@@ -413,7 +413,9 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
         ;; between 2018 and 2021 are practically the same, so let's
         ;; just use 2021 everywhere, until I figure out a clean way to
         ;; get the edition from the nearest `Cargo.toml`.
-        rustic-rustfmt-args "--edition 2021")
+        rustic-rustfmt-args "--edition 2021"
+        ;; Don't display the rustfmt buffer if/when there are errors.
+        rustic-format-display-method #'ignore)
   ;; Enable/disable specific hints
   (setq lsp-rust-analyzer-server-display-inlay-hints t
         lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial"
