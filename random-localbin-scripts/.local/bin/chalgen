@@ -2,6 +2,7 @@
 
 from string import ascii_letters, digits
 import os
+from glob import glob
 
 chalname = input('Challenge name? ').strip().lower().replace(' ', '_')
 chalname = ''.join(x if x in ascii_letters or x in digits else '_' for x in chalname)
@@ -23,6 +24,12 @@ print('Cleaning up and moving stuff around')
 os.system(f'rename "s/\?.*//" {chalname}/files/*')
 
 os.system(f'cp -r {chalname}/files {chalname}/solv')
+os.system(f'rm {chalname}/solv/README-challenge-description.md')
+
+for ext in ['tar', 'tar.gz', 'tar.xz']:
+    for f in glob(f'{chalname}/solv/*.{ext}'):
+        ff = f.split('/')[-1]
+        os.system(f'cd {chalname}/solv && tar xvf "{ff}" && rm "{ff}" && cd ..')
 
 print('DONE. Now just run')
 print(f' cd {chalname}/solv')
