@@ -22,6 +22,14 @@
 
 (package! rg)
 
+;; Allow conveniently patching pre-existing things, when advices don't work too
+;; well. This package keeps track of the old version too, so that we can run
+;; `M-x el-patch-validate-all` (or `M-x el-patch-validate` which will let you
+;; check any one interactively), to make sure that expectations are met. If
+;; there is indeed a difference that shows up, you can visualize it using Ediff
+;; with `M-x el-patch-ediff-conflict`.
+(package! el-patch)
+
 ;; Use the "suggest" package to easily find elisp functions via pairs of inputs
 ;; and outputs.
 (package! suggest)

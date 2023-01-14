@@ -199,7 +199,29 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
   ;; happens in IDO due to doom's `ido' package setting up a binding for tilde,
   ;; switch back to IDO's defaults for it, which is "do nothing" and then the
   ;; "/" causes it to actually apply the "$HOME" as expected.
-  (map! (:after ido (:map ido-file-completion-map "~" nil))))
+  (map! (:after ido (:map ido-file-completion-map "~" nil)))
+  ;; Disable the thing that DoomEmacs does, where `C-g' does not abort the macro.
+  ;; I like aborting macros with `C-g'. Use `el-patch' to patch it so that in the
+  ;; future, if/when DoomEmacs changes things there, I'll know soon and can fix it
+  ;; easily.
+  (el-patch-defun doom/escape (&optional interactive)
+    "Run `doom-escape-hook'."
+    (interactive (list 'interactive))
+    (cond ((minibuffer-window-active-p (minibuffer-window))
+           ;; quit the minibuffer if open.
+           (when interactive
+             (setq this-command 'abort-recursive-edit))
+           (abort-recursive-edit))
+          ;; Run all escape hooks. If any returns non-nil, then stop there.
+          ((run-hook-with-args-until-success 'doom-escape-hook))
+          (el-patch-remove
+            ;;;; PATCH: Do actually abort macros
+            ;; don't abort macros
+            ((or defining-kbd-macro executing-kbd-macro) nil))
+          ;; Back to the default
+          ((unwind-protect (keyboard-quit)
+             (when interactive
+               (setq this-command 'keyboard-quit)))))))
 
 ;; Sensible defaults, that I believe should be enabled no matter what.
 (progn
