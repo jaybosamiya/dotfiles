@@ -8,5 +8,11 @@
     },
     "editor.fontFamily": "Iosevka Nerd Font",
     "editor.fontLigatures": true,
-    "workbench.editor.untitled.hint": "hidden"
+    "workbench.editor.untitled.hint": "hidden",
+    "ruff.showNotifications": "onError",
+    "editor.rulers": [
+        80, 120
+    ],
+    "emmet.showExpandedAbbreviation": "never",
+    "editor.stickyScroll.enabled": true
 }
