@@ -107,7 +107,7 @@ alias twitch-dl="youtube-dl -o '%(id)s-%(title)s.%(ext)s'"
 
 case "$OSTYPE" in
   darwin*)
-    alias ls='ls -h -G' # Human readable file sizes, and color :)
+    alias ls='ls -h -G --color=auto' # Human readable file sizes, and color :)
   ;;
   linux*)
     alias ls='ls -h --color=tty' # Human readable file sizes, and color :)
