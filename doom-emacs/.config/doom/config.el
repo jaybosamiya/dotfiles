@@ -521,3 +521,11 @@ Based on `so-long-detected-long-line-p'."
     ;; number of columns; it'll never over-scroll, so we just pick a
     ;; sufficiently large number, and that'll force it to get to the left edge.
     (scroll-right 100000)))
+
+;; Accept completion from copilot and fallback to company. Restricted to just
+;; Python code.
+(use-package! copilot
+  :hook (python-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("C-S-<tab>" . 'copilot-accept-completion-by-word)
+              ("C-<tab>" . 'copilot-accept-completion)))
