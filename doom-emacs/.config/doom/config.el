@@ -520,6 +520,8 @@ Based on `so-long-detected-long-line-p'."
     ;; `scroll-right' moves us to the left edge of the screen, the argument is
     ;; number of columns; it'll never over-scroll, so we just pick a
     ;; sufficiently large number, and that'll force it to get to the left edge.
+    (scroll-right 100000))
+  (define-advice move-beginning-of-line (:after (&rest _) scroll-back)
     (scroll-right 100000)))
 
 ;; Accept completion from copilot and fallback to company. Restricted to just
