@@ -19,3 +19,13 @@ git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.emacs.d
 
 Whenever changes are made to `~/.doom.d`, run `doom sync` and restart Emacs
 (`C-c q r`). Run `doom upgrade` to update Doom itself.
+
+If you end up with a blank screen, it is likely due to missing fonts (try 
+`emacs --debug-init` to confirm). If so, run this:
+
+```sh
+wget https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Iosevka.zip
+unzip Iosevka.zip
+mv Iosevka*.ttf ~/.local/share/fonts/
+fc-cache --force --verbose
+```
