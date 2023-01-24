@@ -236,6 +236,8 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
 
 ;; Useful (and imho, somewhat essential) global keybindings
 (progn
+  ;; F5 should toggle line wrapping
+  (map! "<f5>" #'visual-line-mode)
   ;; Use the default M-<left>, M-<right>,... bindings to move across the screen.
   (use-package! windmove
     :init
