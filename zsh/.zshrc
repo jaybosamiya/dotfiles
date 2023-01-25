@@ -41,6 +41,12 @@ if [[ "$HOST" == "Valhalla" ]]; then
     alias screenperm='sudo /etc/init.d/screen-cleanup start' # Needed for WSL2 when `screen` gives the "Cannot make directory '/run/screen': Permission denied" error
 fi
 
+# Make it easy to clear out any existing open SSH sockets
+function ssh-clear {
+    # Ask for confirmation on each file in ~/.ssh/*.sock
+    rm -i ~/.ssh/*.sock
+}
+
 # A convenience function that is both `cat` and `ls`, based upon what is being looked at
 function c {
     if [ "$1" = "-l" ]; then
