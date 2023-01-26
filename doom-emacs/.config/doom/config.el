@@ -36,11 +36,6 @@
 ;;   it back. Relevant portion, search for `ido-file-completion-map' in
 ;;   `ido/config.el'
 ;;
-;; + `doom-snippets' appears to break stuff if you don't have it enabled
-;;   initially, before ignoring it in `./packages.el`. Weirdly, completely
-;;   clearing out `~/.emacs.d` and reinstalling Doom Emacs seems to have done
-;;   the trick though.
-;;
 ;; + (Maybe) Enable line numbers everywhere, rather than just the selective
 ;;   places it tends to right now
 ;;
@@ -221,7 +216,15 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
           ;; Back to the default
           ((unwind-protect (keyboard-quit)
              (when interactive
-               (setq this-command 'keyboard-quit)))))))
+               (setq this-command 'keyboard-quit))))))
+  ;; `doom-snippets' is annoying and breaks so much stuff, but disabling it directly doesn't really work, so instead what we've got to do is to patch out doom-snippets.
+  (el-patch-defun doom-snippets-initialize ()
+    (el-patch-remove
+      "Add `doom-snippets-dir' to `yas-snippet-dirs', replacing the default
+yasnippet directory."
+      (setq yas-wrap-around-region nil)
+      (add-to-list 'yas-snippet-dirs 'doom-snippets-dir)
+      (yas-load-directory doom-snippets-dir t))))
 
 ;; Sensible defaults, that I believe should be enabled no matter what.
 (progn

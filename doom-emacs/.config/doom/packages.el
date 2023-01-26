@@ -12,9 +12,6 @@
 
 (package! zygospore)
 
-;; Disable the default built-in doom snippets
-(package! doom-snippets :ignore t)
-
 (package! framemove)
 (package! buffer-move)
 
