@@ -529,10 +529,19 @@ Based on `so-long-detected-long-line-p'."
   (define-advice move-beginning-of-line (:after (&rest _) scroll-back)
     (scroll-right 100000)))
 
-;; Accept completion from copilot and fallback to company. Restricted to just
-;; Python code.
+;; Set up copilot-based completions.
 (use-package! copilot
+  ;; Run only when `node` is installed on the system.
+  :when (executable-find "node")
+  ;; Currently, only run in `python-mode' buffers automatically. Require
+  ;; manually invoking in other buffers.
   :hook (python-mode . copilot-mode)
+  ;; By default, "f2" is bound to two-column mode, which I don't use. Override
+  ;; it so that I can easily access copilot-mode.
+  :bind ("<f2>" . 'copilot-mode)
+  ;; Accept completions with control+tab and control+shift+tab. This only runs
+  ;; if a completion overlay is active, which means that it won't interfere with
+  ;; existing keybindings.
   :bind (:map copilot-completion-map
               ("C-S-<tab>" . 'copilot-accept-completion-by-word)
               ("C-<tab>" . 'copilot-accept-completion)))
