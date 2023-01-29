@@ -241,6 +241,14 @@ yasnippet directory."
 (progn
   ;; F5 should toggle line wrapping
   (map! "<f5>" #'visual-line-mode)
+  ;; F8 lets you toggle between different tab widths, to make it easier to view
+  ;; files that use tabs.
+  (map! "<f8>" (defun cycle-tab-widths ()
+                 (interactive)
+                 (let ((tab-widths '(2 4 8)))
+                   (setq tab-width
+                         (car (or (cdr (member tab-width tab-widths)) tab-widths)))
+                   (message "Tab width set to %d" tab-width))))
   ;; Use the default M-<left>, M-<right>,... bindings to move across the screen.
   (use-package! windmove
     :init
