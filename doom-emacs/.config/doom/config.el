@@ -283,15 +283,26 @@ yasnippet directory."
   ;; Add a convenience command that saves verbatim, without running any hooks
   ;; that might modify the buffer (such as reformatting). Inspired by
   ;; https://stackoverflow.com/questions/14913398/in-emacs-how-do-i-save-without-running-save-hooks
-  (map! "C-x C-S-s"
-        (defun save-buffer-while-read-only ()
-          "Save file \"as is\", temporarily toggling it into read-only mode if necessary."
-          (interactive)
-          (if buffer-read-only
-              (save-buffer)
-            (read-only-mode 1)
-            (save-buffer)
-            (read-only-mode 0))))
+  (progn
+    (defun save-buffer-while-read-only ()
+      "Save file \"as is\", temporarily toggling it into read-only mode if necessary."
+      (interactive)
+      (if buffer-read-only
+          (save-buffer)
+        (read-only-mode 1)
+        (save-buffer)
+        (read-only-mode 0)))
+    (map! "C-x C-S-s"
+          (defun toggle-save-buffer-while-readonly ()
+            ;; Swap C-x C-s between `save-buffer' and `save-buffer-while-read-only'
+            (interactive)
+            (if (eq (key-binding (kbd "C-x C-s")) 'save-buffer)
+                (progn
+                  (map! "C-x C-s" #'save-buffer-while-read-only)
+                  (message "C-x C-s now saves verbatim"))
+              (progn
+                (map! "C-x C-s" #'save-buffer)
+                (message "C-x C-s now saves normally"))))))
   ;; Allow fast and convenient traveling from one location to another on the
   ;; screen using avy.
   (use-package! avy
