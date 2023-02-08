@@ -217,14 +217,11 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
           ((unwind-protect (keyboard-quit)
              (when interactive
                (setq this-command 'keyboard-quit))))))
-  ;; `doom-snippets' is annoying and breaks so much stuff, but disabling it directly doesn't really work, so instead what we've got to do is to patch out doom-snippets.
-  (el-patch-defun doom-snippets-initialize ()
-    (el-patch-remove
-      "Add `doom-snippets-dir' to `yas-snippet-dirs', replacing the default
-yasnippet directory."
-      (setq yas-wrap-around-region nil)
-      (add-to-list 'yas-snippet-dirs 'doom-snippets-dir)
-      (yas-load-directory doom-snippets-dir t))))
+  ;; `doom-snippets' is annoying and breaks so much stuff, but disabling it
+  ;; directly doesn't really work, so instead what we've got to do replace out
+  ;; the snippets directory with the regular snippets dir, so that when it
+  ;; loads, it will just re-load our regular stuff.
+  (setq doom-snippets-dir +snippets-dir))
 
 ;; Sensible defaults, that I believe should be enabled no matter what.
 (progn
