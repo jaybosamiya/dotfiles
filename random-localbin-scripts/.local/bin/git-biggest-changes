@@ -1,0 +1,88 @@
+#!/usr/bin/env python3
+
+from subprocess import check_output
+from re import match
+from typing import Optional
+import argparse
+
+
+def get_changes():
+    output = check_output(["git", "log", "--oneline", "--shortstat"])
+    output = output.decode("utf-8")
+
+    lines = output.strip().split("\n")
+
+    changes = []
+    latest: Optional[str] = None
+    for line in lines:
+        if line.startswith(" "):
+            # Make each portion of this regex optional:
+            if "files changed" in line:
+                m = match(r".* (\d+) files changed", line)
+                assert m is not None
+                files = int(m.group(1))
+            else:
+                files = 0
+            if "insertions" in line:
+                m = match(r".* (\d+) insertions", line)
+                assert m is not None
+                insertions = int(m.group(1))
+            else:
+                insertions = 0
+            if "deletions" in line:
+                m = match(r".* (\d+) deletions", line)
+                assert m is not None
+                deletions = int(m.group(1))
+            else:
+                deletions = 0
+            changes.append(
+                {
+                    "commit": latest,
+                    "files": files,
+                    "insertions": insertions,
+                    "deletions": deletions,
+                }
+            )
+            latest = None
+        else:
+            if latest is None or latest.split(" ")[1] == "Merge":
+                latest = line
+            else:
+                assert latest is not None
+                print("[ERROR] Unexpected line: {}".format(line))
+
+    return changes
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "sort",
+        choices=["files", "insertions", "deletions"],
+        help="Sort by this field",
+    )
+    parser.add_argument(
+        "--limit",
+        type=int,
+        default=10,
+        help="Limit the number of results to this number",
+    )
+    args = parser.parse_args()
+
+    changes = get_changes()
+    changes.sort(key=lambda x: x[args.sort], reverse=True)
+    for change in changes[: args.limit]:
+        change[args.sort] = "\033[31m{}\033[0m".format(change[args.sort])
+        print(
+            "\033[32m{}\033[0m {}\n {} files, {} insertions, {} deletions\n".format(
+                change["commit"].split(" ")[0],
+                " ".join(change["commit"].split(" ")[1:]),
+                change["files"],
+                change["insertions"],
+                change["deletions"],
+            )
+        )
+
+
+if __name__ == "__main__":
+    main()
