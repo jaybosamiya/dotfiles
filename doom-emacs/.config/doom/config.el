@@ -232,7 +232,10 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
   ;; Make sure the mouse yanking pastes at point instead of at click
   (setq mouse-yank-at-point t)
   ;; Don't highlight parentheses when immediately inside an open/close pair.
-  (after! paren (setq show-paren-when-point-inside-paren nil)))
+  (after! paren (setq show-paren-when-point-inside-paren nil))
+  ;; Restrict yasnippet expansion to only happen when the last letter of the
+  ;; snippet tab trigger was typed immediately before the trigger key itself.
+  (setq yas-expand-only-for-last-commands '(self-insert-command)))
 
 ;; Useful (and imho, somewhat essential) global keybindings
 (progn
