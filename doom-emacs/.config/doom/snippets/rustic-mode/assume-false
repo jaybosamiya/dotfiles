@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: assume-false
+# key: assf
+# --
+assume(false);
