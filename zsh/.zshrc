@@ -7,7 +7,7 @@
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+    source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
 # Actually enable direnv
@@ -68,21 +68,25 @@ function c {
     fi
 }
 
-function rg() {
-    if [ -t 1 ]; then
-        command rg -p "$@" | less -RFX
-    else
-        command rg "$@"
-    fi
-}
+if command -v rg >/dev/null; then
+    function rg() {
+        if [ -t 1 ]; then
+            command rg -p "$@" | less -RFX
+        else
+            command rg "$@"
+        fi
+    }
+fi
 
-function phd() {
-    if [ -t 1 ]; then
-        command phd --color=always "$@" | less -RFX
-    else
-        command phd "$@"
-    fi
-}
+if command -v phd >/dev/null; then
+    function phd() {
+        if [ -t 1 ]; then
+            command phd --color=always "$@" | less -RFX
+        else
+            command phd "$@"
+        fi
+    }
+fi
 
 # Replace `cat` with `bat` when available
 if command -v bat >/dev/null; then alias cat=bat; fi
@@ -108,21 +112,24 @@ if command -v delta >/dev/null; then
     }
 fi
 
-alias music-dl='youtube-dl --audio-format=mp3 --extract-audio --metadata-from-title "%(artist)s - %(title)s"'
-alias twitch-dl="youtube-dl -o '%(id)s-%(title)s.%(ext)s'"
+if command -v youtube-dl >/dev/null; then
+    alias music-dl='youtube-dl --audio-format=mp3 --extract-audio --metadata-from-title "%(artist)s - %(title)s"'
+    alias twitch-dl="youtube-dl -o '%(id)s-%(title)s.%(ext)s'"
+fi
 
 case "$OSTYPE" in
-  darwin*)
-    alias ls='ls -h -G --color=auto' # Human readable file sizes, and color :)
-  ;;
-  linux*)
-    alias ls='ls -h --color=tty' # Human readable file sizes, and color :)
-  ;;
-  *)
-    echo "Unknown OS type $OSTYPE"
-  ;;
+    darwin*)
+        alias ls='ls -h -G --color=auto' # Human readable file sizes, and color :)
+        ;;
+    linux*)
+        alias ls='ls -h --color=tty' # Human readable file sizes, and color :)
+        ;;
+    *)
+        echo "Unknown OS type $OSTYPE"
+        ;;
 esac
 
+# Convenience function to enable coredumps
 case "$OSTYPE" in
     darwin*)
         function enable_coredumps() {
@@ -164,15 +171,17 @@ case "$OSTYPE" in
         ;;
 esac
 
-alias gdb='gdb -q'
-alias peda='gdb -q -ex peda'
-alias pwngdb='gdb -q -ex pwngdb'
-alias pwndbg='gdb -q -ex pwndbg'
-alias gef='gdb -q -ex gef'
+if command -v gdb >/dev/null; then
+    alias gdb='gdb -q'
+    alias peda='gdb -q -ex peda'
+    alias pwngdb='gdb -q -ex pwngdb'
+    alias pwndbg='gdb -q -ex pwndbg'
+    alias gef='gdb -q -ex gef'
+fi
 
-alias uniquify='awk '"'"'!_[$0]++'"'" # Equivalent to uniq, but preserves order
-
-alias dockerubuntu='docker run --rm -it -v "$(pwd):/connect" --cap-add=SYS_PTRACE ubuntu' # Runs a docker container in current spot, and connects it to /connect ; enables ptrace
+if command -v docker >/dev/null; then
+    alias dockerubuntu='docker run --rm -it -v "$(pwd):/connect" --cap-add=SYS_PTRACE ubuntu' # Runs a docker container in current spot, and connects it to /connect ; enables ptrace
+fi
 # limactl allows nice management of nerdctl docker-like instances
 # across different archs on a Mac.
 #
@@ -181,17 +190,23 @@ alias dockerubuntu='docker run --rm -it -v "$(pwd):/connect" --cap-add=SYS_PTRAC
 # The `--cap-add=SYS_PTRACE` allows ptrace, thereby allowing GDB.  The
 # `--security-opt seccomp=unconfined` is to allow disabling ASLR
 # within GDB.
-alias limax86='limactl shell x86instance nerdctl run --rm -it --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -v "$(pwd):/connect"'
-alias limaarm='limactl shell default nerdctl run --rm -it --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -v "$(pwd):/connect"'
+if command -v limactl >/dev/null; then
+    alias limax86='limactl shell x86instance nerdctl run --rm -it --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -v "$(pwd):/connect"'
+    alias limaarm='limactl shell default nerdctl run --rm -it --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -v "$(pwd):/connect"'
+fi
 
-alias m4b-tool='docker run -it --rm -u $(id -u):$(id -g) -v "$(pwd)":/mnt m4b-tool'
+if command -v fzf >/dev/null; then
+    alias fzf="fzf --layout=reverse-list --multi"
+fi
 
-alias fzf="fzf --layout=reverse-list --multi"
+if command -v apt-mark >/dev/null; then
+    alias manually-installed-to-auto='sudo apt-mark auto'
+fi
 
-alias manually-installed-to-auto='sudo apt-mark auto'
-
-alias record-term='asciinema rec --yes -i 1 --title'
-# TODO: Also look into termtosvg
+if command -v asciinema >/dev/null; then
+    alias record-term='asciinema rec --yes -i 1 --title'
+    # TODO: Also look into termtosvg
+fi
 
 function e() {
     if [ $# = 0 ]; then
@@ -215,11 +230,11 @@ function e() {
     fi
 }
 
-export ALTERNATE_EDITOR='emacs' # Opens emacs if no emacs server is
-				# already started
+export ALTERNATE_EDITOR='emacs' # Opens emacs if no emacs server is already started
 
-alias ncdu='ncdu -rx' # Make ncdu safe (no delete) and fast (don't
-		      # cross FS boundary)
+if command -v ncdu >/dev/null; then
+    alias ncdu='ncdu -rx' # Make ncdu safe (no delete) and fast (don't cross FS boundary)
+fi
 
 case "$OSTYPE" in
     darwin*)
@@ -233,7 +248,9 @@ case "$OSTYPE" in
         ;;
 esac
 
-alias axel='axel -a -n 10'
+if command -v axel >/dev/null; then
+    alias axel='axel -a -n 10'
+fi
 
 # Make things easy to copy over into markdown/slack :)
 function shcopy() {
@@ -246,8 +263,8 @@ $ '
 
 function comment_aux() {
     if [ "$#" -ne 3 ]; then
-	echo "Usage: comment_aux {start} {comment-text} {end}"
-	return 1
+        echo "Usage: comment_aux {start} {comment-text} {end}"
+        return 1
     fi
     figlet "$2" | awk '{print "'$1'" $0 "'$3'"}'
 }
@@ -275,9 +292,9 @@ function waitmake() {
         eden|Valhalla)
             function waitmake() {
                 while true; do
-	            inotifywait -e modify -r .
-	            make "$@"
-	            sleep 0.1
+                    inotifywait -e modify -r .
+                    make "$@"
+                    sleep 0.1
                 done
             }
             waitmake "$@"
@@ -299,35 +316,6 @@ function waitmake() {
     esac
 }
 
-function pdfsmaller() {
-    case $1 in
-	vlow)
-	    SET=screen
-	    ;;
-	low)
-	    SET=ebook
-	    ;;
-	high)
-	    SET=printer
-	    ;;
-	supercolor)
-	    SET=prepress
-	    ;;
-	*)
-	    echo "Usage: "
-	    echo "  $0 [vlow|low|high|supercolor] input.pdf output.pdf"
-	    echo ""
-	    echo "Types:"
-	    echo "  vlow       : 72 dpi images : screen-view-only quality"
-	    echo "  low        : 150 dpi images"
-	    echo "  high       : 300 dpi images"
-	    echo "  supercolor : 300 dpi images : color preserving"
-	    return
-	    ;;
-    esac
-    gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/${SET} -dNOPAUSE -dQUIET -dBATCH -sOutputFile=${3} ${2}
-}
-
 if command -v task >/dev/null; then
     alias t='task'
     alias ta='task add'
@@ -337,7 +325,7 @@ if command -v task >/dev/null; then
     function _tt() {
         task ready 2>/dev/null | \
             awk '$1~/^[0-9]+$/{$1="TODO[" $1 "]"; $2=""; print $0}' | \
-	    rev | awk '{$1=""; print $0}' | rev
+            rev | awk '{$1=""; print $0}' | rev
         # TODO: Use the JSON export and write a nicer output
     }
     function tt() {
@@ -372,8 +360,8 @@ function tempdirnew() {
     DIR="/tmp/tmp.$(date +%F/%H-%M-%S)"
     mkdir -p "$DIR"
     if [ -d /tmp/tempdir ]; then
-	rm -f /tmp/tempdir.old
-	mv /tmp/tempdir /tmp/tempdir.old
+        rm -f /tmp/tempdir.old
+        mv /tmp/tempdir /tmp/tempdir.old
     fi
     ln -s "$DIR" /tmp/tempdir
     cd /tmp/tempdir
@@ -382,29 +370,31 @@ function tempdirnew() {
 # Jump to tempdir
 function tempdir() {
     if [ -d /tmp/tempdir ]; then
-	cd /tmp/tempdir/$@
+        cd /tmp/tempdir/$@
     else
-	tempdirnew
+        tempdirnew
     fi
 }
 
-# Colorized wdiff
-function cwdiff() {
-    wdiff -n -w $'\033[1;31m' -x $'\033[0m' -y $'\033[1;32m' -z $'\033[0m' -s "$1" "$2"
-}
+if command -v wdiff >/dev/null; then
+    # Colorized wdiff
+    function cwdiff() {
+        wdiff -n -w $'\033[1;31m' -x $'\033[0m' -y $'\033[1;32m' -z $'\033[0m' -s "$1" "$2"
+    }
 
-# Compare two texts, and nicely word-diff them
-function 2compare() {
-    A="$(mktemp /tmp/text1.XXXXXX)"
-    B="$(mktemp /tmp/text2.XXXXXX)"
-    echo "Enter text1 (press Enter,Ctrl+D when done):"
-    cat > "$A"
-    echo "Enter text2 (press Enter,Ctrl+D when done):"
-    cat > "$B"
-    echo "Comparing..."
-    cwdiff "$A" "$B"
-    rm -f "$A" "$B"
-}
+    # Compare two texts, and nicely word-diff them
+    function 2compare() {
+        A="$(mktemp /tmp/text1.XXXXXX)"
+        B="$(mktemp /tmp/text2.XXXXXX)"
+        echo "Enter text1 (press Enter,Ctrl+D when done):"
+        cat > "$A"
+        echo "Enter text2 (press Enter,Ctrl+D when done):"
+        cat > "$B"
+        echo "Comparing..."
+        cwdiff "$A" "$B"
+        rm -f "$A" "$B"
+    }
+fi
 
 function duplicate-repo() {
     USAGE="Usage: duplicate-repo {from} {to}"
