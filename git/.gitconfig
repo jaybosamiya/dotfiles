@@ -27,6 +27,8 @@ email = jaybosamiya@gmail.com
 [alias]
     hide = update-index --assume-unchanged
     unhide = update-index --no-assume-unchanged
+    clone-blobless = clone --filter=blob:none
+    clone-treeless = clone --filter=tree:0
 [init]
 	defaultBranch = main
 [url "ssh://git@github.com/"]
