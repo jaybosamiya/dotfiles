@@ -13,7 +13,14 @@
 (package! zygospore)
 
 (package! framemove)
-(package! buffer-move)
+
+(package! buffer-move
+  ;; Turns out
+  ;; https://github.com/lukhas/buffer-move/commit/e7800b3ab1bd76ee475ef35507ec51ecd5a3f065
+  ;; breaks things on recent enough Emacs, see
+  ;; https://github.com/lukhas/buffer-move/issues/18 so until that is fixed, we
+  ;; will stay on an older version.
+  :pin "cb517ecf8409b5fdcda472d7190c6021f0c49751")
 
 (package! default-text-scale)
 
