@@ -438,6 +438,11 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
   (setq-hook! lsp-mode
     lsp-enable-symbol-highlighting nil))
 
+;; Verus language specific things
+(use-package! verus-mode
+  :init (setq verus-home "~/this-sem/verus/verus"
+              verus-analyzer "~/this-sem/verus/rust-analyzer"))
+
 ;; Rust language specific things
 (progn
   ;; Set up Rust-specific keybindings I am used to
