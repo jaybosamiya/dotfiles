@@ -4,32 +4,36 @@ from string import ascii_letters, digits
 import os
 from glob import glob
 
-chalname = input('Challenge name? ').strip().lower().replace(' ', '_')
-chalname = ''.join(x if x in ascii_letters or x in digits else '_' for x in chalname)
+chalname = input("Challenge name? ").strip().lower().replace(" ", "_")
+chalname = "".join(x if x in ascii_letters or x in digits else "_" for x in chalname)
 
 os.mkdir(chalname)
-os.mkdir(chalname + '/files')
+os.mkdir(chalname + "/files")
 
 while True:
-	files = input('URL to relevant files? (empty to stop) ').strip()
-	if len(files) == 0:
-		break
+    files = input("URL to relevant files? (empty to stop) ").strip()
+    if len(files) == 0:
+        break
 
-	os.system(f'curl --output-dir {chalname}/files --remote-name {files}')
+    os.system(f"curl --output-dir {chalname}/files --remote-name {files}")
 
-print('Now jumping into dumping into the README (EOF to stop)')
-os.system(f'cat > {chalname}/files/README-challenge-description.md')
+print("Now jumping into dumping into the README (EOF to stop)")
+os.system(f"cat > {chalname}/files/README-challenge-description.md")
 
-print('Cleaning up and moving stuff around')
+print("Cleaning up and moving stuff around")
 os.system(f'rename "s/\?.*//" {chalname}/files/*')
 
-os.system(f'cp -r {chalname}/files {chalname}/solv')
-os.system(f'rm {chalname}/solv/README-challenge-description.md')
+os.system(f"cp -r {chalname}/files {chalname}/solv")
+os.system(f"rm {chalname}/solv/README-challenge-description.md")
 
-for ext in ['tar', 'tar.gz', 'tar.xz']:
-    for f in glob(f'{chalname}/solv/*.{ext}'):
-        ff = f.split('/')[-1]
+for ext in ["tar", "tar.gz", "tar.xz"]:
+    for f in glob(f"{chalname}/solv/*.{ext}"):
+        ff = f.split("/")[-1]
         os.system(f'cd {chalname}/solv && tar xvf "{ff}" && rm "{ff}" && cd ..')
 
-print('DONE. Now just run')
-print(f' cd {chalname}/solv')
+for f in glob("{chalname}/solv/*.zip"):
+    ff = f.split("/")[-1]
+    os.system(f'cd {chalname}/solv && unzip "{ff}" && rm "{ff}" && cd ..')
+
+print("DONE. Now just run")
+print(f" cd {chalname}/solv")
