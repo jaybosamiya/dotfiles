@@ -31,7 +31,7 @@ for ext in ["tar", "tar.gz", "tar.xz"]:
         ff = f.split("/")[-1]
         os.system(f'cd {chalname}/solv && tar xvf "{ff}" && rm "{ff}" && cd ..')
 
-for f in glob("{chalname}/solv/*.zip"):
+for f in glob(f"{chalname}/solv/*.zip"):
     ff = f.split("/")[-1]
     os.system(f'cd {chalname}/solv && unzip "{ff}" && rm "{ff}" && cd ..')
 
