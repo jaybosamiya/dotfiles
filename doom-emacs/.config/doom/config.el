@@ -163,7 +163,9 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
   (after! paren
     (set-face-background 'show-paren-match (face-background 'default))
     (set-face-foreground 'show-paren-match nil)
-    (set-face-attribute 'show-paren-match nil :weight 'black)))
+    (set-face-attribute 'show-paren-match nil :weight 'black))
+  ;; Enable word-wrapping
+  (global-visual-line-mode 1))
 
 ;; Disabling things from Doom Emacs, where I prefer Vanilla Emacs instead.
 (progn
