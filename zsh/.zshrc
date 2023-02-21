@@ -68,6 +68,16 @@ function c {
     fi
 }
 
+# Set up zoxide if it exists to make cd easier
+#
+# Install using `cargo install zoxide --locked`
+if command -v zoxide >/dev/null; then
+    eval "$(zoxide init zsh)"
+else
+    function z () { 1>&2 echo 'No zoxide. Install via `cargo install zoxide --locked`'; return 1 }
+    function zi () { z }
+fi
+
 if command -v rg >/dev/null; then
     function rg() {
         if [ -t 1 ]; then
