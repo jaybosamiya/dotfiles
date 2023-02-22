@@ -165,7 +165,14 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
     (set-face-foreground 'show-paren-match nil)
     (set-face-attribute 'show-paren-match nil :weight 'black))
   ;; Enable word-wrapping
-  (global-visual-line-mode 1))
+  (global-visual-line-mode 1)
+  ;; Add my personal git-modifying keywords to make them stand out, although we
+  ;; have to play a tiny bit of trickery to actually let them stay in the
+  ;; dotfiles repo without being nuked by the same git magic.
+  (use-package! hl-todo
+    :config
+    (add-to-list 'hl-todo-keyword-faces (list (concat "DO " "NOT COMMIT") 'error 'bold))
+    (add-to-list 'hl-todo-keyword-faces (list (concat "NEVER" "COMMIT") 'warning 'bold))))
 
 ;; Disabling things from Doom Emacs, where I prefer Vanilla Emacs instead.
 (progn
