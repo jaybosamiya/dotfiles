@@ -623,6 +623,7 @@ Based on `so-long-detected-long-line-p'."
               (org-indent-mode 1))))
 
 ;; Set up F* mode
-(use-package! fstar-mode
-  :config
-  (add-hook 'fstar-mode-hook #'ocp-setup-indent))
+(when (featurep! :lang fstar)
+  (use-package! fstar-mode
+    :config
+    (add-hook 'fstar-mode-hook #'ocp-setup-indent)))
