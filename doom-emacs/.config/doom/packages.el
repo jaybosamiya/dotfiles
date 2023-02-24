@@ -48,6 +48,10 @@
 (package! verus-mode
   :recipe (:host github :protocol ssh :repo "jaybosamiya/verus-mode.el"))
 
+;; Get ocp-indent to use with F*
+(when (featurep! :lang fstar)
+  (package! ocp-indent))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; To install a package with Doom you must declare them here and run 'doom sync'

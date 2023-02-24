@@ -621,3 +621,8 @@ Based on `so-long-detected-long-line-p'."
               (visual-line-mode 1)
               ;; Get better looking org-mode buffer
               (org-indent-mode 1))))
+
+;; Set up F* mode
+(use-package! fstar-mode
+  :config
+  (add-hook 'fstar-mode-hook #'ocp-setup-indent))
