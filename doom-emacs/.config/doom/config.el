@@ -578,3 +578,46 @@ Based on `so-long-detected-long-line-p'."
   :bind (:map copilot-completion-map
               ("C-S-<tab>" . 'copilot-accept-completion-by-word)
               ("C-<tab>" . 'copilot-accept-completion)))
+
+;; Set up org-mode
+(use-package! org
+  :config
+  (setq
+   ;; Allow selecting with shift
+   org-support-shift-select t
+   ;; Hide emphasis markers (/, _, etc.)
+   org-hide-emphasis-markers t
+   ;; Disable table-of-contents generation
+   org-export-with-toc nil
+   ;; Show images inline upon startup
+   org-startup-with-inline-images t
+   ;; Show LaTeX fragment previes on startup
+   ;;
+   ;; Use `C-c C-x C-l' to reload previews
+   org-startup-with-latex-preview t)
+  ;; Reset the shift-arrow-key keywords to their defaults from what Doom Emacs
+  ;; sets up. Doom Emacs sets up _waay_ more things there.
+  (setq org-todo-keywords '((sequence "TODO" "DONE")))
+  ;; Improve emphasis usage
+  (progn
+    ;; Allow quotes inside of emphasis sections : Based off
+    ;; of https://stackoverflow.com/a/24173780/3696619
+    (setcar (nthcdr 2 org-emphasis-regexp-components) " \t\r\n")
+    ;; Allow emphasised regions to also end with a "s"
+    (setcar (nthcdr 1 org-emphasis-regexp-components)
+            (concat (nth 1 org-emphasis-regexp-components) "s"))
+    ;; Actually update the emphasis regexp
+    (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components))
+  ;; Allow snippets (eg: "< s TAB" for source,
+  ;;                  or "< q TAB" for quote,
+  ;;                  or "< l TAB" for LaTeX etc)
+  (add-to-list 'org-modules 'org-tempo)
+  ;; Enable extra backends
+  (setq org-export-backends
+        (quote (ascii html icalendar latex md deck reveal)))
+  (add-hook 'org-mode-hook
+            (defun f0xtr0t--improve-org-look ()
+              ;; Wrap lines
+              (visual-line-mode 1)
+              ;; Get better looking org-mode buffer
+              (org-indent-mode 1))))
