@@ -3,6 +3,13 @@
 # bit early, before the instant prompt is enabled.
 (( ${+commands[direnv]} )) && emulate zsh -c "$(direnv export zsh)"
 
+# rtx (https://github.com/jdxcode/rtx) initialization to support automatically
+# setting up different versions of various tools like python, node, etc.
+#
+# This needs to be run _after_ the direnv activation, but before the
+# powerlevel10k instant prompt.
+(( ${+commands[rtx]} )) && eval "$(rtx activate zsh)"
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
