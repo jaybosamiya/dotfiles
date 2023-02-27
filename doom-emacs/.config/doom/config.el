@@ -230,7 +230,8 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
   ;; directly doesn't really work, so instead what we've got to do replace out
   ;; the snippets directory with the regular snippets dir, so that when it
   ;; loads, it will just re-load our regular stuff.
-  (setq doom-snippets-dir +snippets-dir))
+  (when (file-exists-p +snippets-dir)
+    (setq doom-snippets-dir +snippets-dir)))
 
 ;; Sensible defaults, that I believe should be enabled no matter what.
 (progn
