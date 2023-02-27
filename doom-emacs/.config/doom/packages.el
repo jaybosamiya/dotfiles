@@ -1,6 +1,9 @@
 ;; -*- no-byte-compile: t; -*-
 ;;; $DOOMDIR/packages.el
 
+; Temporarily pin transient to fix an error that shows up ; related: https://github.com/doomemacs/doomemacs/issues/7078
+(package! transient :pin "c2bdf7e12c530eb85476d3aef317eb2941ab9440")
+
 ;; Disable vertical IDO, since I don't like it. Personal pereference.
 (package! ido-vertical-mode :disable t)
 
