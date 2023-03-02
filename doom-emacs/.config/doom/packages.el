@@ -49,7 +49,7 @@
 
 ;; Add Verus support
 (package! verus-mode
-  :recipe (:host github :protocol ssh :repo "jaybosamiya/verus-mode.el"))
+  :recipe (:host github :protocol ssh :repo "jaybosamiya/verus-mode.el" :branch "dev"))
 
 ;; Get ocp-indent to use with F*
 (when (featurep! :lang fstar)
