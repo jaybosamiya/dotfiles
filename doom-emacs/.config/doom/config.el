@@ -259,6 +259,25 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
                    (setq tab-width
                          (car (or (cdr (member tab-width tab-widths)) tab-widths)))
                    (message "Tab width set to %d" tab-width))))
+  ;; Set up convenient hiding/unhiding
+  ;;
+  ;; TODO: Consider switching back to `fold-this` which I used to use before I
+  ;; switched to Doom Emacs?
+  (use-package! hideshow
+    ;; Doom Emacs already sets up some configuration to make hideshow nicer (in
+    ;; its `fold` module), specifically to handle things like LaTeX, but also I
+    ;; don't fully enjoy its defaults, so setting up a few more.
+    :config
+    (setq
+     ;; Open all blocks when searching (code + comments)
+     hs-isearch-open t
+     ;; Hide comments too when hiding all
+     hs-hide-comments-when-hiding-all t)
+    :bind (("C-c C-f C-f" . hs-toggle-hiding)
+           ("C-c C-f C-a" . hs-show-all)
+           ("C-c C-f C-h" . hs-hide-all)
+           ("C-c C-f C-s" . hs-show-block)
+           ("C-c C-f C-d" . hs-hide-block)))
   ;; Use the default M-<left>, M-<right>,... bindings to move across the screen.
   (use-package! windmove
     :init
