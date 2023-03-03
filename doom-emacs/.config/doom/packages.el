@@ -7,6 +7,11 @@
 ;; Disable vertical IDO, since I don't like it. Personal pereference.
 (package! ido-vertical-mode :disable t)
 
+;; I don't like the keybindings for the Doom `fold` module, nor do I like most
+;; of the extra packages it pulls in. However, I do want to use the built-in
+;; hideshow, so I'm disabling the Doom module and enabling the built-in package.
+(package! hideshow :built-in t)
+
 (package! amx)
 
 (package! unfill)

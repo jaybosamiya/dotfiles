@@ -259,25 +259,6 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
                    (setq tab-width
                          (car (or (cdr (member tab-width tab-widths)) tab-widths)))
                    (message "Tab width set to %d" tab-width))))
-  ;; Set up convenient hiding/unhiding
-  ;;
-  ;; TODO: Consider switching back to `fold-this` which I used to use before I
-  ;; switched to Doom Emacs?
-  (use-package! hideshow
-    ;; Doom Emacs already sets up some configuration to make hideshow nicer (in
-    ;; its `fold` module), specifically to handle things like LaTeX, but also I
-    ;; don't fully enjoy its defaults, so setting up a few more.
-    :config
-    (setq
-     ;; Open all blocks when searching (code + comments)
-     hs-isearch-open t
-     ;; Hide comments too when hiding all
-     hs-hide-comments-when-hiding-all t)
-    :bind (("C-c C-f C-f" . hs-toggle-hiding)
-           ("C-c C-f C-a" . hs-show-all)
-           ("C-c C-f C-h" . hs-hide-all)
-           ("C-c C-f C-s" . hs-show-block)
-           ("C-c C-f C-d" . hs-hide-block)))
   ;; Use the default M-<left>, M-<right>,... bindings to move across the screen.
   (use-package! windmove
     :init
@@ -647,3 +628,93 @@ Based on `so-long-detected-long-line-p'."
   (use-package! fstar-mode
     :config
     (add-hook 'fstar-mode-hook #'ocp-setup-indent)))
+
+;; Set up convenient hiding/unhiding
+;;
+;; TODO: Consider switching back to `fold-this` which I used to use before I
+;; switched to Doom Emacs?
+;;
+;; Interestingly, Doom Emacs has a `fold` module, but it doesn't seem to do
+;; things the way I like it; more specifically, it ends up completely overriding
+;; the keybindings I would like to have, by doing things for vimish-fold and
+;; such, that I don't want. So instead, I have to pull a bunch of their
+;; configuration, and then manually tweak it into what I like here.
+(use-package! hideshow
+  ;; Doom Emacs already sets up some configuration to make hideshow nicer (in
+  ;; its `fold` module), specifically to handle things like LaTeX, but also I
+  ;; don't fully enjoy its defaults, so setting up a few more.
+  :config
+  ;; Copied from Doom Emacs' `fold` module
+  (progn
+    (setq hs-hide-comments-when-hiding-all nil
+          ;; Nicer code-folding overlays (with fringe indicators)
+          hs-set-up-overlay #'+fold-hideshow-set-up-overlay-fn)
+    (defadvice! +fold--hideshow-ensure-mode-a (&rest _)
+      "Ensure `hs-minor-mode' is enabled when we need it, no sooner or later."
+      :before '(hs-toggle-hiding hs-hide-block hs-hide-level hs-show-all hs-hide-all)
+      (unless (bound-and-true-p hs-minor-mode)
+        (hs-minor-mode +1)))
+    ;; extra folding support for more languages
+    (unless (assq 't hs-special-modes-alist)
+      (setq hs-special-modes-alist
+            (append
+             '((vimrc-mode "{{{" "}}}" "\"")
+               (yaml-mode "\\s-*\\_<\\(?:[^:]+\\)\\_>"
+                          ""
+                          "#"
+                          +fold-hideshow-forward-block-by-indent-fn nil)
+               (haml-mode "[#.%]" "\n" "/" +fold-hideshow-haml-forward-sexp-fn nil)
+               (ruby-mode "class\\|d\\(?:ef\\|o\\)\\|module\\|[[{]"
+                          "end\\|[]}]"
+                          "#\\|=begin"
+                          ruby-forward-sexp)
+               (matlab-mode "if\\|switch\\|case\\|otherwise\\|while\\|for\\|try\\|catch"
+                            "end"
+                            nil (lambda (_arg) (matlab-forward-sexp)))
+               (nxml-mode "<!--\\|<[^/>]*[^/]>"
+                          "-->\\|</[^/>]*[^/]>"
+                          "<!--" sgml-skip-tag-forward nil)
+               (latex-mode
+                ;; LaTeX-find-matching-end needs to be inside the env
+                ("\\\\begin{[a-zA-Z*]+}\\(\\)" 1)
+                "\\\\end{[a-zA-Z*]+}"
+                "%"
+                (lambda (_arg)
+                  ;; Don't fold whole document, that's useless
+                  (unless (save-excursion
+                            (search-backward "\\begin{document}"
+                                             (line-beginning-position) t))
+                    (LaTeX-find-matching-end)))
+                nil))
+             hs-special-modes-alist
+             '((t))))))
+  ;; The specific things _I_ want to change from Doom Emacs' defaults:
+  (setq
+   ;; Open all blocks when searching (code + comments)
+   hs-isearch-open t
+   ;; Hide comments too when hiding all
+   hs-hide-comments-when-hiding-all t
+   ;; A custom overlay function to make the overlays look nicer
+   hs-set-up-overlay (defun my-hs-set-up-overlay-fn (ov)
+                       ;; Add a triangle to the left fringe
+                       (when (display-graphic-p)
+                         (overlay-put ov 'before-string
+                                      (propertize " ... "
+                                                  'display
+                                                  '(left-fringe
+                                                    right-triangle
+                                                    (color . "grey")))))))
+  ;;   ;; Toggling showing and hiding code.
+  ;; (map! (:after hideshow
+  ;;        "C-c C-f C-f" #'hs-toggle-hiding
+  ;;        "C-c C-f C-a" #'hs-show-all
+  ;;        "C-c C-f C-h" #'hs-hide-all
+  ;;        "C-c C-f C-s" #'hs-show-block
+  ;;        "C-c C-f C-d" #'hs-hide-block))
+  :bind
+  (:map prog-mode-map
+        ("C-c C-f C-f" . hs-toggle-hiding)
+        ("C-c C-f C-s" . hs-show-block)
+        ("C-c C-f C-b" . hs-hide-block)
+        ("C-c C-f C-a" . hs-show-all)
+        ("C-c C-f C-h" . hs-hide-all)))
