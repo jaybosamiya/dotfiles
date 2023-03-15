@@ -157,3 +157,8 @@ if [ "$HOST" = "Valhalla" ]; then
         fi
     fi
 fi
+
+# Use Cargo's "sparse" registry protocol, to speed up accesses to crates.io
+#
+# TODO: Remove once Rust hits 1.70.0 which should make this default, sometime around June 2023
+export CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse
