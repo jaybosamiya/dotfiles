@@ -60,6 +60,9 @@
 (when (featurep! :lang fstar)
   (package! ocp-indent))
 
+;; Add Dafny support
+(package! boogie-friends)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; To install a package with Doom you must declare them here and run 'doom sync'
