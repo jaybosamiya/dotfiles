@@ -59,13 +59,6 @@
       user-mail-address "doomemacsconfig@jaybosamiya.com")
 
 ;; MacOS specific overrides
-;;
-;; Hopefully at some point
-;; https://github.com/jaybosamiya/doomemacs/tree/allow-disabling-os-specific-keybindings
-;; will be merged (https://github.com/doomemacs/doomemacs/pull/7027), which
-;; allows disabling all the MacOS-specific keybindings that `default` adds
-;; otherwise. Until that point, on MacOS, I need to stay on my fork of
-;; doomemacs for this config to really be usable.
 (when IS-MAC
   ;; mac-* variables are used by the special emacs-mac build of Emacs by
   ;; Yamamoto Mitsuharu, while other builds use ns-*.
@@ -117,6 +110,64 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
             ;; animation to complete can cause a crash, or other unexpected
             ;; behavior, on macOS (bug#28496).
             (when (featurep 'cocoa) (sleep-for 0.5)))))
+
+  ;; Doom Emacs also sets up a lot of keybindings on in `default`, and I would
+  ;; like for it to not add any OS-specific things. Unfortunately, looks like
+  ;; (at least until Doom v3) adding a flag to disable this is not going to
+  ;; happen (see https://github.com/doomemacs/doomemacs/pull/7027) and thus I
+  ;; have to manually get rid of those keybindings.
+  ;;
+  ;; A convenience macro that confirms that a keybinding is used by a specific
+  ;; function, before unsetting it; if it is not being used by that specific
+  ;; function, then it throws a warning message and leaves it as-is.
+  (defmacro unset-if-used-by! (&rest args)
+    "Unset a keybinding if it is used by a specific function. Otherwise, throw
+a warning message and leave it as-is. ARGS accepts the syntax as in `map!'.
+
+Example usage:
+
+        (unset-if-used-by!
+           \"s-z\" #'undo
+           \"s-Z\" #'redo
+           \"s-q\" (if (daemonp) #'delete-frame #'save-buffers-kill-terminal))"
+    (let ((keybindings (seq-partition args 2)))
+      `(progn
+         ,@(mapcar (lambda (keybinding)
+                     (let ((origkey (car keybinding))
+                           (fn (cadr keybinding)))
+                       (let ((key (if (stringp origkey) (kbd origkey) origkey)))
+                         `(if (eq (lookup-key (current-global-map) ,key) ,fn)
+                              (map! ,origkey nil)
+                            (warn "Keybinding %s is not used by %s (used by %s instead), so not unsetting it"
+                                  ,origkey ,fn (lookup-key (current-global-map) ,key))))))
+                   keybindings))))
+  (unset-if-used-by!
+    "s-`" #'other-frame
+    "s-w" #'delete-window
+    "s-W" #'delete-frame
+    "s-n" #'+default/new-buffer
+    "s-N" #'make-frame
+    "s-q" (if (daemonp) #'delete-frame #'save-buffers-kill-terminal)
+    "C-s-f" #'toggle-frame-fullscreen
+    "s-l" #'goto-line
+    "s-f" (if (modulep! :completion vertico) #'consult-line #'swiper)
+    "s-z" #'undo
+    "s-Z" #'redo
+    "s-c" (if (featurep 'evil) #'evil-yank #'copy-region-as-kill)
+    "s-v" #'yank
+    "s-s" #'save-buffer
+    "s-x" #'execute-extended-command
+    "s-+" #'doom/reset-font-size
+    "s-=" #'doom/increase-font-size
+    "s--" #'doom/decrease-font-size
+    "s-a" #'mark-whole-buffer
+    "s-RET"        #'+default/newline-below
+    [s-return]     #'+default/newline-below
+    "S-s-RET"      #'+default/newline-above
+    [S-s-return]   #'+default/newline-above)
+  ;; `s-/' is used by (cmd! (save-excursion (comment-line 1))) which is an
+  ;; anonymous lambda, so we just need to unset it unconditionally
+  (map! "s-/" nil)
 
   ;; Notes on setup for other programs on MacOS:
   ;;
