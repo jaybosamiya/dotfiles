@@ -108,6 +108,22 @@ fi
 # Replace `cat` with `bat` when available
 if command -v bat >/dev/null; then alias cat=bat; fi
 
+# Upload a file to allow temporary download for 24 hours
+function upload_temporary() {
+    if [ $# -lt 1 ]; then
+        echo "Usage: $0 [--autodestroy] {filename}" 1>&2
+    echo "  Uploads a file (to oshi.at) to be available for download for 24 hours" 1>&2
+        echo "    --autodestroy causes file to delete itself on first download" 1>&2
+           return -1
+    fi
+    local AUTODESTROY=""
+    if [ "$1" = "--autodestroy" ]; then
+        AUTODESTROY="&autodestroy=1"
+    shift
+    fi
+    curl -T "$1" "https://oshi.at/?expire=1440${AUTODESTROY}"
+}
+
 # Make it easier to read out what/where commands are after doing a
 # `which` on them
 function cwhich() {
