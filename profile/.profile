@@ -17,7 +17,7 @@ export XDG_CACHE_HOME="$HOME/.cache"
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
     if [ -f "$HOME/.bashrc" ]; then
-	. "$HOME/.bashrc"
+        . "$HOME/.bashrc"
     fi
 fi
 
@@ -55,12 +55,12 @@ if [ "$HOST" = "eden" ]; then
 elif [ "$HOST" = "Valhalla" ]; then
 
     if [ "$DISPLAY" = ":0" -o "$DISPLAY" = "" ]; then
-	# Set up connection to vcxsrv since we are on WSL2
+        # Set up connection to vcxsrv since we are on WSL2
         export DISPLAY=$(grep -oP "(?<=nameserver ).+" /etc/resolv.conf):0.0
         export LIBGL_ALWAYS_INDIRECT=1
     else
-	# We got a DISPLAY variable, likely from an incoming SSH connection. Honor that.
-	true
+        # We got a DISPLAY variable, likely from an incoming SSH connection. Honor that.
+        true
     fi
 
 fi
