@@ -56,6 +56,11 @@ elif [ "$HOST" = "Valhalla" ]; then
 
     if [ "$DISPLAY" = ":0" -o "$DISPLAY" = "" ]; then
         # Set up connection to vcxsrv since we are on WSL2
+        #
+        # A way to guarantee that this `:0` check isn't needed is to set
+        # `guiApplications=false` in C:\Users\username\.wslconfig
+        # so that WSLg is disabled entirely. However, I would like this
+        # to work without disabling it too, and thus I check for WSLg via `:0`
         export DISPLAY=$(grep -oP "(?<=nameserver ).+" /etc/resolv.conf):0.0
         export LIBGL_ALWAYS_INDIRECT=1
     else
