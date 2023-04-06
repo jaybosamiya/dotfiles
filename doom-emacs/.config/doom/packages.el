@@ -32,6 +32,9 @@
 
 (package! default-text-scale)
 
+(package! rainbow-blocks)
+(package! rainbow-identifiers)
+
 (package! rg)
 
 (package! just-mode)
