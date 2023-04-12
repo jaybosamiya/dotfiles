@@ -615,6 +615,9 @@ Based on `so-long-detected-long-line-p'."
     (scroll-right 100000)))
 
 ;; Set up copilot-based completions.
+;;
+;; NOTE: We use `(company +childframe)` in `init.el` to prevent an overlay
+;; conflict. This is strongly recommended by the `copilot.el` documentation.
 (use-package! copilot
   ;; Run only when `node` is installed on the system.
   :when (executable-find "node")
