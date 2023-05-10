@@ -493,6 +493,22 @@ Example usage:
                      (concat "\\_<" (regexp-quote (buffer-substring start end)) "\\_>")
                      (hi-lock-read-face-name)))))
 
+;; Updating format-on-save to my personal preferences
+(after! format
+  (setq +format-on-save-enabled-modes
+        ;; If the first member of the list is the symbol `not', then it behaves
+        ;; as a deny-list.
+        '(not
+          ;; Personal preferences for major modes I would like it disabled
+          mhtml-mode
+          rustic-mode
+          ;; The built-in defaults for which format-on-save is disabled
+          emacs-lisp-mode
+          sql-mode
+          tex-mode
+          latex-mode
+          org-msg-edit-mode)))
+
 ;; Set up for LSP mode across all languages.
 (progn
   ;; Disable the annoying symbol-highlighting that LSP does by default
