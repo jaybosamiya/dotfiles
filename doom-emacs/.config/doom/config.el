@@ -445,6 +445,9 @@ Example usage:
   ;; Allow `C-x n n` without the irritating warning about it being an advanced
   ;; command that confuses folks.
   (put 'narrow-to-region 'disabled nil)
+  ;; Make it easy to clear out any weirdness in the current buffer, and reset to
+  ;; the expected mode for it.
+  (map! "<f7>" #'normal-mode)
   ;; Conveniently grab the selected part of the file into a separate indirect
   ;; read-only buffer.
   (map! "C-<f7>"
