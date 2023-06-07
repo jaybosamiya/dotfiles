@@ -1,0 +1,31 @@
+#! /bin/bash
+
+# Print usage if no arguments
+if [ $# -eq 0 ]; then
+	echo "Usage: $0 <challenge> [nc options]"
+	exit 1
+fi
+
+# Check if first argument is nc, if so, shift it off
+if [ "$1" = "nc" ]; then
+	shift
+fi
+
+# Make /tmp/ctftickets if it doesn't exist
+if [ ! -d /tmp/ctftickets ]; then
+	mkdir /tmp/ctftickets
+fi
+
+# Check if we have a ticket for this challenge, if not, ask for one
+if [ -f /tmp/ctftickets/"$1-$2" ]; then
+	true
+else
+	echo "Do not have ticket for this challenge. Please enter ticket."
+	read -r -p "Ticket: " TICKET
+	echo "$TICKET" > /tmp/ctftickets/"$1-$2"
+fi
+
+# Run nc with the ticket sent as the first line
+echo "NOTE: Please ignore the 'ticket' line in the output."
+TICKET=$(cat /tmp/ctftickets/"$1-$2")
+(echo "$TICKET"; /bin/cat -) | nc -v "$@"
