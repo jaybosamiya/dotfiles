@@ -84,6 +84,12 @@
         "s-<up>" #'backward-paragraph
         "s-<down>" #'forward-paragraph
         "s-<backspace>" #'backward-kill-word)
+  ;; Allow increasing and decreasing the size of the text via the scroll wheel,
+  ;; for when `C-x C-=` or `C-M-=` or similar seems too annoying to type
+  (map! "s-<wheel-up>" #'text-scale-increase
+        "s-<wheel-down>" #'text-scale-decrease
+        "S-s-<wheel-left>" #'default-text-scale-increase
+        "S-s-<wheel-right>" #'default-text-scale-decrease)
   ;; Unset left/right two-finger swipes, otherwise Emacs on MacOS
   ;; decides to switch buffers when you do it which is quite unsettling.
   (map! "<swipe-left>" nil
