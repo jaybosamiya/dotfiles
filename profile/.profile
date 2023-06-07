@@ -167,3 +167,6 @@ fi
 #
 # TODO: Remove once Rust hits 1.70.0 which should make this default, sometime around June 2023
 export CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse
+
+# Disable telemetry for the Eternal Terminal
+export ET_NO_TELEMETRY=t
