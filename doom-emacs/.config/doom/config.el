@@ -797,3 +797,5 @@ Based on `so-long-detected-long-line-p'."
         ("C-c C-f C-b" . hs-hide-block)
         ("C-c C-f C-a" . hs-show-all)
         ("C-c C-f C-h" . hs-hide-all)))
+
+(use-package! verifpal-mode)
