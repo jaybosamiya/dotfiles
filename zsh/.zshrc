@@ -145,9 +145,9 @@ if command -v delta >/dev/null; then
     }
 fi
 
-if command -v youtube-dl >/dev/null; then
-    alias music-dl='youtube-dl --audio-format=mp3 --extract-audio --metadata-from-title "%(artist)s - %(title)s"'
-    alias twitch-dl="youtube-dl -o '%(id)s-%(title)s.%(ext)s'"
+if command -v yt-dlp >/dev/null; then
+    alias music-dl='yt-dlp --audio-format=mp3 --extract-audio --metadata-from-title "%(artist)s - %(title)s"'
+    alias twitch-dl="yt-dlp -o '%(id)s-%(title)s.%(ext)s'"
 fi
 
 case "$OSTYPE" in
