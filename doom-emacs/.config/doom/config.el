@@ -799,3 +799,7 @@ Based on `so-long-detected-long-line-p'."
         ("C-c C-f C-h" . hs-hide-all)))
 
 (use-package! verifpal-mode)
+
+(use-package! pest-mode
+  :mode "\\.pest\\'"
+  :hook (pest-mode . flymake-mode))

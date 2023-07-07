@@ -70,6 +70,10 @@
 (package! verifpal-mode
   :recipe (:host github :protocol ssh :repo "jaybosamiya/verifpal-mode.el" :branch "main"))
 
+;; Add Pest support
+(package! pest-mode
+  :recipe (:host github :repo "ksqsf/pest-mode"))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; To install a package with Doom you must declare them here and run 'doom sync'
