@@ -1,1 +1,15 @@
-python 3.11.2 pypy3.9-7.3.11
+python 3.11.4 pypy3.9-7.3.11
+# Use
+#
+#    nix-shell -p  clang pkg-config  bzip2 expat gdbm libffi libxcrypt lzma ncurses openssl readline sqlite tcl tk tzdata xz zlib
+#
+# to ensure required packages exist when building
+#
+# And when building use
+#
+#     CFLAGS="$(pkg-config --cflags libffi ncurses)" LDFLAGS="$(pkg-config --libs libffi ncurses)" rtx install python@3.11.4
+#
+# or similar
+#
+## TODO: Read through https://dev.to/ajkerrigan/homebrew-pyenv-ctypes-oh-my-3d9
+# because we hit the libffi/ncurses issue without it otherwise
