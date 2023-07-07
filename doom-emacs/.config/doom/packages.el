@@ -7,6 +7,27 @@
 ;; Disable vertical IDO, since I don't like it. Personal pereference.
 (package! ido-vertical-mode :disable t)
 
+;; Disable flx-ido.
+;;
+;; The main issue is that when using amx, it ends up not picking the exact input
+;; I want for situations where the keybinding is shown (instead leaving it later
+;; in the list). This is somewhat annoying, so for now I've disabled flx-ido.
+;;
+;; In the future, it might be useful to test out this patch:
+;; https://github.com/lewang/flx/pull/99 which adds a hack that (supposedly)
+;; improves behavior of flx-ido on amx.
+;;
+;; Another possibility is to specifically have something that patches this in
+;; only when `amx` is running; not quite sure how I'd like to handle that.
+;;
+;; In general, I quite like the looks of flx-ido, but the matching algorithm
+;; leaves a bit to be desired, esp wrt what I am used to (especially in amx).
+;;
+;; Maybe it might be worth considering a fork of flx-ido that uses the built-in
+;; matching algorithm of ido, but highlights things similar to flx-ido? Probably
+;; pick up fontification from https://github.com/scottjad/ido-hacks ?
+(package! flx-ido :disable t)
+
 ;; I don't like the keybindings for the Doom `fold` module, nor do I like most
 ;; of the extra packages it pulls in. However, I do want to use the built-in
 ;; hideshow, so I'm disabling the Doom module and enabling the built-in package.
