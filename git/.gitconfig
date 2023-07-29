@@ -37,3 +37,13 @@ email = jaybosamiya@gmail.com
 	insteadOf = sshttps://github.com/
 [pull]
 	rebase = false
+
+# Requires difftastic being installed (eg: `cargo install --locked difftastic`)
+[diff]
+        tool = difftastic
+[difftool]
+        prompt = false
+[difftool "difftastic"]
+        cmd = difft "$LOCAL" "$REMOTE"
+[pager]
+        difftool = true
