@@ -3,15 +3,24 @@
 from string import ascii_letters, digits
 import os
 from glob import glob
+from sys import argv
 
-chalname = input("Challenge name? ").strip().lower().replace(" ", "_")
+if len(argv) != 2:
+    chalname = input("Challenge name? ")
+else:
+    chalname = argv[1]
+
+chalname = chalname.strip().lower().replace(" ", "_")
 chalname = "".join(x if x in ascii_letters or x in digits else "_" for x in chalname)
 
 os.mkdir(chalname)
 os.mkdir(chalname + "/files")
 
 while True:
-    files = input("URL to relevant files? (empty to stop) ").strip()
+    try:
+        files = input("URL to relevant files? (empty to stop) ").strip()
+    except EOFError:
+        break
     if len(files) == 0:
         break
 
