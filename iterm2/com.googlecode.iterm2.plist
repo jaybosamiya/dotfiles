@@ -1342,12 +1342,16 @@ Alternate Screen</string>
 			</dict>
 			<key>Ansi 4 Color</key>
 			<dict>
+				<key>Alpha Component</key>
+				<real>1</real>
 				<key>Blue Component</key>
-				<real>0.73333334922790527</real>
+				<real>0.84283447265625</real>
+				<key>Color Space</key>
+				<string>sRGB</string>
 				<key>Green Component</key>
-				<real>0.0</real>
+				<real>0.33425801181835318</real>
 				<key>Red Component</key>
-				<real>0.0</real>
+				<real>0.22547262534499168</real>
 			</dict>
 			<key>Ansi 5 Color</key>
 			<dict>
@@ -1999,7 +2003,7 @@ Alternate Screen</string>
 	<key>RequireCmdForDraggingText</key>
 	<true/>
 	<key>ShowFullScreenTabBar</key>
-	<false/>
+	<true/>
 	<key>SoundForEsc</key>
 	<false/>
 	<key>SplitPaneDimmingAmount</key>
