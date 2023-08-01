@@ -91,7 +91,7 @@
 (package! verifpal-mode
   :recipe (:host github :protocol ssh :repo "jaybosamiya/verifpal-mode.el" :branch "main"))
 
-;; Add Pest support
+;; Add support for Pest grammars (to get even more support, run `cargo install pesta`)
 (package! pest-mode
   :recipe (:host github :repo "ksqsf/pest-mode"))
 
