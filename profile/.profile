@@ -170,3 +170,8 @@ export CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse
 
 # Disable telemetry for the Eternal Terminal
 export ET_NO_TELEMETRY=t
+
+# Enable OrbStack setup if it exists
+if [ -d "$HOME/.orbstack/bin" ]; then
+    export PATH="$HOME/.orbstack/bin:$PATH"
+fi
