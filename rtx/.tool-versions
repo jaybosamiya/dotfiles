@@ -11,5 +11,8 @@ python 3.11.4 pypy3.9-7.3.11
 #
 # or similar
 #
+# NOTE: for 3.9.13, I needed to use
+#   CFLAGS="$(pkg-config --cflags libffi ncurses zlib bzip2 sqlite3 tk liblzma)" LDFLAGS="$(pkg-config --libs libffi ncurses zlib bzip2 sqlite3 tk liblzma)" rtx install python@3.9.13
+#
 ## TODO: Read through https://dev.to/ajkerrigan/homebrew-pyenv-ctypes-oh-my-3d9
 # because we hit the libffi/ncurses issue without it otherwise
