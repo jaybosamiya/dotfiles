@@ -5,24 +5,24 @@ name = Jay Bosamiya
 email = jaybosamiya@gmail.com
 [credential]
 [core]
-	editor = vim
-	excludesfile = ~/.gitignore_global
-	attributesfile = ~/.gitattributes
-        hooksPath = ~/.gitconfig.d/hooks
-	compression = 9
+    editor = vim
+    excludesfile = ~/.gitignore_global
+    attributesfile = ~/.gitattributes
+    hooksPath = ~/.gitconfig.d/hooks
+    compression = 9
 [filter "nevercommitfilter"]
-	smudge = cat
-	clean = gnused '/NEVERCOMM[I]T/'d
+    smudge = cat
+    clean = gnused '/NEVERCOMM[I]T/'d
 [diff]
-        # The histogram diff algorithm, at least as per 2020
-        # (https://link.springer.com/article/10.1007%2Fs10664-019-09772-z)
-        # seems to be the best at providing diff results.
-	algorithm = histogram
+    # The histogram diff algorithm, at least as per 2020
+    # (https://link.springer.com/article/10.1007%2Fs10664-019-09772-z)
+	# seems to be the best at providing diff results.
+    algorithm = histogram
 [filter "lfs"]
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
+    required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
 
 [alias]
     hide = update-index --assume-unchanged
@@ -30,26 +30,27 @@ email = jaybosamiya@gmail.com
     clone-blobless = clone --filter=blob:none
     clone-treeless = clone --filter=tree:0
 [init]
-	defaultBranch = main
+    defaultBranch = main
 [url "ssh://git@github.com/"]
-	insteadOf = sshttps://www.github.com/
+    insteadOf = sshttps://www.github.com/
 [url "ssh://git@github.com/"]
-	insteadOf = sshttps://github.com/
+    insteadOf = sshttps://github.com/
 [pull]
-	rebase = false
+    rebase = false
 
 # Requires difftastic being installed (eg: `cargo install --locked difftastic`)
 [diff]
-        tool = difftastic
+    tool = difftastic
 [difftool]
-        prompt = false
+    prompt = false
 [difftool "difftastic"]
-        cmd = difft "$LOCAL" "$REMOTE"
+    cmd = difft "$LOCAL" "$REMOTE"
 [pager]
-        difftool = true
+    difftool = true
+
 # Reuse recorded resolutions when merging, so that once a conflict has been
 # handled, it will automatically be resolved the same way. If this is ever a
 # problem, one can `git checkout -m` and if necessary, even do a `git rerere
 # forget <PATHSPEC>`
 [rerere]
-        enabled = true
+    enabled = true
