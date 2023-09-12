@@ -47,3 +47,9 @@ email = jaybosamiya@gmail.com
         cmd = difft "$LOCAL" "$REMOTE"
 [pager]
         difftool = true
+# Reuse recorded resolutions when merging, so that once a conflict has been
+# handled, it will automatically be resolved the same way. If this is ever a
+# problem, one can `git checkout -m` and if necessary, even do a `git rerere
+# forget <PATHSPEC>`
+[rerere]
+        enabled = true
