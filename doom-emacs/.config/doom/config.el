@@ -396,6 +396,9 @@ Example usage:
   ;; Currently it happens after waiting 3 seconds anyways, so maybe not crucial
   ;; to fix too soon?
   (map! (:after flyspell "<f9>" #'flyspell-mode))
+  ;; Remove C-; from flyspell-mode's map, so that we use iedit instead
+  (use-package! flyspell
+    :bind (:map flyspell-mode-map ("C-;" . nil)))
   ;; Be able to instantly clear any flycheck errors. Useful when looking at code
   ;; that otherwise triggers too many flycheck warnings.
   (map! "<f12>" #'flycheck-clear
