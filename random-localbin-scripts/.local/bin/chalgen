@@ -24,7 +24,7 @@ while True:
     if len(files) == 0:
         break
 
-    os.system(f"curl --output-dir {chalname}/files --remote-name {files}")
+    os.system(f"curl --location --output-dir {chalname}/files --remote-name {files}")
 
 print("Now jumping into dumping into the README (EOF to stop)")
 os.system(f"cat > {chalname}/files/README-challenge-description.md")
