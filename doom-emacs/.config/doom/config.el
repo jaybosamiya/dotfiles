@@ -306,6 +306,11 @@ Example usage:
 
 ;; Useful (and imho, somewhat essential) global keybindings
 (progn
+  ;; Up and down are set to visual lines, so use C-n and C-p for next logical
+  ;; line instead; otherwise they're doing the same job as up and down, which
+  ;; isn't particularly being helpful.
+  (map! "C-n" #'next-logical-line
+        "C-p" #'previous-logical-line)
   ;; F5 should toggle line wrapping
   (map! "<f5>" #'visual-line-mode)
   ;; F8 lets you toggle between different tab widths, to make it easier to view
