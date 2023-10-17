@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: python-not-implemented
+# key: todo
+# --
+raise NotImplementedError()
