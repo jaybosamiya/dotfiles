@@ -2994,7 +2994,7 @@ Alternate Screen</string>
 			<key>Horizontal Spacing</key>
 			<real>1</real>
 			<key>HotKey Activated By Modifier</key>
-			<true/>
+			<false/>
 			<key>HotKey Alternate Shortcuts</key>
 			<array/>
 			<key>HotKey Characters</key>
@@ -3502,6 +3502,8 @@ Alternate Screen</string>
 	<false/>
 	<key>SplitPaneDimmingAmount</key>
 	<real>0.29607649423543686</real>
+	<key>StatusBarIcon</key>
+	<true/>
 	<key>StatusBarPosition</key>
 	<integer>0</integer>
 	<key>TabStyleWithAutomaticOption</key>
