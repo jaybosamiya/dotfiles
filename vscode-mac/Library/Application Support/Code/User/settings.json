@@ -1,18 +1,21 @@
 {
     "editor.inlineSuggest.enabled": true,
     "github.copilot.enable": {
-        "*": true,
+        "*": false,
         "yaml": false,
         "plaintext": false,
         "markdown": true
     },
     "editor.fontFamily": "Iosevka Nerd Font",
     "editor.fontLigatures": true,
-    "workbench.editor.untitled.hint": "hidden",
     "ruff.showNotifications": "onError",
     "editor.rulers": [
         80, 120
     ],
     "emmet.showExpandedAbbreviation": "never",
-    "editor.stickyScroll.enabled": true
+    "editor.stickyScroll.enabled": true,
+    "workbench.editor.empty.hint": "hidden",
+    "editor.inlineSuggest.suppressSuggestions": true,
+    "cody.experimental.chatPanel": true,
+    "editor.accessibilitySupport": "off"
 }
