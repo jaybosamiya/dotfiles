@@ -563,6 +563,7 @@ Example usage:
         rustic-format-display-method #'ignore)
   ;; Enable/disable specific hints
   (setq lsp-rust-analyzer-server-display-inlay-hints t
+        lsp-rust-analyzer-max-inlay-hint-length 10
         lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial"
         lsp-rust-analyzer-display-chaining-hints t
         lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil
