@@ -10,6 +10,8 @@
 	<true/>
 	<key>BracketedPasteMode</key>
 	<true/>
+	<key>CheckTestRelease</key>
+	<true/>
 	<key>ConvertDosNewlines</key>
 	<true/>
 	<key>Custom Color Presets</key>
@@ -3503,7 +3505,7 @@ Alternate Screen</string>
 	<key>SplitPaneDimmingAmount</key>
 	<real>0.29607649423543686</real>
 	<key>StatusBarIcon</key>
-	<true/>
+	<false/>
 	<key>StatusBarPosition</key>
 	<integer>0</integer>
 	<key>TabStyleWithAutomaticOption</key>
