@@ -133,6 +133,11 @@ if [ -d "$HOME/.emacs.d/bin" ]; then
     export PATH="$HOME/.emacs.d/bin:$PATH"
 fi
 
+# Verus + Singular configuration
+if [ -x "$HOME/.nix-profile/bin/Singular" ]; then
+    export VERUS_SINGULAR_PATH="$HOME/.nix-profile/bin/Singular"
+fi
+
 # Set up auto change-dir
 #
 # Is on Windows Terminal folks' radar, and hopefully should be fixed
