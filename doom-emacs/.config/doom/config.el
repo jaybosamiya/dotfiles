@@ -815,6 +815,8 @@ Based on `so-long-detected-long-line-p'."
   (add-to-list 'safe-local-variable-values
                '(bibtex-align-at-equal-sign . t))
   :config
+  (setq bibtex-entry-format t
+        bibtex-align-at-equal-sign t)
   (progn
     ;; Make sure that Ctrl-shift up/down works as expected; replacing the "p"
     ;; with "^p" makes sure that the selection handling is done correctly.
