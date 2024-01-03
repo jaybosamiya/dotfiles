@@ -809,6 +809,32 @@ Based on `so-long-detected-long-line-p'."
 
 (use-package! verifpal-mode)
 
+(use-package! bibtex
+  :init
+  ;; Add bibtex-align-at-equal-sign to safe-local-variable-values
+  (add-to-list 'safe-local-variable-values
+               '(bibtex-align-at-equal-sign . t))
+  :config
+  (progn
+    ;; Make sure that Ctrl-shift up/down works as expected; replacing the "p"
+    ;; with "^p" makes sure that the selection handling is done correctly.
+    (el-patch-defun bibtex-next-entry (&optional arg)
+      "Move point ARG entries forward.
+ARG defaults to one.  Called interactively, ARG is the prefix
+argument."
+      (interactive (el-patch-swap "p" "^p"))
+      (bibtex-end-of-entry)
+      (when (re-search-forward bibtex-entry-maybe-empty-head nil t (or arg 1))
+        (goto-char (match-beginning 0))))
+    (el-patch-defun bibtex-previous-entry (&optional arg)
+      "Move point ARG entries backward.
+ARG defaults to one.  Called interactively, ARG is the prefix
+argument."
+      (interactive (el-patch-swap "p" "^p"))
+      (bibtex-beginning-of-entry)
+      (when (re-search-backward bibtex-entry-maybe-empty-head nil t (or arg 1))
+        (goto-char (match-beginning 0))))))
+
 (use-package! pest-mode
   :mode "\\.pest\\'"
   :hook (pest-mode . flymake-mode))
