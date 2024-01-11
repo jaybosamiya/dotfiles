@@ -2996,7 +2996,7 @@ Alternate Screen</string>
 			<key>Horizontal Spacing</key>
 			<real>1</real>
 			<key>HotKey Activated By Modifier</key>
-			<false/>
+			<true/>
 			<key>HotKey Alternate Shortcuts</key>
 			<array/>
 			<key>HotKey Characters</key>
@@ -3006,7 +3006,7 @@ Alternate Screen</string>
 			<key>HotKey Key Code</key>
 			<integer>111</integer>
 			<key>HotKey Modifier Activation</key>
-			<integer>3</integer>
+			<integer>2</integer>
 			<key>HotKey Modifier Flags</key>
 			<integer>0</integer>
 			<key>HotKey Window Animates</key>
