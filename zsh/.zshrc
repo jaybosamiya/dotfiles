@@ -106,7 +106,12 @@ if command -v phd >/dev/null; then
 fi
 
 # Replace `cat` with `bat` when available
-if command -v bat >/dev/null; then alias cat=bat; fi
+#
+# Set up bcat as a quick alias to cat, to quickly access cat if bat doesn't make sense for some use case
+if command -v bat >/dev/null; then
+    alias cat=bat
+    alias bcat=/bin/cat
+fi
 
 # Upload a file to allow temporary download for 24 hours
 function upload_temporary() {
