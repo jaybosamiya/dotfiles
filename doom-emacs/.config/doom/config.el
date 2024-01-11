@@ -814,6 +814,12 @@ Based on `so-long-detected-long-line-p'."
   ;; Add bibtex-align-at-equal-sign to safe-local-variable-values
   (add-to-list 'safe-local-variable-values
                '(bibtex-align-at-equal-sign . t))
+  (defun bibtex-clean-all-entries ()
+    "Clean all entries in the current bibtex file."
+    (interactive)
+    (bibtex-map-entries (lambda (_ _ _) (bibtex-clean-entry))))
+  :bind (:map bibtex-mode-map
+              ("C-c C-S-c" . bibtex-clean-all-entries))
   :config
   (setq bibtex-entry-format t
         bibtex-align-at-equal-sign t)
