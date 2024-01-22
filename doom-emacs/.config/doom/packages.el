@@ -101,6 +101,9 @@
 ;; Add Sage Math support
 (package! sage-shell-mode)
 
+;; Add support for Mermaid files for nice diagrams and graphs (https://mermaid.js.org/)
+(package! mermaid-mode)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; To install a package with Doom you must declare them here and run 'doom sync'
