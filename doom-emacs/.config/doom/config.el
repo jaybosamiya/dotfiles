@@ -186,7 +186,7 @@ Example usage:
   ;;     and synctex is enabled in Skim with default Emacs settings.
   ;;     Cmd-Shift-Click should then just work to jump from Skim to Emacs.
   ;;
-  ;;     TODO: Add support for forward search from emacs to skim
+  ;;     Support for forward search from emacs to skim is added later in this file.
   )
 
 ;; Visual niceties
@@ -846,3 +846,19 @@ argument."
 (use-package! pest-mode
   :mode "\\.pest\\'"
   :hook (pest-mode . flymake-mode))
+
+;; Set up forward-search from Emacs to Skim, when on Mac
+(use-package! auctex
+  :config
+  (when IS-MAC
+    ;; Set up Skim as the default PDF viewer, and set up forward-search (trigger
+    ;; using "View" from C-c C-c, or directly C-c C-v)
+    (add-to-list 'TeX-view-program-list
+                 '("PDF Viewer"
+                   "/Applications/Skim.app/Contents/SharedSupport/displayline -background -readingbar -revert %n %o %b"))
+    (setq-default
+     TeX-view-program-selection '((output-pdf "PDF Viewer"))))
+  ;; Automatically help figure out the master file if it is not specified
+  (setq-default TeX-master 'dwim)
+  :hook
+  (LaTeX-mode . TeX-source-correlate-mode))

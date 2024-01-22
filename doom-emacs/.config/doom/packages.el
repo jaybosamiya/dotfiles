@@ -87,6 +87,9 @@
 ;; Add Dafny support
 (package! boogie-friends)
 
+;; Add LaTeX support
+(package! auctex)
+
 ;; Add Verifpal support
 (package! verifpal-mode
   :recipe (:host github :protocol ssh :repo "jaybosamiya/verifpal-mode.el" :branch "main"))
