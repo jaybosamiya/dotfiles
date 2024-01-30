@@ -17,5 +17,6 @@
     "workbench.editor.empty.hint": "hidden",
     "editor.inlineSuggest.suppressSuggestions": true,
     "cody.experimental.chatPanel": true,
-    "editor.accessibilitySupport": "off"
+    "editor.accessibilitySupport": "off",
+    "redhat.telemetry.enabled": false
 }
