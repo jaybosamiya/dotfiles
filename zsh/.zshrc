@@ -31,12 +31,23 @@ plugins=(git command-not-found rust pass just)
 source $ZSH/oh-my-zsh.sh || git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 if command -v nix-index >/dev/null; then source ~/.nix-command-not-found.sh || echo "Might want to stow nix-command-not-found for niceties"; fi
 
+# Useful utility function
+function _unwrap_or {
+    default="$1"
+    shift
+    case x$# in
+        x0) echo "$default" ;;
+        x1) echo "$1" ;;
+        *) echo "Too many arguments; using '$1'" 1>&2; echo "$1" ;;
+    esac
+}
+
 # Custom aliases
 function n {
     case ${HOST%%.*} in
-        eden) function n { nautilus . &! } ;;
-        Valhalla) function n { explorer.exe . } ;;
-        arcadia) function n { open . } ;;
+        eden) function n { nautilus "$(_unwrap_or . "$@")" &! } ;;
+        Valhalla) function n { explorer.exe "$(_unwrap_or . "$@")" } ;;
+        arcadia) function n { open "$(_unwrap_or . "$@")" } ;;
         *) function n { echo "Unknown machine. n is unbound." } ;;
     esac
     n "$@"
