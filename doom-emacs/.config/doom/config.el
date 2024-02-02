@@ -847,9 +847,13 @@ argument."
   :mode "\\.pest\\'"
   :hook (pest-mode . flymake-mode))
 
-;; Set up forward-search from Emacs to Skim, when on Mac
-(use-package! auctex
+;; LaTeX specific things
+(use-package! tex ; provided by auctex
+  :mode ("\\.tex\\'" . tex-LaTeX-mode)
   :config
+  ;; Automatically help figure out the master file if it is not specified
+  (setq-default TeX-master 'dwim)
+  ;; Set up forward-search from Emacs to Skim, when on Mac
   (when IS-MAC
     ;; Set up Skim as the default PDF viewer, and set up forward-search (trigger
     ;; using "View" from C-c C-c, or directly C-c C-v)
@@ -858,7 +862,5 @@ argument."
                    "/Applications/Skim.app/Contents/SharedSupport/displayline -background -readingbar -revert %n %o %b"))
     (setq-default
      TeX-view-program-selection '((output-pdf "PDF Viewer"))))
-  ;; Automatically help figure out the master file if it is not specified
-  (setq-default TeX-master 'dwim)
   :hook
   (LaTeX-mode . TeX-source-correlate-mode))
