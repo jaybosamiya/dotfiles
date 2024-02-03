@@ -864,3 +864,12 @@ argument."
      TeX-view-program-selection '((output-pdf "PDF Viewer"))))
   :hook
   (LaTeX-mode . TeX-source-correlate-mode))
+
+;; Markdown specific things
+(use-package! markdown-mode
+  ;; Get rid of the annoying backtick binding
+  :bind (
+         (:map markdown-mode-map
+               ("`" . nil))
+         (:map gfm-mode-map
+               ("`" . nil))))
