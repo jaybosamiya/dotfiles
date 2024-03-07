@@ -867,6 +867,13 @@ argument."
                    "/Applications/Skim.app/Contents/SharedSupport/displayline -background -readingbar -revert %n %o %b"))
     (setq-default
      TeX-view-program-selection '((output-pdf "PDF Viewer"))))
+  ;; If the "iA Quattro" font is available, switch the font buffer default to it
+  (when (find-font (font-spec :name "iA Writer Quattro V"))
+    (add-hook 'LaTeX-mode-hook
+              (defun font-set-ia-quattro ()
+                (interactive)
+                (setq buffer-face-mode-face '(:family "iA Writer Quattro V"))
+                (buffer-face-mode 1))))
   :hook
   (LaTeX-mode . TeX-source-correlate-mode))
 
