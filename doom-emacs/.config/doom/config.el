@@ -854,7 +854,7 @@ argument."
 
 ;; LaTeX specific things
 (use-package! tex ; provided by auctex
-  :mode ("\\.tex\\'" . tex-LaTeX-mode)
+  :mode ("\\.tex\\'" . TeX-latex-mode)
   :config
   ;; Automatically help figure out the master file if it is not specified
   (setq-default TeX-master 'dwim)
