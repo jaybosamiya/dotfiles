@@ -180,3 +180,9 @@ export ET_NO_TELEMETRY=t
 if [ -d "$HOME/.orbstack/bin" ]; then
     export PATH="$HOME/.orbstack/bin:$PATH"
 fi
+
+# Set up rye if it exists
+if [ -s "$HOME/.rye/env" ]; then
+    . "$HOME/.rye/env"
+fi
+
