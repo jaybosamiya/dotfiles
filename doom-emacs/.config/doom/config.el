@@ -419,7 +419,12 @@ Example usage:
         "M-c" #'capitalize-dwim)
   ;; Get some of that distract-free goodness :) Previously, I used to use
   ;; olivetti-mode, but this actually seems nicer.
-  (map! "C-<f11>" #'+zen/toggle)
+  (map! "C-<f11>"
+        (defun zen-mode ()
+          "Toggle `display-line-numbers-mode' and `+zen/toggle'"
+          (interactive)
+          (call-interactively 'display-line-numbers-mode)
+          (call-interactively '+zen/toggle)))
   ;; Use the awesome ripgrep, along with its awesome Emacs package
   (use-package! rg
     :config (setq
