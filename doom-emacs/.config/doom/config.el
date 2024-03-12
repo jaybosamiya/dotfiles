@@ -171,6 +171,9 @@ Example usage:
     [s-return]     #'+default/newline-below
     "S-s-RET"      #'+default/newline-above
     [S-s-return]   #'+default/newline-above)
+  ;; Disable C-tab tab bar, which conflicts with copilot.el, leading to sudden jerky motion
+  (unset-if-used-by!
+   "C-<tab>" #'mac-next-tab-or-toggle-tab-bar)
   ;; `s-/' is used by (cmd! (save-excursion (comment-line 1))) which is an
   ;; anonymous lambda, so we just need to unset it unconditionally
   (map! "s-/" nil)
