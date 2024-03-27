@@ -1,4 +1,4 @@
-python 3.11.4 pypy3.9-7.3.11
+python 3.12.2 pypy3.10-7.3.15
 # Use
 #
 #    nix-shell -p  clang pkg-config  bzip2 expat gdbm libffi libxcrypt lzma ncurses openssl readline sqlite tcl tk tzdata xz zlib
