@@ -104,6 +104,9 @@
 ;; Get some good smooth scrolling
 (package! good-scroll)
 
+;; Useful support for quickly placing and moving to bookmarks within files
+(package! bm)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; To install a package with Doom you must declare them here and run 'doom sync'

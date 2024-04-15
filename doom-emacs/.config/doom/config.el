@@ -899,3 +899,12 @@ argument."
                ("`" . nil))
          (:map gfm-mode-map
                ("`" . nil))))
+
+;; Useful support for quickly placing and moving to bookmarks within files
+(use-package! bm
+  :config
+  ;; Disable bookmark highlighting
+  (setq bm-highlight-style nil)
+  :bind (("S-<SPC>" . bm-toggle)
+         ("C-:" . bm-next)
+         ("C-\"" . bm-previous)))
