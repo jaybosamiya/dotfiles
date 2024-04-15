@@ -101,6 +101,9 @@
 ;; Add support for Mermaid files for nice diagrams and graphs (https://mermaid.js.org/)
 (package! mermaid-mode)
 
+;; Get some good smooth scrolling
+(package! good-scroll)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; To install a package with Doom you must declare them here and run 'doom sync'

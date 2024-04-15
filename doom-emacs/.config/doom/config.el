@@ -389,13 +389,14 @@ Example usage:
            ("M-J" . pop-global-mark)
            (:map isearch-mode-map
                  ("M-j" . avy-isearch))))
-  ;; Handle page up/down the way I like it instead (move only by lines), and
-  ;; remove the scroll left/right behavior, replacing it with the original
-  ;; up/down.
-  (map! [next] #'scroll-up-line
-        [C-next] #'scroll-up-command
-        [prior] #'scroll-down-line
-        [C-prior] #'scroll-down-command)
+  ;; Replaced, in favor of good-scroll (see below)
+  ;; ;; Handle page up/down the way I like it instead (move only by lines), and
+  ;; ;; remove the scroll left/right behavior, replacing it with the original
+  ;; ;; up/down.
+  ;; (map! [next] #'scroll-up-line
+  ;;       [C-next] #'scroll-up-command
+  ;;       [prior] #'scroll-down-line
+  ;;       [C-prior] #'scroll-down-command)
   ;; Instantly jump to the definition, but open in another window.
   (map! "C-'" #'xref-find-definitions-other-window)
   ;; Perform the inverse of M-q
@@ -488,6 +489,13 @@ Example usage:
               (narrow-to-region start end)
               (use-local-map (copy-keymap (car (current-active-maps))))
               (local-set-key (kbd "q") 'kill-this-buffer))))))
+
+;; Enable smooth scrolling, via good-scroll; also set page up/down to scroll
+;; smoothly by a full screenfull
+(use-package! good-scroll
+  :init (good-scroll-mode 1)
+  :bind (("<prior>" . good-scroll-down-full-screen)
+         ("<next>" . good-scroll-up-full-screen)))
 
 ;; Enable hi-lock-mode globally, since it is ridiculously useful to be able to
 ;; do custom highlighting within a single file, to keep track of (say)
