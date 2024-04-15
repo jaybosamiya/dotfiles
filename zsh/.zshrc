@@ -258,25 +258,39 @@ if command -v asciinema >/dev/null; then
 fi
 
 function e() {
-    if [ $# = 0 ]; then
-        emacs . &!
-    elif [ "$1" = "-nw" ]; then
-        echo "Don't run 'e -nw'. It'll send it into the background lol."
-        local choice
-        if read -q "choice?Press y to open it in foreground: "; then
-            if [ $# = 1 ]; then
-                emacs -nw .
+    case "$OSTYPE" in
+    darwin*)
+        if [ $# = 0 ]; then
+            emacsclient --create-frame --no-wait . &!
+        else
+            emacsclient --create-frame --no-wait "$@" &!
+        fi
+        ;;
+    linux*)
+        if [ $# = 0 ]; then
+            emacs . &!
+        elif [ "$1" = "-nw" ]; then
+            echo "Don't run 'e -nw'. It'll send it into the background lol."
+            local choice
+            if read -q "choice?Press y to open it in foreground: "; then
+                if [ $# = 1 ]; then
+                    emacs -nw .
+                else
+                    emacs "$@"
+                fi
             else
-                emacs "$@"
+                echo "" 1>&2
+                echo "Got '$choice'. Not doing anything..." 1>&2
+                return 1
             fi
         else
-            echo "" 1>&2
-            echo "Got '$choice'. Not doing anything..." 1>&2
-            return 1
+            emacs "$@" &!
         fi
-    else
-        emacs "$@" &!
-    fi
+        ;;
+    *)
+        echo "Unknown OS type $OSTYPE"
+        ;;
+    esac
 }
 
 export ALTERNATE_EDITOR='emacs' # Opens emacs if no emacs server is already started
