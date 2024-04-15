@@ -59,7 +59,7 @@
       user-mail-address "doomemacsconfig@jaybosamiya.com")
 
 ;; MacOS specific overrides
-(when IS-MAC
+(when (featurep :system 'macos)
   ;; mac-* variables are used by the special emacs-mac build of Emacs by
   ;; Yamamoto Mitsuharu, while other builds use ns-*.
   (setq mac-command-modifier      'meta
@@ -101,8 +101,9 @@
   (map! "M-<f11>"
         (defun toggle-frame-fullscreen-accounting-for-notch (&optional frame)
           "Toggle fullscreen state of FRAME.
-Modified from original code in frame.el, replacing 'fullboth with 'fullscreen
-because otherwise on MacOS, it expands too far and overflows into the notch."
+Modified from original code in frame.el, replacing `'fullboth'
+with `'fullscreen' because otherwise on MacOS, it expands too far
+and overflows into the notch."
           (interactive)
           (let ((fullscreen (frame-parameter frame 'fullscreen)))
             (if (memq fullscreen '(fullscreen fullboth))
@@ -128,14 +129,7 @@ because otherwise on MacOS, it expands too far and overflows into the notch."
   ;; function, then it throws a warning message and leaves it as-is.
   (defmacro unset-if-used-by! (&rest args)
     "Unset a keybinding if it is used by a specific function. Otherwise, throw
-a warning message and leave it as-is. ARGS accepts the syntax as in `map!'.
-
-Example usage:
-
-        (unset-if-used-by!
-           \"s-z\" #'undo
-           \"s-Z\" #'redo
-           \"s-q\" (if (daemonp) #'delete-frame #'save-buffers-kill-terminal))"
+a warning message and leave it as-is. ARGS accepts the syntax as in `map!'."
     (let ((keybindings (seq-partition args 2)))
       `(progn
          ,@(mapcar (lambda (keybinding)
@@ -731,7 +725,7 @@ Based on `so-long-detected-long-line-p'."
               (org-indent-mode 1))))
 
 ;; Set up F* mode
-(when (featurep! :lang fstar)
+(when (modulep! :lang fstar)
   (use-package! fstar-mode
     :config
     (add-hook 'fstar-mode-hook #'ocp-setup-indent)))
@@ -873,7 +867,7 @@ argument."
   ;; Automatically help figure out the master file if it is not specified
   (setq-default TeX-master 'dwim)
   ;; Set up forward-search from Emacs to Skim, when on Mac
-  (when IS-MAC
+  (when (featurep :system 'macos)
     ;; Set up Skim as the default PDF viewer, and set up forward-search (trigger
     ;; using "View" from C-c C-c, or directly C-c C-v)
     (add-to-list 'TeX-view-program-list
