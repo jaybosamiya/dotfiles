@@ -899,6 +899,6 @@ argument."
   :config
   ;; Disable bookmark highlighting
   (setq bm-highlight-style nil)
-  :bind (("S-<SPC>" . bm-toggle)
+  :bind (("C-S-<SPC>" . bm-toggle)
          ("C-:" . bm-next)
          ("C-\"" . bm-previous)))
