@@ -1,0 +1,13 @@
+[profile.release]
+# For folks on MacOS (possibly ARM-specific?), updating to Rust stable 1.77.0
+# may break builds if you have a non-default strip command in your path (i.e.,
+# rather than /usr/bin/strip, say you have the one from binutils). This is
+# because by default, now on --release builds of crates, Rust decides to strip
+# files, and for whatever reason, that causes MacOS to freak out, and instantly
+# SIGKILL such files if they were not stripped by the default strip. I haven’t
+# had a chance to dive into this issue to figure out what the actual underlying
+# issue is (my guess is that this is related to the same sort of thing that
+# happens when a program edits an executable file in-place, rather than deleting
+# and recreating it---I recall a similar issue in Verus in the past on MacOS,
+# fixed via an added rm or such), but there is a fairly simple workaround:
+strip = "none"
