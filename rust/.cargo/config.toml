@@ -1,3 +1,7 @@
+[alias]
+# Convenience alias to `cargo-generate` that runs one of my templates
+gen = "generate --git git@github.com:jaybosamiya/cargo-generate-template.git"
+
 [profile.release]
 # For folks on MacOS (possibly ARM-specific?), updating to Rust stable 1.77.0
 # may break builds if you have a non-default strip command in your path (i.e.,
