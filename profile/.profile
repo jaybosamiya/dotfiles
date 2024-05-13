@@ -124,13 +124,6 @@ if [ -d "$HOME/.wasmer" ]; then
     [ -s "$WASMER_DIR/wasmer.sh" ] && . "$WASMER_DIR/wasmer.sh"
 fi
 
-# pyenv configuration
-if [ -d "$HOME/.pyenv" ]; then
-    export PYENV_ROOT="$HOME/.pyenv"
-    export PATH="$PYENV_ROOT/bin:$PATH"
-    eval "$(pyenv init --path)"
-fi
-
 # doom-emacs configuration
 if [ -d "$HOME/.emacs.d/bin" ]; then
     export PATH="$HOME/.emacs.d/bin:$PATH"
