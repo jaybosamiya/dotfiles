@@ -88,7 +88,10 @@ export PATH="$HOME/.gem/bin:$PATH"
 # connect up local cabal repository
 export PATH="$HOME/.cabal/bin/:$PATH"
 
-export PATH="$HOME/.cargo/bin:$PATH"
+# connect up to cargo
+if [ -f ~/.cargo/env ]; then
+    . "$HOME/.cargo/env"
+fi
 
 # connect up to anyenv (https://anyenv.github.io/)
 if [ -d ~/.anyenv/bin ]; then
