@@ -354,17 +354,22 @@ if command -v ncdu >/dev/null; then
     alias ncdu='ncdu -rx' # Make ncdu safe (no delete) and fast (don't cross FS boundary)
 fi
 
-case "$OSTYPE" in
-    darwin*)
-        alias clip='pbcopy'
-        ;;
-    linux*)
-        alias clip='xclip -selection clipboard'
-        ;;
-    *)
-        echo "Unknown OS type $OSTYPE"
-        ;;
-esac
+function clip {
+    case ${HOST%%.*} in
+        eden) function clip { xclip -selection clipboard "$@" } ;;
+        Valhalla|asphodel|magmell) function clip { clip.exe "$@" } ;;
+        arcadia) function clip { pbcopy "$@" } ;;
+        *) function clip {
+                 echo "Unknown machine. Attempting heuristic to discover clipboard.";
+                 case "$OSTYPE" in
+                     darwin*) pbcopy "$@" ;;
+                     linux*) xclip -selection clipboard "$@" ;;
+                     *) echo "Unknown OS type $OSTYPE" ;;
+                 esac
+             } ;;
+    esac
+    clip "$@"
+}
 
 if command -v axel >/dev/null; then
     alias axel='axel -a -n 10'
