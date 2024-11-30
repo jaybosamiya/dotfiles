@@ -198,7 +198,7 @@ a warning message and leave it as-is. ARGS accepts the syntax as in `map!'."
   ;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
   ;;
   ;; Here, we set up just one for now.
-  (setq doom-font "Iosevka Nerd Font Mono")
+  (setq doom-font (font-spec :family "Berkeley Mono" :size 20)) ;; Note: If on a machine without BerkeleyMono, I prefer "Iosevka Nerd Font Mono"
   ;; Set up the theme. If we want to change this on the fly, `M-x load-theme`
   ;; instead.
   (setq doom-theme 'doom-nord)
