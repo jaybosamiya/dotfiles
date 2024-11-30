@@ -149,6 +149,18 @@ if command -v phd >/dev/null; then
     }
 fi
 
+if command -v cargo >/dev/null; then
+    function cargo() {
+        if [ "$1" = "check" ] || [ "$1" = "clippy" ]; then
+            if [ -t 1 ] && [ -t 2 ]; then
+                CARGO_TERM_COLOR=always command cargo "$@" |& less -RFX
+            fi
+        else
+            command cargo "$@"
+        fi
+    }
+fi
+
 # Replace `cat` with `bat` when available
 #
 # Set up bcat as a quick alias to cat, to quickly access cat if bat doesn't make sense for some use case
