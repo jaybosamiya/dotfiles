@@ -83,6 +83,15 @@ if [[ "$HOST" == "Valhalla" ]]; then
     alias screenperm='sudo /etc/init.d/screen-cleanup start' # Needed for WSL2 when `screen` gives the "Cannot make directory '/run/screen': Permission denied" error
 fi
 
+# Make it easier to open things on WSL2
+#
+# Relevant: `apt install wslu`
+#
+# Also, `wslview -r` is useful to set up browser stuff
+if command -v wslview >/dev/null; then
+    alias open=wslview
+fi
+
 # Make it easy to clear out any existing open SSH sockets
 function ssh-clear {
     # Ask for confirmation on each file in ~/.ssh/*.sock
