@@ -70,7 +70,7 @@ function _unwrap_or {
 function n {
     case ${HOST%%.*} in
         eden) function n { nautilus "$(_unwrap_or . "$@")" &! } ;;
-        Valhalla) function n { explorer.exe "$(_unwrap_or . "$@")" } ;;
+        Valhalla|asphodel|magmell) function n { explorer.exe "$(_unwrap_or . "$@")" } ;;
         arcadia) function n { open "$(_unwrap_or . "$@")" } ;;
         *) function n { echo "Unknown machine. n is unbound." } ;;
     esac
