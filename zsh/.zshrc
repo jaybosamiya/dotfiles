@@ -169,6 +169,16 @@ if command -v bat >/dev/null; then
     alias bcat=/bin/cat
 fi
 
+# If `jq` exists, add a helper function `jqi` which runs `ijq` (install via `nix-env -iA nixpkgs.ijq`)
+# switching around the relevant streams, so that we can get the actual filter usable in jq out
+if command -v jq >/dev/null; then
+    function jqi() {
+        # ijq prints the output to stdout, and filter to stderr
+        # We just kill stdout, and move stderr to stdout instead
+        ijq 2>&1 1>/dev/null "$@"
+    }
+fi
+
 # Upload a file to allow temporary download for 24 hours
 function upload_temporary() {
     if [ $# -lt 1 ]; then
