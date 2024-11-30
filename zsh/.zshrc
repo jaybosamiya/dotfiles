@@ -31,6 +31,30 @@ plugins=(git command-not-found rust pass just)
 source $ZSH/oh-my-zsh.sh || git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 if command -v nix-index >/dev/null; then source ~/.nix-command-not-found.sh || echo "Might want to stow nix-command-not-found for niceties"; fi
 
+# Make `--help` auto-scrolling on all commands. The `+` is needed to prevent
+# `alias` from thinking that the `--help` is part of the arguments to `alias`.
+#
+# Note: since we are adding a pipe, many programs will detect that it is not a
+# TTY anymore, and thus not output things in color; to handle this, we can pass
+# `unbuffer` (from `sudo apt install expect`) at the start of the command
+# (e.g., `unbuffer foo --help`) to bring back colors. We _could_ handle this via
+# `zle` to overwrite `accept-line` but that feels very weird when it happens, so
+# I have elected not to keep that part around.
+#
+# Potentially worth considering: using a suffix alias (for say, `.help`) that runs a
+# function that will then do the unbuffer _and_ less pipe stuff; not sure it works though
+#alias -g + --help='--help |& less -RF'
+
+# Add a convenient Control-H binding that does useful things for --help
+bindkey '^H' __helper_function_for_ctrl_h
+__helper_function_for_ctrl_h() {
+  local initial_spaces="${BUFFER%%[^ ]*}"
+  BUFFER="${initial_spaces}unbuffer ${BUFFER##$initial_spaces} --help | less -RF"
+  CURSOR=${#BUFFER}
+  zle redisplay
+}
+zle -N __helper_function_for_ctrl_h
+
 # Useful utility function
 function _unwrap_or {
     default="$1"
