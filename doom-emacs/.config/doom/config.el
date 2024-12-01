@@ -241,6 +241,9 @@ a warning message and leave it as-is. ARGS accepts the syntax as in `map!'."
         "C-e" #'move-end-of-line
         [home] #'doom/backward-to-bol-or-indent
         [end] #'doom/forward-to-last-non-comment-or-eol)
+  ;; Disable doom-emacs's confirmation to kill Emacs. Rely on just the default
+  ;; "if modified buffers, ask, otherwise go away"
+  (setq confirm-kill-emacs nil)
   ;; Disable doom-emacs's default behavior of smartparens being enabled. It
   ;; appears we can't completely remove/disable the package, but instead need to
   ;; do this. See
