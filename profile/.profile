@@ -173,9 +173,9 @@ export CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse
 export ET_NO_TELEMETRY=t
 
 # Enable OrbStack setup if it exists
-if [ -d "$HOME/.orbstack/bin" ]; then
-    export PATH="$HOME/.orbstack/bin:$PATH"
-fi
+#if [ -d "$HOME/.orbstack/bin" ]; then
+#    export PATH="$HOME/.orbstack/bin:$PATH"
+#fi
 
 # Set up rye if it exists
 if [ -s "$HOME/.rye/env" ]; then
