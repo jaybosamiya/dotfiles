@@ -1,0 +1,61 @@
+#!/bin/bash
+
+# Function to display help
+show_help() {
+  echo "Usage: $0 [options] <URL>"
+  echo
+  echo "Options:"
+  echo "  -o <output_file>   Specify the output PDF file name (default: output.pdf)"
+  echo "  -h, --help         Show this help message"
+  exit 0
+}
+
+# Default output file
+OUTPUT="output.pdf"
+
+# Parse command-line options
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    -o)
+      if [[ -n $2 && $2 != -* ]]; then
+        OUTPUT=$2
+        shift 2
+      else
+        echo "Error: Missing argument for -o"
+        exit 1
+      fi
+      ;;
+    -h|--help)
+      show_help
+      ;;
+    *)
+      URL=$1
+      shift
+      ;;
+  esac
+done
+
+# Check if URL is provided
+if [[ -z $URL ]]; then
+  echo "Error: URL is required"
+  show_help
+fi
+
+# Path to Chrome on macOS
+CHROME_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+
+if [[ ! -x "$CHROME_PATH" ]]; then
+  echo "Error: Google Chrome is not installed or not found at $CHROME_PATH."
+  echo "Please install Google Chrome from https://www.google.com/chrome/ and try again."
+  exit 1
+fi
+
+# Use Chrome in headless mode to print the URL as PDF
+"$CHROME_PATH" --headless --disable-gpu --print-to-pdf="$OUTPUT" "$URL"
+
+if [[ $? -eq 0 ]]; then
+  echo "PDF saved as $OUTPUT"
+else
+  echo "Failed to create PDF"
+  exit 1
+fi
