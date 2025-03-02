@@ -972,3 +972,29 @@ argument."
          ("M-m M-w" . yap-write)
          ("M-m M-o" . yap/optimize-code)
          ("M-m M-e" . yap/explain-code)))
+
+;; Flycheck configuration
+(use-package! flycheck
+  :config
+  (setq flycheck-navigation-minimum-level 'error)
+  (defun flycheck-switch-min-level (&optional prefix)
+    "Switch between various navigation levels for flycheck.
+
+Pass a prefix argument to interactively choose; otherwise switches
+between `All locations` and `Errors only`."
+    (interactive "P")
+    (let* ((available-levels (list nil 'info 'warning 'error))
+           (current-level flycheck-navigation-minimum-level)
+           (new-level
+            (if prefix (intern (completing-read "Select navigation level: "
+                                             (mapcar (lambda (level)
+                                                       (symbol-name level))
+                                                     available-levels)
+                                             nil t))
+              (if (eq current-level nil) 'error
+                nil))))
+      (setq-local flycheck-navigation-minimum-level new-level)
+      (flycheck-error-list-set-filter flycheck-navigation-minimum-level)
+      (message "Flycheck navigation level set to: %s" flycheck-navigation-minimum-level)))
+  :bind ("C-c ! !" . flycheck-switch-min-level))
+
