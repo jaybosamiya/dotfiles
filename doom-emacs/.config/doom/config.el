@@ -694,9 +694,9 @@ Based on `so-long-detected-long-line-p'."
 (use-package! copilot
   ;; Run only when `node` is installed on the system.
   :when (executable-find "node")
-  ;; Currently, only run in `python-mode' buffers automatically. Require
-  ;; manually invoking in other buffers.
-  :hook (python-mode . copilot-mode)
+  ;; ;; Currently, only run in `python-mode' buffers automatically. Require
+  ;; ;; manually invoking in other buffers.
+  ;; :hook (python-mode . copilot-mode)
   ;; By default, "f2" is bound to two-column mode, which I don't use. Override
   ;; it so that I can easily access copilot-mode.
   :bind ("<f2>" . 'copilot-mode)
