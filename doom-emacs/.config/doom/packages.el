@@ -50,7 +50,8 @@
 
 (package! default-text-scale)
 
-(package! rainbow-blocks)
+; TEMPORARILY DISABLED BECAUSE IT HAS BEEN TAKEN OFF OF GITHUB?!!!
+; (package! rainbow-blocks)
 (package! rainbow-identifiers)
 
 (package! rg)
