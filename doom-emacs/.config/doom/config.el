@@ -71,6 +71,24 @@
         ;; Free up the right option for character composition
         mac-right-option-modifier 'none
         ns-right-option-modifier  'none)
+  ;; Work-around for the massive title bar on recent MacOS, which is fixed on
+  ;; upstream Emacs Macport, but since mituharu has not cut a new release, it
+  ;; hasn't propagated down to the railwaycat repo I usually grab the `.app`
+  ;; file from.
+  ;;
+  ;; Relevant links:
+  ;; - https://github.com/railwaycat/homebrew-emacsmacport/issues/362
+  ;; - https://bitbucket.org/mituharu/emacs-mac/commits/5f6c306095c825eb01708e336f9d03c15271dfe9
+  ;; - https://github.com/railwaycat/homebrew-emacsmacport/issues/384
+  (progn
+    (defun macos-workaround-29-1-tool-bar-on-and-off ()
+      (tool-bar-mode 1)
+      (tool-bar-mode 0))
+    (add-hook 'window-setup-hook #'macos-workaround-29-1-tool-bar-on-and-off)
+    (add-hook 'after-make-frame-functions
+              (lambda (frame)
+                (ignore frame)
+                (macos-workaround-29-1-tool-bar-on-and-off))))
   ;; Doom Emacs seems to disable smooth scrolling due to "perf reasons" or some
   ;; such. I haven't found performance problems, so why not re-enable smooth
   ;; scrolling. :)
