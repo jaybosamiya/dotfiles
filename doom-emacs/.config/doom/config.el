@@ -937,3 +937,38 @@ argument."
     "Writeroom"
     ("[" writeroom-decrease-width "Decrease width")
     ("]" writeroom-increase-width "Increase width")))
+
+;; An LLM prompting assistant, bound to `M-m ...`
+(use-package! yap
+  :config
+  (setq yap-service "openai")
+  (setq yap-model "gpt-4o-mini") ; start with something cheap
+
+  (setq yap-api-key:openai
+        (with-temp-buffer
+           (insert-file-contents "~/.config/yap/openai-api-key")
+           (string-trim (buffer-string))))
+  (setq yap-respond-in-buffer nil)
+  (setq yap-show-diff-before-rewrite t)
+  (setq yap-log-requests "~/.cache/yap")
+  (setq yap-follow-output t)
+
+  ;; Add window rules for *yap-response* buffer so that it shows up at
+  ;; top of the frame
+  (add-to-list 'display-buffer-alist
+               `(,(rx bos "*yap-response*" eos)
+                 (display-buffer-reuse-window
+                  display-buffer-in-side-window)
+                 (reusable-frames . visible)
+                 (side            . top)
+                 (window-height   . 0.3)))
+  :init
+  (defun yap/optimize-code () (interactive) (yap-rewrite 'optimize-code))
+  (defun yap/explain-code () (interactive) (yap-prompt 'explain-code))
+  (global-unset-key (kbd "M-m"))
+  :bind (("M-m M-c" . yap-buffer-toggle)
+         ("M-m M-m" . yap-prompt)
+         ("M-m M-r" . yap-rewrite)
+         ("M-m M-w" . yap-write)
+         ("M-m M-o" . yap/optimize-code)
+         ("M-m M-e" . yap/explain-code)))

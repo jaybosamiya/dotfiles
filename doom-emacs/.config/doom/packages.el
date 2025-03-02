@@ -110,6 +110,10 @@
 ;; Make it easy to add keybindings supporting repeats
 (package! hydra)
 
+;; An LLM prompting assistant
+(package! yap
+  :recipe (:host github :repo "meain/yap" :files ("*.el")))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; To install a package with Doom you must declare them here and run 'doom sync'
