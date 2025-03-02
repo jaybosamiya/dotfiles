@@ -592,7 +592,12 @@ a warning message and leave it as-is. ARGS accepts the syntax as in `map!'."
         ;; between 2018 and 2021 are practically the same, so let's
         ;; just use 2021 everywhere, until I figure out a clean way to
         ;; get the edition from the nearest `Cargo.toml`.
-        rustic-rustfmt-args "--edition 2021"
+        ;;
+        ;; UPDATE: I am using the 2024 edition now instead. No serious change,
+        ;; but just marginally annoying enough difference in ordering of imports
+        ;; that causes trouble in some projects, so I am just gonna use the
+        ;; nicer 2024-edition import order.
+        rustic-rustfmt-args "--edition 2024"
         ;; Don't display the rustfmt buffer if/when there are errors.
         rustic-format-display-method #'ignore)
   ;; Enable/disable specific hints
