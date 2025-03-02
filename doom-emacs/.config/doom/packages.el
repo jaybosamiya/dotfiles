@@ -107,6 +107,9 @@
 ;; Useful support for quickly placing and moving to bookmarks within files
 (package! bm)
 
+;; Make it easy to add keybindings supporting repeats
+(package! hydra)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; To install a package with Doom you must declare them here and run 'doom sync'
