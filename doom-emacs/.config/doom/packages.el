@@ -82,8 +82,8 @@
 (when (featurep! :lang fstar)
   (package! ocp-indent))
 
-;; Add Dafny support
-(package! boogie-friends)
+;; ;; Add Dafny support
+;; (package! boogie-friends)
 
 ;; Add LaTeX support
 (package! auctex)
