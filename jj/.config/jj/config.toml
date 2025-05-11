@@ -1,0 +1,135 @@
+[user]
+email = "jaybosamiya@gmail.com"
+name = "Jay Bosamiya"
+
+[ui]
+diff-editor = ":builtin"
+default-command = "st"
+pager = "less -FR"
+
+[git]
+# Prevent pushing work in progress or anything explicitly labeled "private"
+private-commits = "description(regex:'^(wip|private|todo|donotpush):') | description(regex:'\\[(wip|private|todo|donotpush)\\]')"
+
+# Whenever pushing with `jj git push --change`, rather than the default `push-` prefix, use a custom one.
+push-bookmark-prefix = "jayb/push-"
+
+# Do not require `--allow-new` when pushing new bookmarks
+push-new-bookmarks = true
+
+[revset-aliases]
+# Additionally, mark commits authored by other users as immutable too.
+#
+# The default immutable heads (`present(trunk()) | tags() |
+# untracked_remote_bookmarks()`) can be found
+# [here](https://jj-vcs.github.io/jj/latest/config/#set-of-immutable-commits).
+#
+# The `trunk().. &` bit is an optimization to scan for non-`mine()` commits
+# only among commits that are not in `trunk()`.
+"immutable_heads()" = "builtin_immutable_heads() | (trunk().. & ~mine())"
+
+[templates]
+# Add the diff as part of when attempting to draft a commit description
+draft_commit_description = '''
+concat(
+  description,
+  surround(
+    "\nJJ: This commit contains the following changes:\n", "",
+    indent("JJ:     ", diff.summary()),
+  ),
+  surround(
+    "\nJJ: This commit contains the following changes:\n", "",
+    indent("JJ:     ", diff.stat(72)),
+  ),
+  "\n",
+  "JJ: ignore-rest\n",
+  diff.git(),
+)
+'''
+
+[aliases]
+# Fast forward my latest bookmark on the current branch to the latest non-empty
+# (or merge) commit.
+ff = [
+  "bookmark", "move",
+  "--from", "latest(bookmarks(jayb) & ancestors(@))",
+  "--to", "latest(ancestors(@) & (merges() | ~empty()))"
+]
+
+# Same as `jj ff` but for main in particular
+ffm = [
+  "bookmark", "move",
+  "--from", "latest(bookmarks(main) & ancestors(@))",
+  "--to", "latest(ancestors(@) & (merges() | ~empty()))"
+]
+
+# Tiny convenience script to name a branch automatically based on an LLM looking
+# at the revisions since the last bookmark.
+llmb = ["util", "exec", "--", "bash", "-c", """
+#!/usr/bin/env bash
+set -euo pipefail
+SYSTEM_PROMPT="Generate a short, lowercase, hyphenated branch name that captures the core theme of these commits---no slashes, no prefixes like 'feat', just clear and concise wording."
+RES=$(jj log -r 'bookmarks()..@' --reversed | llm --system "$SYSTEM_PROMPT")
+while true; do
+    BRANCH_NAME="jayb/$RES"
+    echo "$BRANCH_NAME"
+    read -n 1 -r -p "Use branch name? ([Y]es/[n]o/[e]dit): " response
+    echo
+    response=${response:-Y}
+    if [[ "$response" =~ ^[Ee]$ ]]; then
+        TMPFILE=$(mktemp)
+        echo "$RES" > "$TMPFILE"
+        ${EDITOR:-vi} "$TMPFILE"
+        RES=$(<"$TMPFILE")
+        RES=$(printf "%s" "$RES")
+        rm "$TMPFILE"
+    fi
+    if [[ "$response" =~ ^[YyNn]$ ]]; then
+        break
+    fi
+done
+if [[ "$response" =~ ^[Yy]$ ]]; then
+    jj bookmark create -r "latest(ancestors(@) & (merges() | ~empty()))" "$BRANCH_NAME"
+fi""", ""]
+
+# A tiny convenience script that adds an LLM description to the current
+# revision, for cases where a detailed description is not crucial, but having
+# some description is helpful. The final `""` makes sure things show up as $@ in
+# the order/position expected.
+llm = ["util", "exec", "--", "bash", "-c", """
+#!/usr/bin/env bash
+set -euo pipefail
+SYSTEM_PROMPT="Generate a concise, single-line commit message for this diff, focusing on its intent rather than describing specific files or modules. Do not include prefixes like 'feat:', 'fix:', etc., unless it is a typo fix, in which case prefix with 'typo fixup: '. Keep the message terse, use abbreviations where appropriate (e.g., 'fs' for 'filesystem'), and avoid extra phrasing like 'The commit message is:'. Output only the commit message itself."
+if [[ "$@" == *"--commit"* ]]; then
+    if [[ "$#" -ne 1 ]]; then
+        echo "Error: --commit must be used exclusively."
+        exit 1
+    fi
+    RES=$(jj diff --git | llm --system "$SYSTEM_PROMPT")
+else
+    RES=$(jj diff --git "$@" | llm --system "$SYSTEM_PROMPT")
+fi
+while true; do
+    echo "$RES"
+    read -n 1 -r -p "Use description? ([Y]es/[n]o/[e]dit): " response
+    echo
+    response=${response:-Y}
+    if [[ "$response" =~ ^[Ee]$ ]]; then
+        TMPFILE=$(mktemp)
+        echo "$RES" > "$TMPFILE"
+        ${EDITOR:-vi} "$TMPFILE"
+        RES=$(<"$TMPFILE")
+        RES=$(printf "%s" "$RES")
+        rm "$TMPFILE"
+    fi
+    if [[ "$response" =~ ^[YyNn]$ ]]; then
+        break
+    fi
+done
+if [[ "$response" =~ ^[Yy]$ ]]; then
+    if [[ "$@" == *"--commit"* ]]; then
+        jj commit -m "$RES"
+    else
+        jj describe "$@" -m "$RES"
+    fi
+fi""", ""]
