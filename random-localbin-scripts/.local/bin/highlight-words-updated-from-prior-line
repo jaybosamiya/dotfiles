@@ -1,0 +1,13 @@
+#!/bin/bash
+
+prev=""; while IFS= read -r line; do
+  if [ -z "$prev" ]; then
+    echo "$line"
+  else
+    wdiff --avoid-wraps \
+      --no-deleted \
+      --start-insert $'\033[36m' --end-insert $'\033[0m' \
+      <(echo "$prev") <(echo "$line")
+  fi
+  prev="$line"
+done
