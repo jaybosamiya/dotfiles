@@ -1,0 +1,30 @@
+#!/bin/sh
+set -eu
+
+if [ $# -lt 1 ]; then
+  echo "Usage: $0 word1 [word2 ...]"
+  exit 1
+fi
+
+TMPDIR="/tmp/check-hyph-$$"
+mkdir -p "$TMPDIR"
+cd "$TMPDIR"
+trap 'cd /tmp && rm -rf "$TMPDIR"' EXIT
+
+TEXFILE="$TMPDIR/showhyph.tex"
+LOGFILE="$TMPDIR/showhyph.log"
+
+# Create TeX input
+{
+  echo "\\\\batchmode"
+  for w in "$@"; do
+    echo "\\\\showhyphens{$w}"
+  done
+  echo "\\\\bye"
+} > "$TEXFILE"
+
+# Run TeX once, discard output
+tex -interaction=batchmode -halt-on-error "$TEXFILE" > /dev/null 2>&1
+
+# Extract hyphenation lines (\tenrm words-with-hyphens)
+grep -oE '\\tenrm .+' "$LOGFILE" | sed 's/\\tenrm //'
