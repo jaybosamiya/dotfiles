@@ -11,9 +11,6 @@ pager = "less -FR"
 # Prevent pushing work in progress or anything explicitly labeled "private"
 private-commits = "description(regex:'^(wip|private|todo|donotpush):') | description(regex:'\\[(wip|private|todo|donotpush)\\]')"
 
-# Whenever pushing with `jj git push --change`, rather than the default `push-` prefix, use a custom one.
-push-bookmark-prefix = "jayb/push-"
-
 # Do not require `--allow-new` when pushing new bookmarks
 push-new-bookmarks = true
 
@@ -29,6 +26,9 @@ push-new-bookmarks = true
 "immutable_heads()" = "builtin_immutable_heads() | (trunk().. & ~mine())"
 
 [templates]
+# Whenever pushing with `jj git push --change`, rather than the default `push-` prefix, use a custom one.
+git_push_bookmark = '"jayb/push-" ++ change_id.short()'
+
 # Add the diff as part of when attempting to draft a commit description
 draft_commit_description = '''
 concat(
@@ -48,6 +48,13 @@ concat(
 '''
 
 [aliases]
+# Convenience way of looking at only stuff related to the current branch. Use
+# `jj log` for the full "normal" log.
+l = [
+  "log", "-r",
+  "ancestors(trunk()..@, 2) | descendants(@) | trunk()"
+]
+
 # Fast forward my latest bookmark on the current branch to the latest non-empty
 # (or merge) commit.
 ff = [
@@ -62,6 +69,32 @@ ffm = [
   "--from", "latest(bookmarks(main) & ancestors(@))",
   "--to", "latest(ancestors(@) & (merges() | ~empty()))"
 ]
+
+# Small convenience script to feed the changes for this branch to an LLM and get
+# a review of it.
+llmr = ["util", "exec", "--", "bash", "-c", """
+#!/usr/bin/env bash
+set -euo pipefail
+SYSTEM_PROMPT="Please review this PR as if you were a senior engineer.
+
+## Focus Areas
+- Architecture and design decisions
+- Potential bugs and edge cases
+- Performance considerations
+- Security implications
+- Code maintainability and best practices
+
+## Review Format
+- Start with a brief summary of the PR purpose and changes
+- List strengths of the implementation
+- Identify issues and improvement opportunities (ordered by priority)
+- Provide specific code examples for suggested changes where applicable
+
+Please be specific, constructive, and actionable in your feedback. Output the review in markdown format."
+
+jj log -r 'main..@'
+jj diff -r 'main..@' | llm --system "$SYSTEM_PROMPT"
+""", ""]
 
 # Tiny convenience script to name a branch automatically based on an LLM looking
 # at the revisions since the last bookmark.
