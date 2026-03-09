@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -e
+
+IMAGE="cado-nfs"
+
+docker build -t "$IMAGE" - <<'DOCKERFILE'
+FROM debian:bookworm-slim
+
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    git \
+    libgmp-dev \
+    python3 \
+    python3-flask \
+    python3-requests \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN git clone https://github.com/cado-nfs/cado-nfs.git /cado-nfs
+
+WORKDIR /cado-nfs
+RUN force_build_tree=/cado-nfs/build/cado-nfs make -j$(nproc)
+
+ENTRYPOINT ["/cado-nfs/build/cado-nfs/cado-nfs.py"]
+DOCKERFILE
+
+TTY_FLAG=""
+[ -t 0 ] && TTY_FLAG="-t"
+docker run --rm -i $TTY_FLAG "$IMAGE" "$@"
