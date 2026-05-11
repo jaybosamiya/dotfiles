@@ -175,7 +175,7 @@ a warning message and leave it as-is. ARGS accepts the syntax as in `map!'."
     "s-v" #'yank
     "s-s" #'save-buffer
     "s-x" #'execute-extended-command
-    "s-+" #'doom/reset-font-size
+    "s-+" #'doom/increase-font-size
     "s-=" #'doom/increase-font-size
     "s--" #'doom/decrease-font-size
     "s-a" #'mark-whole-buffer
@@ -846,7 +846,7 @@ Based on `so-long-detected-long-line-p'."
         ("C-c C-f C-a" . hs-show-all)
         ("C-c C-f C-h" . hs-hide-all)))
 
-(use-package! verifpal-mode)
+;; (use-package! verifpal-mode)
 
 (use-package! bibtex
   :init

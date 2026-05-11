@@ -89,8 +89,8 @@
 (package! auctex)
 
 ;; Add Verifpal support
-(package! verifpal-mode
-  :recipe (:host github :protocol ssh :repo "jaybosamiya/verifpal-mode.el" :branch "main"))
+;; (package! verifpal-mode
+;;   :recipe (:host github :protocol ssh :repo "jaybosamiya/verifpal-mode.el" :branch "main"))
 
 ;; Add support for Pest grammars (to get even more support, run `cargo install pesta`)
 (package! pest-mode
