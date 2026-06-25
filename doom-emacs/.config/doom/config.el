@@ -998,3 +998,12 @@ between `All locations` and `Errors only`."
       (message "Flycheck navigation level set to: %s" flycheck-navigation-minimum-level)))
   :bind ("C-c ! !" . flycheck-switch-min-level))
 
+;; Magit config
+(use-package! magit
+  :config
+  ;; Fix the new default that showed up in more recent versions of magit (4.4.0
+  ;; onwards); the older version did the correct thing, imho.
+  ;;
+  ;; Technically, without this, I can use `C-RET` to get back the old behavior,
+  ;; but why change muscle memory? :)
+  (setq magit-diff-visit-prefer-worktree t))
