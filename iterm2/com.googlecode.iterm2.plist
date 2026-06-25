@@ -40,6 +40,8 @@ The script should do this: \(ai.prompt)</string>
 	<true/>
 	<key>CheckTestRelease</key>
 	<true/>
+	<key>ClaudeCodeWorkgroupUpsellSuppressed</key>
+	<true/>
 	<key>ConvertDosNewlines</key>
 	<true/>
 	<key>Custom Color Presets</key>
