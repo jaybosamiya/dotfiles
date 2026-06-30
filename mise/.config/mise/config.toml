@@ -3,3 +3,27 @@ asdf_compat = true
 
 [settings.ruby]
 compile = false
+
+[tools]
+node = "lts"
+python = ["3.12.2", "pypy3.10-7.3.15"]
+
+# Old comment from ~/.tool-versions; unsure if important anymore
+##########################################
+# Use
+#
+#    nix-shell -p  clang pkg-config  bzip2 expat gdbm libffi libxcrypt lzma ncurses openssl readline sqlite tcl tk tzdata
+#
+# to ensure required packages exist when building
+#
+# And when building use
+#
+#     CFLAGS="$(pkg-config --cflags libffi ncurses)" LDFLAGS="$(pkg-config --libs libffi ncurses)" rtx install python@3...
+#
+# or similar
+#
+# NOTE: for 3.9.13, I needed to use
+#   CFLAGS="$(pkg-config --cflags libffi ncurses zlib bzip2 sqlite3 tk liblzma)" LDFLAGS="$(pkg-config --libs libffi ncurses zlib bzip2 sqlite3 tk liblzma)" rtx install python@3.9.13
+#
+## TODO: Read through https://dev.to/ajkerrigan/homebrew-pyenv-ctypes-oh-my-3d9
+# because we hit the libffi/ncurses issue without it otherwise
