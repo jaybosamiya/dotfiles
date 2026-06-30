@@ -720,9 +720,9 @@ Based on `so-long-detected-long-line-p'."
 (use-package! copilot
   ;; Run only when `node` is installed on the system.
   :when (executable-find "node")
-  ;; ;; Currently, only run in `python-mode' buffers automatically. Require
-  ;; ;; manually invoking in other buffers.
-  ;; :hook (python-mode . copilot-mode)
+  ;; Currently, only run in `python-mode' buffers automatically. Require
+  ;; manually invoking in other buffers.
+  :hook (python-mode . copilot-mode)
   ;; By default, "f2" is bound to two-column mode, which I don't use. Override
   ;; it so that I can easily access copilot-mode.
   :bind ("<f2>" . 'copilot-mode)
@@ -872,7 +872,7 @@ Based on `so-long-detected-long-line-p'."
         ("C-c C-f C-a" . hs-show-all)
         ("C-c C-f C-h" . hs-hide-all)))
 
-;; (use-package! verifpal-mode)
+; (use-package! verifpal-mode)
 
 (use-package! bibtex
   :init
@@ -1033,3 +1033,48 @@ between `All locations` and `Errors only`."
   ;; Technically, without this, I can use `C-RET` to get back the old behavior,
   ;; but why change muscle memory? :)
   (setq magit-diff-visit-prefer-worktree t))
+
+;; Projectile configuration
+(use-package! projectile
+  :config
+  ;; Add the Rust `target/` directory to globally ignored directories
+  (add-to-list 'projectile-globally-ignored-directories "target"))
+
+;; Dired configuration
+(use-package! dired
+  :bind (:map dired-mode-map
+              ("I" . dired-kill-subdir)))
+
+;; Prefer JJ over Git in colocated repos
+;;
+;; Technically this should be "JJ Git SVN Hg" or similar, but I am only using JJ
+;; and Git anyways :)
+(after! vc
+  (setq vc-handled-backends '(JJ Git)))
+
+;; In jj, @ is the working copy commit itself, so vc-working-revision returns
+;; @'s change ID. diff-hl then diffs the buffer against @, which after save is
+;; identical (no diff). We need to diff against @- (parent of working copy).
+;; We resolve @- to a concrete change ID so diff-hl's temp file cache
+;; invalidates when the parent changes (e.g. after `jj new`).
+(after! diff-hl
+  (defun +jj-resolve-parent-revision ()
+    "Resolve @- to a concrete change ID in the current jj repo."
+    (when-let* ((root (vc-jj-root buffer-file-name))
+                (default-directory root))
+      (car (last (vc-jj--process-lines nil "log" "--no-graph"
+                                       "--revisions" "@-"
+                                       "--template" "change_id"
+                                       "--limit" "1")))))
+  (defadvice! +jj-refresh-reference-revision-a (&rest _)
+    :before #'diff-hl-update
+    (when (and buffer-file-name
+               (eq (vc-backend buffer-file-name) 'JJ))
+      (setq-local diff-hl-reference-revision
+                  (+jj-resolve-parent-revision))))
+  (map! "C-c [" #'diff-hl-previous-hunk
+        "C-c ]" #'diff-hl-next-hunk))
+
+;; Scrypage config
+(use-package! scrypage-mode
+  :bind ("C-c C-s" . scrypage-query))
