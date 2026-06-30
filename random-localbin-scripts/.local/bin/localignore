@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+dir="$(pwd)"
+while true; do
+    if [[ -f "$dir/.git/info/exclude" ]]; then
+        exec vim "$dir/.git/info/exclude"
+    elif [[ -f "$dir/.jj/repo/store/git/info/exclude" ]]; then
+        exec vim "$dir/.jj/repo/store/git/info/exclude"
+    fi
+    parent="$(dirname "$dir")"
+    if [[ "$parent" == "$dir" ]]; then
+        break
+    fi
+    dir="$parent"
+done
+
+echo "Not in a git or jj repo" >&2
+exit 1
