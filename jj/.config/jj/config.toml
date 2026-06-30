@@ -9,10 +9,33 @@ pager = "less -FR"
 
 [git]
 # Prevent pushing work in progress or anything explicitly labeled "private"
-private-commits = "description(regex:'^(wip|private|todo|donotpush):') | description(regex:'\\[(wip|private|todo|donotpush)\\]')"
+private-commits = "(description(regex:'^(wip|private|todo|donotpush):') | description(regex:'\\[(wip|private|todo|donotpush)\\]')) ~ bookmarks('wip')"
+# Don't automatically try to make a colocated repo
+colocate = false
 
-# Do not require `--allow-new` when pushing new bookmarks
-push-new-bookmarks = true
+[remotes.origin]
+# Do not require `--allow-new` when pushing new bookmarks; previously was `git.push-new-bookmarks`
+auto-track-bookmarks = "*"
+
+# Some notes regarding merge
+#
+# jj new main feature -> "merge feature into main". this is the "completed feature" type of merge
+# jj new feature main -> "merge main into feature". this is the "update feature branch with latest commits from main" type of merge
+
+
+[merge-tools.difft]
+# Allow `jj diff --tool=difft` to allow difftastic view (`cargo binstall difftastic`)
+diff-args = ["--color=always", "--display=inline", "$left", "$right"]
+
+[merge-tools.diffts]
+# Allow `jj diff --tool=diffts` to allow difftastic view in side-by-side mode (`cargo binstall difftastic`)
+program = "difft"
+diff-args = ["--color=always", "--display=side-by-side-show-both", "$left", "$right"]
+
+[merge-tools.delta]
+# Allow `jj diff --tool=delta` to allow git-delta view (`cargo binstall git-delta`)
+diff-args = ["$left", "$right"]
+diff-expected-exit-codes = [0, 1]
 
 [revset-aliases]
 # Additionally, mark commits authored by other users as immutable too.
@@ -48,6 +71,15 @@ concat(
 '''
 
 [aliases]
+# Convenience alias for difftastic, git diff, git-delta diff
+difft = ["diff", "--tool=difft"]
+diffts = ["diff", "--tool=diffts"]
+diffg = ["diff", "--git"]
+diffd = ["diff", "--tool=delta"]
+
+# Convenience alias to resolve conflicts via mergiraf (cargo binstall mergiraf)
+resolvem = ["resolve", "--tool=mergiraf"]
+
 # Convenience way of looking at only stuff related to the current branch. Use
 # `jj log` for the full "normal" log.
 l = [
@@ -55,11 +87,14 @@ l = [
   "ancestors(trunk()..@, 2) | descendants(@) | trunk()"
 ]
 
+# Convenience for watching the log constantly
+wl = ["util", "exec", "--", "watch", "-n", "0.1", "jj", "l", "--color=always", "--ignore-working-copy"]
+
 # Fast forward my latest bookmark on the current branch to the latest non-empty
 # (or merge) commit.
 ff = [
   "bookmark", "move",
-  "--from", "latest(bookmarks(jayb) & ancestors(@))",
+  "--from", "latest(bookmarks(jayb*) & ancestors(@))",
   "--to", "latest(ancestors(@) & (merges() | ~empty()))"
 ]
 
