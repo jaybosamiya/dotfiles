@@ -27,7 +27,7 @@ if [[ -f ~/.p10k.zsh ]]; then
 else
     ZSH_THEME="robbyrussell"
 fi
-plugins=(git command-not-found rust pass just)
+plugins=(git command-not-found rust pass just F-Sy-H)
 source $ZSH/oh-my-zsh.sh || git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 if command -v nix-index >/dev/null; then source ~/.nix-command-not-found.sh || echo "Might want to stow nix-command-not-found for niceties"; fi
 
@@ -49,11 +49,41 @@ if command -v nix-index >/dev/null; then source ~/.nix-command-not-found.sh || e
 bindkey '^H' __helper_function_for_ctrl_h
 __helper_function_for_ctrl_h() {
   local initial_spaces="${BUFFER%%[^ ]*}"
-  BUFFER="${initial_spaces}unbuffer ${BUFFER##$initial_spaces} --help | less -RF"
+  BUFFER="${initial_spaces}unbuffer ${BUFFER##$initial_spaces} --help | less -R"
   CURSOR=${#BUFFER}
   zle redisplay
 }
 zle -N __helper_function_for_ctrl_h
+
+# Switch Meta-l back to lower-caseing things, rather than running "ls^J" for whatever reason
+bindkey '^[l' down-case-word
+
+# Add Meta-j to have a nice way to pick up jujutsu revisions
+_fzf_insert_jj_commit() {
+  local rev
+  local template='"\x1f" ++ change_id.shortest() ++ "\x1f" ++ builtin_log_oneline'
+
+  rev=$(jj log --color=always -T "$template" \
+        | fzf --height=40% --min-height=15 --cycle --ansi --prompt "jj rev> " \
+              --layout=reverse \
+              --header $'enter: select  |  ctrl-a: all()  |  ctrl-d: default revset  |  esc: cancel' \
+              --delimiter=$'\x1f' --with-nth='1,3..' --accept-nth=2 \
+              --bind 'enter:transform:[ -n {2} ] && echo accept || echo ignore' \
+              --bind "ctrl-a:reload(jj log -r 'all()' --color=always -T '$template')" \
+              --bind "ctrl-d:reload(jj log --color=always -T '$template')" \
+              --preview '[ -n {2} ] && jj show --color=always {2}' \
+              --preview-window='right:60%')
+
+  if [[ -n $rev ]]; then
+    local lpad="" rpad=""
+    [[ -n $LBUFFER && ${LBUFFER: -1} != ' ' ]] && lpad=' '
+    [[ -n $RBUFFER && ${RBUFFER:0:1} != ' ' ]] && rpad=' '
+    LBUFFER+="${lpad}${rev}${rpad}"
+  fi
+  zle reset-prompt
+}
+zle -N _fzf_insert_jj_commit
+bindkey '^[j' _fzf_insert_jj_commit
 
 # Useful utility function
 function _unwrap_or {
@@ -90,6 +120,13 @@ fi
 # Also, `wslview -r` is useful to set up browser stuff
 if command -v wslview >/dev/null; then
     alias open=wslview
+fi
+
+alias less="less --chop-long-lines"
+
+# Get completions for jujutsu if available
+if command -v jj >/dev/null; then
+    source <(jj util completion zsh)
 fi
 
 # Make it easy to clear out any existing open SSH sockets
@@ -131,10 +168,13 @@ fi
 
 if command -v rg >/dev/null; then
     function rg() {
+	# --no-require-git causes .gitignore to be respected even if `.git` is not found;
+	# This is necessary for `jj` repositories until https://github.com/BurntSushi/ripgrep/pull/2842
+	# or similar PR is merged.
         if [ -t 1 ]; then
-            command rg -p "$@" | less -RFX
+            command rg --no-require-git -p "$@" | less -RFX
         else
-            command rg "$@"
+            command rg --no-require-git "$@"
         fi
     }
 fi
@@ -145,18 +185,6 @@ if command -v phd >/dev/null; then
             command phd --color=always "$@" | less -RFX
         else
             command phd "$@"
-        fi
-    }
-fi
-
-if command -v cargo >/dev/null; then
-    function cargo() {
-        if [ "$1" = "check" ] || [ "$1" = "clippy" ]; then
-            if [ -t 1 ] && [ -t 2 ]; then
-                CARGO_TERM_COLOR=always command cargo "$@" |& less -RFX
-            fi
-        else
-            command cargo "$@"
         fi
     }
 fi
@@ -226,7 +254,7 @@ case "$OSTYPE" in
         alias ls='ls -h -G --color=auto' # Human readable file sizes, and color :)
         ;;
     linux*)
-        alias ls='ls -h --color=tty' # Human readable file sizes, and color :)
+        alias ls='ls -h --color=tty -v' # Human readable file sizes, color, and auto-sorting based on numerals :)
         ;;
     *)
         echo "Unknown OS type $OSTYPE"
@@ -313,6 +341,10 @@ if command -v asciinema >/dev/null; then
 fi
 
 function e() {
+    if [[ ${HOST%%.*} == "magmell" && ! -L "/run/user/1000/wayland-0" ]]; then
+        echo "Wayland shenanigans have occurred. Setting it up again..."
+        ln -s /mnt/wslg/runtime-dir/wayland-0* /run/user/1000/
+    fi
     case "$OSTYPE" in
     darwin*)
         if [ $# = 0 ]; then
@@ -498,6 +530,18 @@ function tempdir() {
         tempdirnew
     fi
 }
+# Create and cd into a petname-generated sub-folder inside /tmp/tempdir
+function tempdirp() {
+    if ! command -v petname >/dev/null; then
+        echo "petname not found" >&2
+        return 1
+    fi
+    tempdir
+    local name
+    name=$(petname)
+    mkdir -p "/tmp/tempdir/$name"
+    cd "/tmp/tempdir/$name"
+}
 
 if command -v wdiff >/dev/null; then
     # Colorized wdiff
@@ -575,11 +619,20 @@ if command -v atuin >/dev/null; then
     eval "$(atuin init zsh --disable-up-arrow)"
 fi
 
-# Enable nice syntax highlighting if available
-# Install via [sudo apt install zsh-syntax-highlighting]
-# NOTE: This MUST be at the end of .zshrc
-test -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh && source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-test -f ~/.nix-profile/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh && source ~/.nix-profile/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [ -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/F-Sy-H" ]; then
+    # We have the F-Sy-H plugin, we'll just use it
+else
+    # We can pull in F-Sy-H
+    echo "[!] Cloning F-Sy-H..."
+    git clone https://github.com/z-shell/F-Sy-H.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/F-Sy-H
+    # Or (commented out right now, but if I decide to move away from F-Sy-H, this exists):
+    #
+    # Enable nice syntax highlighting if available
+    # Install via [sudo apt install zsh-syntax-highlighting]
+    # NOTE: This MUST be at the end of .zshrc
+    #test -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh && source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    #test -f ~/.nix-profile/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh && source ~/.nix-profile/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
