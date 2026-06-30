@@ -1,0 +1,237 @@
+#!/usr/bin/bash
+set -eu
+PROG="${0##*/}"
+
+# ---------------------------------------------------------------------------
+# Dangerous-directory guard
+# ---------------------------------------------------------------------------
+REAL_PWD=$(realpath "$PWD")
+if [[ -z "$HOME" ]]; then
+    echo "$PROG: HOME is unset or empty" >&2
+    exit 1
+fi
+REAL_HOME="$HOME"
+
+if [[ "$REAL_PWD" == "/" || "$REAL_PWD" == "/home" || "$REAL_PWD" == "$REAL_HOME" ]]; then
+    echo "$PROG: refusing to run from $REAL_PWD (use a project subdirectory)" >&2
+    exit 1
+fi
+
+# ---------------------------------------------------------------------------
+# Resolve claude binary once at script time
+# ---------------------------------------------------------------------------
+if [[ ! -e "$REAL_HOME/.local/bin/claude" ]]; then
+    echo "$PROG: $REAL_HOME/.local/bin/claude does not exist" >&2
+    exit 1
+fi
+CLAUDE_REAL=$(readlink -f "$REAL_HOME/.local/bin/claude")
+
+# ---------------------------------------------------------------------------
+# Open .claude.json on fd 3 before we enter the sandbox
+# ---------------------------------------------------------------------------
+if [[ ! -f "$REAL_HOME/.claude.json" ]]; then
+    echo "$PROG: $REAL_HOME/.claude.json not found" >&2
+    exit 1
+fi
+exec 3<"$REAL_HOME/.claude.json"
+
+# ---------------------------------------------------------------------------
+# Synthetic /etc/passwd and /etc/group for the sandbox user
+# ---------------------------------------------------------------------------
+REAL_UID=$(id -u)
+REAL_GID=$(id -g)
+exec 4< <(printf 'sandbox:x:%s:%s::/home/sandbox:/bin/zsh\n' "$REAL_UID" "$REAL_GID")
+exec 5< <(printf 'sandbox:x:%s:\n' "$REAL_GID")
+
+# ---------------------------------------------------------------------------
+# Derive host username for p10k cache paths
+# ---------------------------------------------------------------------------
+HOST_USER="${USER:-$(id -un)}"
+
+NODE_VERSION="22.11.0"
+
+# ---------------------------------------------------------------------------
+# Build bwrap argument array
+# ---------------------------------------------------------------------------
+BWRAP_ARGS=(
+
+    # --- basic namespaces & lifecycle ---
+    --hostname bubblewrap --unshare-uts
+    --unshare-ipc
+    --unshare-pid
+    --unshare-user
+    --disable-userns
+    --die-with-parent
+
+    # --- synthetic filesystems ---
+    --tmpfs /tmp
+    --dev   /dev
+    --dir   /dev/net
+    --dev-bind /dev/net/tun             /dev/net/tun  # For LiteBox
+    --proc  /proc
+
+    # --- read-only system directories ---
+    --ro-bind /bin                      /bin
+    --ro-bind /lib                      /lib
+    --ro-bind-try /lib32                /lib32
+    --ro-bind /lib64                    /lib64
+    --ro-bind /usr/bin                  /usr/bin
+    --ro-bind /usr/lib                  /usr/lib
+    --ro-bind-try /usr/sbin             /usr/sbin
+    --ro-bind-try /sbin                 /sbin
+    --ro-bind /usr/local/bin            /usr/local/bin
+    --ro-bind /usr/local/lib            /usr/local/lib
+    --ro-bind /usr/libexec              /usr/libexec
+    --ro-bind /usr/include              /usr/include
+    --ro-bind /sys                      /sys
+
+    # --- /etc fragments ---
+    --ro-bind /etc/alternatives         /etc/alternatives
+    --ro-bind /etc/resolv.conf          /etc/resolv.conf
+    --ro-bind /etc/profile.d            /etc/profile.d
+    --ro-bind /etc/bash_completion.d    /etc/bash_completion.d
+    --ro-bind /etc/ssl/certs            /etc/ssl/certs
+    --ro-bind /etc/ssl/openssl.cnf      /etc/ssl/openssl.cnf
+    --ro-bind /etc/ld.so.cache          /etc/ld.so.cache
+    --ro-bind /etc/ld.so.conf           /etc/ld.so.conf
+    --ro-bind /etc/ld.so.conf.d         /etc/ld.so.conf.d
+    --ro-bind /etc/localtime            /etc/localtime
+    --ro-bind /etc/nsswitch.conf        /etc/nsswitch.conf
+    --ro-bind /etc/hosts                /etc/hosts
+    --file 4                            /etc/passwd
+    --file 5                            /etc/group
+    --ro-bind /etc/zsh                  /etc/zsh
+    --ro-bind /etc/os-release           /etc/os-release
+    --ro-bind /etc/apt                  /etc/apt
+
+    # --- /usr/share fragments ---
+    --ro-bind /usr/share/terminfo       /usr/share/terminfo
+    --ro-bind /usr/share/ca-certificates /usr/share/ca-certificates
+    --ro-bind /usr/share/zoneinfo       /usr/share/zoneinfo
+    --ro-bind /usr/share/zsh            /usr/share/zsh
+    --ro-bind /usr/share/zsh-autosuggestions /usr/share/zsh-autosuggestions
+    --ro-bind /usr/share/rr             /usr/share/rr
+
+    # --- man / groff ---
+    --ro-bind-try /etc/manpath.config   /etc/manpath.config
+    --ro-bind     /etc/groff            /etc/groff
+    --ro-bind     /usr/share/groff      /usr/share/groff
+    --ro-bind-try /usr/share/man        /usr/share/man
+    --ro-bind-try /usr/local/man        /usr/local/man
+    --ro-bind-try /usr/share/doc        /usr/share/doc
+    --ro-bind-try /usr/local/share/doc  /usr/local/share/doc
+    --ro-bind-try /opt/man              /opt/man
+
+    # --- synthetic home skeleton ---
+    --dir /home
+    --dir /home/sandbox
+    --dir /home/sandbox/.cargo
+    --dir /home/sandbox/.cargo/bin
+    --dir /home/sandbox/.local
+    --dir /home/sandbox/.local/bin
+    --dir /home/sandbox/.local/share
+    --dir /home/sandbox/.claude
+    --dir /home/sandbox/.config
+
+    # --- dotfiles (ro, symlink targets) ---
+    --ro-bind-try "$REAL_HOME/.dotfiles"    /home/sandbox/.dotfiles
+
+    # --- shell configs (ro, into synthetic home) ---
+    --ro-bind-try "$REAL_HOME/.bashrc"      /home/sandbox/.bashrc
+    --ro-bind-try "$REAL_HOME/.zshrc"       /home/sandbox/.zshrc
+    --ro-bind-try "$REAL_HOME/.zprofile"    /home/sandbox/.zprofile
+    --ro-bind-try "$REAL_HOME/.profile"     /home/sandbox/.profile
+    --ro-bind-try "$REAL_HOME/.oh-my-zsh"   /home/sandbox/.oh-my-zsh
+    --ro-bind-try "$REAL_HOME/.p10k.zsh"    /home/sandbox/.p10k.zsh
+
+    # --- rustup toolchains (ro) ---
+    --ro-bind-try "$REAL_HOME/.rustup"            /home/sandbox/.rustup
+
+    # --- cargo: base ro, mutable cache/index dirs rw ---
+    --ro-bind-try "$REAL_HOME/.cargo/env"          /home/sandbox/.cargo/env
+    --ro-bind-try "$REAL_HOME/.cargo/bin"          /home/sandbox/.cargo/bin
+    --ro-bind-try "$REAL_HOME/.cargo/config.toml"  /home/sandbox/.cargo/config.toml
+    --bind-try    "$REAL_HOME/.cargo/registry"     /home/sandbox/.cargo/registry
+    --bind-try    "$REAL_HOME/.cargo/git"          /home/sandbox/.cargo/git
+    --tmpfs                                        /home/sandbox/.rustup/tmp
+
+    # --- mise (ro) ---
+    --ro-bind-try "$REAL_HOME/.local/share/mise" /home/sandbox/.local/share/mise
+    --ro-bind-try "$REAL_HOME/.config/mise"      /home/sandbox/.config/mise
+
+    # --- .local/bin (ro) — mise, env, etc; claude bound over it below ---
+    --ro-bind-try "$REAL_HOME/.local/bin"     /home/sandbox/.local/bin
+
+    # --- nix store + profile (ro) — needed for various nix-installed tools ---
+    --ro-bind-try /nix/store                  /nix/store
+    --ro-bind-try "$REAL_HOME/.nix-profile"   /home/sandbox/.nix-profile
+
+    # --- misc dotfiles (ro) ---
+    --ro-bind-try "$REAL_HOME/.gitconfig"     /home/sandbox/.gitconfig
+
+    # --- claude symlink target (ro) — .local/bin/claude symlink points to real host path ---
+    --ro-bind "$CLAUDE_REAL"              "$CLAUDE_REAL"
+
+    # --- .claude data dir (rw) ---
+    --bind "$REAL_HOME/.claude"           /home/sandbox/.claude
+
+    # --- .claude.json via fd ---
+    --file 3                              /home/sandbox/.claude.json
+
+    # --- .cache: only claude rw; p10k ro ---
+    --dir /home/sandbox/.cache
+    --bind "$REAL_HOME/.cache/claude"                                  /home/sandbox/.cache/claude
+    --ro-bind-try "$REAL_HOME/.cache/p10k-dump-${HOST_USER}.zsh"               /home/sandbox/.cache/p10k-dump-${HOST_USER}.zsh
+    --ro-bind-try "$REAL_HOME/.cache/p10k-dump-${HOST_USER}.zsh.zwc"           /home/sandbox/.cache/p10k-dump-${HOST_USER}.zsh.zwc
+    --ro-bind-try "$REAL_HOME/.cache/p10k-instant-prompt-${HOST_USER}.zsh"     /home/sandbox/.cache/p10k-instant-prompt-${HOST_USER}.zsh
+    --ro-bind-try "$REAL_HOME/.cache/p10k-instant-prompt-${HOST_USER}.zsh.zwc" /home/sandbox/.cache/p10k-instant-prompt-${HOST_USER}.zsh.zwc
+    --ro-bind-try "$REAL_HOME/.cache/p10k-${HOST_USER}"                        /home/sandbox/.cache/p10k-${HOST_USER}
+    --ro-bind-try "$REAL_HOME/.cache/gitstatus"                        /home/sandbox/.cache/gitstatus
+
+    # --- opencode state (rw) ---
+    --bind "$REAL_HOME/.local/share/opencode"   /home/sandbox/.local/share/opencode
+    --bind "$REAL_HOME/.local/state/opencode"   /home/sandbox/.local/state/opencode
+    --bind "$REAL_HOME/.cache/opencode"         /home/sandbox/.cache/opencode
+    --bind "$REAL_HOME/.config/opencode"        /home/sandbox/.config/opencode
+
+    # --- project directory (rw, kept at real path) ---
+    --bind "$REAL_PWD" "$REAL_PWD"
+    --chdir "$REAL_PWD"
+
+    # --- environment ---
+    --clearenv
+    --setenv HOME  /home/sandbox
+    --setenv PATH  "/home/sandbox/.local/bin:/home/sandbox/.nix-profile/bin:/home/sandbox/.cargo/bin:/home/sandbox/.local/share/mise/installs/node/${NODE_VERSION}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    --setenv TERM  "${TERM:-xterm-256color}"
+    --setenv LANG  "${LANG:-en_US.UTF-8}"
+    --setenv USER  "sandbox"
+    # Trigger powerlevel10k prompt change
+    --setenv SSH_CONNECTION "127.0.0.1 0 127.0.0.1 0"
+    # Redirect cargo build artifacts into the tmpfs so they don't escape the sandbox
+    --setenv CARGO_TARGET_DIR      /tmp/cargo-target
+    --setenv CARGO_BUILD_BUILD_DIR /tmp/cargo-build
+)
+
+if [[ "${1:-}" == -h || "${1:-}" == --help ]]; then
+    cat >&2 <<EOF
+Usage: $PROG [-h|--help] [--run CMD [ARGS...]]
+
+  --run CMD [ARGS...]   Run CMD inside the sandbox (non-interactive).
+                        Without --run, launches an fzf picker.
+EOF
+    exit 0
+fi
+
+# --run: execute a command inside the sandbox via zsh -c, non-interactively
+if [[ "${1:-}" == --run ]]; then
+    shift
+    exec /usr/bin/bwrap "${BWRAP_ARGS[@]}" /usr/bin/zsh -l -c "$*"
+fi
+
+CHOICE=$(printf 'shell\nclaude\nopencode\n' | fzf --prompt="$PROG> " --no-sort --reverse --height=8 --border) || exit 1
+
+case "$CHOICE" in
+    shell)    exec /usr/bin/bwrap "${BWRAP_ARGS[@]}" /usr/bin/zsh -l ;;
+    claude)   exec /usr/bin/bwrap "${BWRAP_ARGS[@]}" /usr/bin/zsh -l -c "/home/sandbox/.local/bin/claude --dangerously-skip-permissions" ;;
+    opencode) exec /usr/bin/bwrap "${BWRAP_ARGS[@]}" /usr/bin/zsh -l -c "/home/sandbox/.local/share/mise/installs/node/${NODE_VERSION}/bin/opencode" ;;
+esac
