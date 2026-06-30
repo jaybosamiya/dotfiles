@@ -1,0 +1,70 @@
+#!/usr/bin/env python3
+
+import subprocess
+import tempfile
+import os
+import sys
+
+# Common headers to include
+INCLUDES = """
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <errno.h>
+#include <time.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/time.h>
+#include <linux/types.h>
+"""
+
+C_TEMPLATE = """
+{includes}
+
+int main() {{
+    {defines}
+    return 0;
+}}
+"""
+
+
+def generate_defines(constants):
+    return "\n".join(
+        f'printf("{constant} = %d\\n", {constant});' for constant in constants
+    )
+
+
+def main(constants):
+    defines = generate_defines(constants)
+    code = C_TEMPLATE.format(includes=INCLUDES, defines=defines)
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        c_file = os.path.join(tmpdir, "constants.c")
+        exe_file = os.path.join(tmpdir, "constants.out")
+
+        with open(c_file, "w") as f:
+            f.write(code)
+
+        compile = subprocess.run(
+            ["gcc", c_file, "-o", exe_file],
+            capture_output=True,
+            text=True,
+        )
+        if compile.returncode != 0:
+            print(f"Compilation failed:")
+            print(compile.stderr)
+            return
+
+        run = subprocess.run([exe_file], capture_output=True, text=True)
+        print(run.stdout.strip())
+
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print(f"Usage: {sys.argv[0]} <constant_name1> <constant_name2> ...")
+        sys.exit(1)
+
+    constants = sys.argv[1:]
+    main(constants)
