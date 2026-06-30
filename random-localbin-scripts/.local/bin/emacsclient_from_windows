@@ -1,0 +1,37 @@
+#! /bin/bash
+
+function convertpath_or_unchanged() {
+    # If the path starts with "\wsl.localhost\Ubuntu", then strip that, convert
+    # all backslashes to forward slashes, and echo it; otherwise echo directly
+    if [[ $1 == \\wsl.localhost\\Ubuntu* ]]; then
+        # Strip the "\wsl.localhost\Ubuntu" prefix
+        STRIPPED=${1#\\wsl.localhost\\Ubuntu}
+        # Convert all backslashes to forward slashes
+        echo -E "${STRIPPED//\\//}"
+    elif [[ $1 == \\wsl\$\\Ubuntu* ]]; then
+        # Strip the "\wsl$\Ubuntu" prefix
+        STRIPPED=${1#\\wsl\$\\Ubuntu}
+        # Convert all backslashes to forward slashes
+        echo -E "${STRIPPED//\\//}"
+    elif [[ $1 == C:\\home\\* ]]; then
+        # Strip the "C:" prefix
+        STRIPPED=${1#C:}
+        # Convert all backslashes to forward slashes
+        echo -E "${STRIPPED//\\//}"
+    else
+        echo -E "$1"
+    fi
+}
+
+# Check through all variables in "$@", and apply `convertpath_or_unchanged` to each
+# of them, storing the results into the array `converted`
+converted=()
+for var in "$@"; do
+    converted+=("$(convertpath_or_unchanged "$var")")
+done
+
+# Store the arguments in a file for debugging purposes
+echo "${converted[@]}" > /tmp/emacsclient-args
+
+# Run `emacsclient` with the converted arguments
+~/.nix-profile/bin/emacsclient "${converted[@]}"
