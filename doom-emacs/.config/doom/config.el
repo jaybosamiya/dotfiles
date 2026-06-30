@@ -58,6 +58,9 @@
 (setq user-full-name "Jay Bosamiya"
       user-mail-address "doomemacsconfig@jaybosamiya.com")
 
+;; Make alt work as meta, even over VNC.
+(setq x-alt-keysym 'meta)
+
 ;; MacOS specific overrides
 (when (featurep :system 'macos)
   ;; mac-* variables are used by the special emacs-mac build of Emacs by
@@ -175,7 +178,7 @@ a warning message and leave it as-is. ARGS accepts the syntax as in `map!'."
     "s-v" #'yank
     "s-s" #'save-buffer
     "s-x" #'execute-extended-command
-    "s-+" #'doom/increase-font-size
+    "s-+" #'doom/reset-font-size
     "s-=" #'doom/increase-font-size
     "s--" #'doom/decrease-font-size
     "s-a" #'mark-whole-buffer
@@ -204,6 +207,20 @@ a warning message and leave it as-is. ARGS accepts the syntax as in `map!'."
   ;;     Support for forward search from emacs to skim is added later in this file.
   )
 
+;; System-specific behavior
+(when (or
+       (string= (system-name) "asphodel")
+       (string= (system-name) "magmell"))
+  ;; We are using Emacs-pgtk on WSL2, which messes with clipboard. So, we set
+  ;; select-active-regions to nil which fixes the clipboard issue. See
+  ;; https://www.lukas-barth.net/blog/emacs-wsl-copy-clipboard/ for details.
+  (setq select-active-regions nil)
+  ;; Rather than open links within Emacs itself, use the `wslview` program that
+  ;; can then forward them over to the browser on Windows, allowing more
+  ;; seamless integration.
+  (setq browse-url-browser-function 'browse-url-generic
+        browse-url-generic-program "wslview"))
+
 ;; Visual niceties
 (progn
   ;; Doom exposes five (optional) variables for controlling fonts in Doom:
@@ -216,7 +233,8 @@ a warning message and leave it as-is. ARGS accepts the syntax as in `map!'."
   ;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
   ;;
   ;; Here, we set up just one for now.
-  (setq doom-font (font-spec :family "Berkeley Mono" :size 20)) ;; Note: If on a machine without BerkeleyMono, I prefer "Iosevka Nerd Font Mono"
+  ;; (setq doom-font (font-spec :family "Iosevka Nerd Font Mono" :size 20))
+  (setq doom-font (font-spec :family "Berkeley Mono" :size 20))
   ;; Set up the theme. If we want to change this on the fly, `M-x load-theme`
   ;; instead.
   (setq doom-theme 'doom-nord)
@@ -505,12 +523,12 @@ a warning message and leave it as-is. ARGS accepts the syntax as in `map!'."
               (use-local-map (copy-keymap (car (current-active-maps))))
               (local-set-key (kbd "q") 'kill-this-buffer))))))
 
-;; Enable smooth scrolling, via good-scroll; also set page up/down to scroll
-;; smoothly by a full screenfull
-(use-package! good-scroll
-  :init (good-scroll-mode 1)
-  :bind (("<prior>" . good-scroll-down-full-screen)
-         ("<next>" . good-scroll-up-full-screen)))
+;; ;; Enable smooth scrolling, via good-scroll; also set page up/down to scroll
+;; ;; smoothly by a full screenfull
+;; (use-package! good-scroll
+;;   :init (good-scroll-mode 1)
+;;   :bind (("<prior>" . good-scroll-down-full-screen)
+;;          ("<next>" . good-scroll-up-full-screen)))
 
 ;; Enable hi-lock-mode globally, since it is ridiculously useful to be able to
 ;; do custom highlighting within a single file, to keep track of (say)
