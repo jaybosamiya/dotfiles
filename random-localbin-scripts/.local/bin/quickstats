@@ -1,0 +1,269 @@
+#!/usr/bin/env python3
+
+# quickstats: A vibe-coded script that makes it easy to quickly analyze numbers
+# part of various logs and other text files.
+#
+# This script reads from stdin, extracts numbers, and computes basic statistics
+# over them.
+#
+# This should NOT be considered accurate enough for any production usage.
+# However, it is very helpful during initial analysis in order to get a rough
+# idea of the data before doing any serious analysis or parsing or such.
+
+import sys
+import re
+import math
+import argparse
+from collections import defaultdict
+
+
+def compute_stats(numbers, percentiles=False):
+    count = len(numbers)
+    total = sum(numbers)
+    mean = total / count
+    minimum = min(numbers)
+    maximum = max(numbers)
+    variance = sum((x - mean) ** 2 for x in numbers) / count
+    std_dev = math.sqrt(variance)
+
+    stats = {
+        "Count": count,
+        "Sum": total,
+        "Mean": mean,
+        "Min": minimum,
+        "Max": maximum,
+        "Standard Deviation": std_dev,
+    }
+
+    if percentiles:
+        sorted_nums = sorted(numbers)
+
+        def p(n):
+            idx = (n / 100) * (count - 1)
+            lower = int(math.floor(idx))
+            upper = int(math.ceil(idx))
+            if lower == upper:
+                return sorted_nums[lower]
+            frac = idx - lower
+            return sorted_nums[lower] * (1 - frac) + sorted_nums[upper] * frac
+
+        stats.update(
+            {
+                "5th Percentile": p(5),
+                "25th Percentile": p(25),
+                "50th Percentile (Median)": p(50),
+                "75th Percentile": p(75),
+                "95th Percentile": p(95),
+            }
+        )
+
+    return stats
+
+
+def compute_sparkline(numbers):
+    min_val = min(numbers)
+    max_val = max(numbers)
+    range_val = max_val - min_val
+    if range_val == 0:
+        range_val = 1  # Avoid division by zero
+
+    SPARKLINE_CHARS = {
+        "barchart": "▁▂▃▄▅▆▇█",
+        "shades": "░▒▓█",
+    }
+
+    SPARKLINE_CHAR = " " + SPARKLINE_CHARS["barchart"]
+
+    sparkline = []
+    for num in numbers:
+        norm = (num - min_val) / range_val
+        # Round to the nearest index, rather than directly
+        normalized = int(round(norm * (len(SPARKLINE_CHAR) - 1)))
+        sparkline.append(SPARKLINE_CHAR[normalized])
+
+    return "".join(sparkline)
+
+
+def print_stats(
+    label, numbers, show_values=False, show_percentiles=False, show_full_sparkline=False
+):
+    stats = compute_stats(numbers, percentiles=show_percentiles)
+    if label:
+        print(f"Statistics for '{label}':")
+    else:
+        print("Statistics:")
+    print()
+    for key, value in stats.items():
+        print(f"  {key}: {value}")
+    if show_values:
+        print(f"  Values: {numbers}")
+    if show_full_sparkline or len(numbers) <= 70:
+        print(f"  Sparkline: {compute_sparkline(numbers)}")
+    else:
+        print(
+            f"  Sparkline: {compute_sparkline(numbers[:20])} <...> {compute_sparkline(numbers[-20:])} (--full-sparkline to show all)"
+        )
+    print()
+
+
+def parse_arguments():
+    parser = argparse.ArgumentParser(
+        description="Read stdin, extract numbers, and print statistics.",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+    )
+    parser.add_argument(
+        "--group-by",
+        type=str,
+        metavar="REGEX",
+        help="Group statistics by regex match (smart prefix or block detection)",
+    )
+    parser.add_argument(
+        "--values",
+        action="store_true",
+        help="Print the actual numbers used in stats (for debugging)",
+    )
+    parser.add_argument(
+        "--skip",
+        action="append",
+        default=[],
+        help="Skip exact numeric values (comma-separated or multiple uses)",
+    )
+    parser.add_argument(
+        "--percentiles", action="store_true", help="Include percentile statistics"
+    )
+    parser.add_argument(
+        "--skip-alpha-adjacent",
+        action="store_true",
+        help="Skip numbers directly adjacent to letters (e.g., 'base64')",
+    )
+    parser.add_argument(
+        "--full-sparkline",
+        action="store_true",
+        help="Show full sparkline (default limits size of sparkline to a reasonable size)",
+    )
+    return parser.parse_args()
+
+
+def parse_skips(skip_args):
+    skips = set()
+    for entry in skip_args:
+        for part in entry.split(","):
+            try:
+                skips.add(float(part.strip()))
+            except ValueError:
+                continue
+    return skips
+
+
+def find_alpha_adjacent(data, number_pattern, skips):
+    suspicious = []
+    token_pattern = re.compile(r"\S+")
+    for token in token_pattern.findall(data):
+        matches = list(number_pattern.finditer(token))
+        for m in matches:
+            num_str = m.group()
+            try:
+                num = float(num_str)
+            except ValueError:
+                continue
+            if num in skips:
+                continue
+            start, end = m.span()
+            left = token[start - 1] if start > 0 else ""
+            right = token[end] if end < len(token) else ""
+            if left.isalpha() or right.isalpha():
+                suspicious.append((num_str, token))
+    return suspicious
+
+
+def extract_numbers(data, number_pattern, skips, skip_alpha_adjacent):
+    all_matches = []
+    for match in number_pattern.finditer(data):
+        num_str = match.group()
+        try:
+            num = float(num_str)
+        except ValueError:
+            continue
+
+        # Check alpha-adjacency
+        start, end = match.span()
+        left = data[start - 1] if start > 0 else ""
+        right = data[end] if end < len(data) else ""
+        is_adjacent = left.isalpha() or right.isalpha()
+        if is_adjacent and skip_alpha_adjacent:
+            continue
+        if num in skips:
+            continue
+        all_matches.append((num, is_adjacent))
+    return all_matches
+
+
+def main():
+    args = parse_arguments()
+    data = sys.stdin.read()
+    skips = parse_skips(args.skip)
+
+    number_pattern = re.compile(r"[-+]?\d*\.\d+|[-+]?\d+")
+    group_pattern = re.compile(args.group_by) if args.group_by else None
+
+    # Check for alpha-adjacent numbers (warn only if not skipping them)
+    alpha_adjacent_examples = find_alpha_adjacent(data, number_pattern, skips)
+    if alpha_adjacent_examples and not args.skip_alpha_adjacent:
+        print(
+            "⚠️  Warning: Numbers directly adjacent to letters detected (e.g., 'base64'):"
+        )
+        for num, context in alpha_adjacent_examples[:5]:
+            print(f"   - {num} in '{context}'")
+        if len(alpha_adjacent_examples) > 5:
+            print(f"   ...and {len(alpha_adjacent_examples) - 5} more.")
+        print("   Consider using --skip-alpha-adjacent / --skip to ignore these.\n")
+
+    def process_number_list(matches):
+        return [n for n, _ in matches]
+
+    if not group_pattern:
+        matches = extract_numbers(data, number_pattern, skips, args.skip_alpha_adjacent)
+        numbers = process_number_list(matches)
+
+        if not numbers:
+            print("No numbers found in input.")
+            return
+
+        print_stats(None, numbers, args.values, args.percentiles, args.full_sparkline)
+        return
+
+    # Grouped mode
+    lines = data.splitlines()
+    grouped_data = defaultdict(list)
+    current_group = None
+
+    for line in lines:
+        match = group_pattern.search(line)
+        matches = extract_numbers(line, number_pattern, skips, args.skip_alpha_adjacent)
+        numbers = process_number_list(matches)
+
+        if match:
+            label = match.group(0)
+            if numbers:
+                grouped_data[label].extend(numbers)
+            else:
+                current_group = label
+        elif numbers and current_group:
+            grouped_data[current_group].extend(numbers)
+
+    if not grouped_data:
+        matches = extract_numbers(data, number_pattern, skips, args.skip_alpha_adjacent)
+        numbers = process_number_list(matches)
+        if not numbers:
+            print("No numbers found in input.")
+            return
+        print_stats(None, numbers, args.values, args.percentiles, args.full_sparkline)
+        return
+
+    for group, nums in grouped_data.items():
+        if nums:
+            print_stats(group, nums, args.values, args.percentiles, args.full_sparkline)
+
+
+if __name__ == "__main__":
+    main()
