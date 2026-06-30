@@ -50,8 +50,8 @@
 
 (package! default-text-scale)
 
-; TEMPORARILY DISABLED BECAUSE IT HAS BEEN TAKEN OFF OF GITHUB?!!!
-; (package! rainbow-blocks)
+(package! rainbow-blocks :recipe (:host github :repo "emacsmirror/rainbow-blocks"))
+; (package! rainbow-delimiters)
 (package! rainbow-identifiers)
 
 (package! rg)
@@ -76,7 +76,11 @@
 
 ;; Add Verus support
 (package! verus-mode
-  :recipe (:host github :protocol ssh :repo "verus-lang/verus-mode.el" :branch "dev"))
+  :recipe
+  (if (file-directory-p "/home/jayb/projects/verus/verus-mode.el")
+      '(:local-repo "/home/jayb/projects/verus/verus-mode.el"
+        :build (:not compile))
+    '(:host github :repo "verus-lang/verus-mode.el" :branch "dev")))
 
 ;; Get ocp-indent to use with F*
 (when (featurep! :lang fstar)
@@ -102,8 +106,8 @@
 ;; Add support for Mermaid files for nice diagrams and graphs (https://mermaid.js.org/)
 (package! mermaid-mode)
 
-;; Get some good smooth scrolling
-(package! good-scroll)
+;; ;; Get some good smooth scrolling
+;; (package! good-scroll)
 
 ;; Useful support for quickly placing and moving to bookmarks within files
 (package! bm)
@@ -113,7 +117,26 @@
 
 ;; An LLM prompting assistant
 (package! yap
-  :recipe (:host github :repo "meain/yap" :files ("*.el")))
+  :recipe (:host github :repo "meain/yap" :files ("*.el" "prompts" "prompts/*.md")))
+
+;; Syntax highlighting for HotCRP reviews
+(package! hotcrp-review-mode
+  :recipe (:host github :repo "jaybosamiya/hotcrp-review-mode.el"))
+
+;; ;; Support for jujutsu a la magit
+;; (package! majutsu
+;;   :recipe (:host github :repo "0WD0/majutsu"))
+
+;; VC backend for jujutsu (enables diff-hl gutter support for jj repos)
+(package! vc-jj)
+
+;; Add scrypage support
+(package! scrypage-mode
+  :recipe
+  (if (file-directory-p "/home/jayb/temp/scrypage")
+      '(:local-repo "/home/jayb/temp/scrypage"
+        :build (:not compile))
+    '(:host github :repo "jaybosamiya/scrypage")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

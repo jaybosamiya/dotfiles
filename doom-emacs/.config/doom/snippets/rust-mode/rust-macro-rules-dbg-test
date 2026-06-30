@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: rust-macro-rules-dbg-test
+# key: mrdbg
+# --
+macro_rules! dbg {
+    ($($tt:tt)*) => {{
+        #[cfg(test)]
+        {
+            extern crate std;
+            std::dbg!($($tt)*);
+        }
+    }};
+}
