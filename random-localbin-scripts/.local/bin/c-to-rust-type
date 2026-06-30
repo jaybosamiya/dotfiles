@@ -1,0 +1,141 @@
+#!/usr/bin/env python3
+
+import subprocess
+import tempfile
+import os
+import sys
+
+# Common C types and typedefs
+C_TYPES = [
+    "char",
+    "signed char",
+    "unsigned char",
+    "short",
+    "unsigned short",
+    "int",
+    "unsigned int",
+    "long",
+    "unsigned long",
+    "long long",
+    "unsigned long long",
+    "float",
+    "double",
+    "void *",
+    "size_t",
+    "ssize_t",
+    "ptrdiff_t",
+    "intmax_t",
+    "uintmax_t",
+]
+
+# Mapping from C type to equivalent Rust type
+C_TO_RUST = {
+    "char": "i8 or u8 (platform dependent)",
+    "signed char": "i8",
+    "unsigned char": "u8",
+    "short": "i16",
+    "unsigned short": "u16",
+    "int": "i32",
+    "unsigned int": "u32",
+    "long": "isize // i64 (64-bit) OR i32 (32-bit)",
+    "unsigned long": "usize // u64 (64-bit) OR u32 (32-bit)",
+    "long long": "i64",
+    "unsigned long long": "u64",
+    "float": "f32",
+    "double": "f64",
+    "void *": "*mut core::ffi::c_void",
+    "size_t": "usize",
+    "ssize_t": "isize",
+    "ptrdiff_t": "isize",
+    "intmax_t": "i64",
+    "uintmax_t": "u64",
+}
+
+C_TEMPLATE = """
+#include <stdio.h>
+#include <stddef.h>
+#include <stdint.h>
+#include <sys/types.h>
+#include <linux/types.h>
+#include <linux/time_types.h>
+
+int main() {{
+    printf("SIZE:%zu\\n", sizeof({input_type}));
+{checks}
+    return 0;
+}}
+"""
+
+
+def make_check_lines(input_type):
+    return "\n".join(
+        f'    if (__builtin_types_compatible_p(typeof(({input_type})0), {t})) printf("{t}\\n");'
+        for t in C_TYPES
+    )
+
+
+def get_type_info(input_type, arch_flag):
+    checks = make_check_lines(input_type)
+    code = C_TEMPLATE.format(input_type=input_type, checks=checks)
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        c_file = os.path.join(tmpdir, "check_type.c")
+        exe_file = os.path.join(tmpdir, "check_type.out")
+
+        with open(c_file, "w") as f:
+            f.write(code)
+
+        compile = subprocess.run(
+            ["gcc", arch_flag, c_file, "-o", exe_file],
+            capture_output=True,
+            text=True,
+        )
+        if compile.returncode != 0:
+            print(f"Compilation failed for {arch_flag}:")
+            print(compile.stderr)
+            return None, []
+
+        run = subprocess.run([exe_file], capture_output=True, text=True)
+        lines = [
+            line.strip() for line in run.stdout.strip().splitlines() if line.strip()
+        ]
+        size_line = next((line for line in lines if line.startswith("SIZE:")), None)
+
+        if size_line is None:
+            print(f"Could not determine size of type '{input_type}'")
+            return None, []
+
+        size = int(size_line.split(":")[1])
+        matches = [line for line in lines if not line.startswith("SIZE:")]
+        return size, matches
+
+
+def print_mappings_for_arch(input_type, arch_flag, label):
+    size, matches = get_type_info(input_type, arch_flag)
+
+    print(f"\n=== {label} ({arch_flag}) ===")
+    if size is not None:
+        print(f"Size: {size} bytes")
+
+    if not matches:
+        print(f"No compatible types found for '{input_type}'")
+        return
+
+    print(f"{input_type} is compatible with:")
+    for ctype in matches:
+        rust = C_TO_RUST.get(ctype, "Unknown")
+        print(f"  C: {ctype:22}  Rust: {rust}")
+
+
+def print_mappings(input_type):
+    print(f"Analyzing C type: '{input_type}'")
+    print_mappings_for_arch(input_type, "-m64", "64-bit")
+    print_mappings_for_arch(input_type, "-m32", "32-bit")
+
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print(f"Usage: {sys.argv[0]} <C type>")
+        sys.exit(1)
+
+    print_mappings(sys.argv[1])
