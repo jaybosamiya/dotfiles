@@ -580,14 +580,20 @@ a warning message and leave it as-is. ARGS accepts the syntax as in `map!'."
 
 ;; Set up for LSP mode across all languages.
 (progn
-  ;; Disable the annoying symbol-highlighting that LSP does by default
   (setq-hook! lsp-mode
-    lsp-enable-symbol-highlighting nil))
+    ;; Disable the annoying symbol-highlighting that LSP does by default
+    lsp-enable-symbol-highlighting nil
+    ;; Stop LSP from attempting to connect to semgrep things.
+    lsp-semgrep-languages nil))
+
+;; Stop LSP from attempting to connect to semgrep things.
+(use-package lsp-semgrep
+  :config (setq lsp-semgrep-languages nil))
 
 ;; Verus language specific things
 (use-package! verus-mode
-  :init (setq verus-home "~/this-sem/verus/verus"
-              verus-analyzer "~/this-sem/verus/rust-analyzer"))
+  :init (setq verus-home "~/projects/verus/verus/main"
+              verus-analyzer "~/projects/verus/rust-analyzer"))
 
 ;; Rust language specific things
 (progn
@@ -626,7 +632,9 @@ a warning message and leave it as-is. ARGS accepts the syntax as in `map!'."
         lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil
         lsp-rust-analyzer-display-closure-return-type-hints t
         lsp-rust-analyzer-display-parameter-hints nil
-        lsp-rust-analyzer-display-reborrow-hints nil)
+        lsp-rust-analyzer-display-reborrow-hints "never")
+  ;; Enable LSP headerline breadcrumbs.
+  (setq lsp-headerline-breadcrumb-enable t)
   ;; Set up a custom inlay face, to distinguish inlays from comments
   (custom-set-faces! '(lsp-rust-analyzer-inlay-face
                        ;; Default is just `font-lock-comment-face` which can be confusing
