@@ -18,6 +18,11 @@ email = jaybosamiya@gmail.com
     # (https://link.springer.com/article/10.1007%2Fs10664-019-09772-z)
 	# seems to be the best at providing diff results.
     algorithm = histogram
+
+[diff "pandoc"]
+     textconv=pandoc --to=markdown
+     prompt = false
+
 [filter "lfs"]
     required = true
     clean = git-lfs clean -- %f
@@ -27,9 +32,14 @@ email = jaybosamiya@gmail.com
 [alias]
     hide = update-index --assume-unchanged
     unhide = update-index --no-assume-unchanged
+    hidden = "!f() { git ls-files -v \"$@\" | grep \"^[a-z]\"; }; f"
     clone-blobless = clone --filter=blob:none
     clone-treeless = clone --filter=tree:0
     pr = "!f() { git fetch origin \"pull/${1}/head:pr-${1}\"; git checkout \"pr-${1}\"; }; f"
+    wt = "!f() { if [ $# -lt 1 -o \"${1}\" = \"-h\" ]; then echo \"Usage: git wt {branch}\"; else git -C main fetch origin; if git -C main ls-remote --exit-code --heads origin \"${1}\" >/dev/null; then git -C main worktree add \"../${1}\"; git -C \"${1}\" reset --hard \"origin/${1}\"; else echo \"No such remote branch. Maybe you want 'git wta ${1}'?\"; fi; fi; }; f"
+    wta = "!f() { if [ $# -lt 1 -o \"${1}\" = \"-h\" ]; then echo \"Usage: git wta {branch}\"; else git -C main fetch origin; if git -C main ls-remote --exit-code --heads origin \"${1}\" >/dev/null; then echo \"Found remote branch with same name. Maybe you want 'git wt ${1}'?\"; else git -C main worktree add \"../${1}\"; git -C \"${1}\" reset --hard origin/main; fi; fi; }; f"
+    wtpr = "!f() { git -C main fetch origin \"pull/${1}/head:pr-${1}\"; git -C main worktree add ../pr-${1}; }; f"
+    difft = -c diff.external=difft diff
 [init]
     defaultBranch = main
 [url "ssh://git@github.com/"]
@@ -38,16 +48,22 @@ email = jaybosamiya@gmail.com
     insteadOf = sshttps://github.com/
 [url "ssh://git@gist.github.com/"]
     insteadOf = sshttps://gist.github.com/jaybosamiya/
+[url "ssh://git@pgithub/"]
+    insteadOf = psshttps://www.github.com/
+[url "ssh://git@pgithub/"]
+    insteadOf = psshttps://github.com/
 [pull]
     rebase = false
 
 # Requires difftastic being installed (eg: `cargo install --locked difftastic`)
 [diff]
     tool = difftastic
+    colormoved = dimmed-zebra
 [difftool]
     prompt = false
 [difftool "difftastic"]
-    cmd = difft "$LOCAL" "$REMOTE"
+    # Consider --display=inline etc. too
+    cmd = difft --display=side-by-side-show-both "$LOCAL" "$REMOTE"
 [pager]
     difftool = true
 
@@ -61,3 +77,10 @@ email = jaybosamiya@gmail.com
 # forget <PATHSPEC>`
 [rerere]
     enabled = true
+[merge]
+	conflictStyle = zdiff3
+[help]
+	autocorrect = prompt
+
+[includeIf "gitdir:/home/jayb/"]
+    path = ~/.gitconfig-work

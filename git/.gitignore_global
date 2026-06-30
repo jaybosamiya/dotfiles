@@ -1,7 +1,11 @@
+# -*- mode: gitignore; -*-
+
 TAGS
 GPATH
 GRTAGS
 GTAGS
+\#*\#
+.\#*
 *~
 
 ######################
@@ -14,3 +18,24 @@ GTAGS
 .Trashes
 ehthumbs.db
 Thumbs.db
+.fuse_hidden*
+.Trash-*
+.nfs*
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# Vim swap files
+.*.sw[a-p]
+
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
